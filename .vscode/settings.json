@@ -1,0 +1,7 @@
+{
+    "cmake.sourceDirectory": "/Users/briankoech/coding/Mobile Apps/flutter/pedea-otg/linux",
+    "githubPullRequests.ignoredPullRequestBranches": [
+        "dev"
+    ],
+    "java.configuration.updateBuildConfiguration": "interactive"
+}

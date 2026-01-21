@@ -1,0 +1,58 @@
+name: bdcomputing
+description: "This is the Official Pedea Petroleum On-The-Go Mobile App. We commit to offering high quality services that ultimately build up your company reputation."
+publish_to: "none"
+version: 2.0.0+32
+
+environment:
+  sdk: ^3.9.2
+  flutter: ">=3.13.0 <4.0.0"
+
+dependencies:
+  connectivity_plus: ^7.0.0
+  cupertino_icons: ^1.0.8
+  dio: ^5.2.1
+  equatable: ^2.0.7
+  flutter:
+    sdk: flutter
+  flutter_html: ^3.0.0
+  flutter_inappwebview: ^6.1.5
+  flutter_riverpod:
+  flutter_secure_storage: ^9.2.4
+  fluttertoast:
+  fl_chart:
+  geocoding: ^4.0.0
+  geolocator: ^14.0.2
+  google_fonts: ^6.3.3
+  google_maps_flutter: ^2.13.1
+  http: ^1.5.0
+  hugeicons: ^1.0.0
+  intl: ^0.20.2
+  logger: ^2.6.2
+  permission_handler: ^11.3.1
+  provider: ^6.0.5
+  qr_flutter: ^4.1.0
+  riverpod: ^3.0.1
+  shared_preferences: ^2.2.2
+  socket_io_client: ^3.1.2
+  url_launcher: ^6.3.2
+  uuid: ^4.5.1
+  file_picker: ^8.1.7
+  path_provider: ^2.1.5
+
+dev_dependencies:
+  flutter_launcher_icons: ^0.14.4
+  flutter_lints: ^6.0.0
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/icon/
+    - assets/icons/
+    - assets/images/general/
+    - assets/images/onboarding/
+    - assets/images/auth/
+    - assets/images/brand/

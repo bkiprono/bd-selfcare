@@ -1,0 +1,251 @@
+import 'dart:async';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
+import 'package:bdcomputing/core/endpoints.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:bdcomputing/core/utils/api_client.dart';
+import 'package:bdcomputing/core/utils/jwt_helper.dart';
+import 'package:bdcomputing/components/logger_config.dart';
+import 'package:bdcomputing/screens/auth/data/auth_repository.dart';
+import 'package:bdcomputing/screens/auth/data/auth_service.dart';
+import 'package:bdcomputing/screens/auth/domain/auth_state.dart';
+import 'package:bdcomputing/screens/auth/domain/password_model.dart';
+import 'package:bdcomputing/screens/auth/domain/user_model.dart';
+
+final baseUrlProvider = Provider<String>((ref) => ApiEndpoints.baseUrl);
+
+final unauthenticatedApiClientProvider = Provider<ApiClient>((ref) {
+  final baseUrl = ref.watch(baseUrlProvider);
+  return ApiClient(baseUrl: baseUrl);
+});
+
+final authServiceProvider = Provider<AuthService>((ref) {
+  final apiClient = ref.watch(unauthenticatedApiClientProvider);
+  return AuthService(apiClient: apiClient);
+});
+
+final authRepositoryProvider = Provider<AuthRepository>((ref) {
+  final baseUrl = ref.watch(baseUrlProvider);
+  late final AuthRepository repo;
+  final apiClient = ApiClient(
+    baseUrl: baseUrl,
+    getAccessToken: () => repo.getAccessToken(),
+    onRefreshToken: () => repo.refreshToken(),
+  );
+  repo = AuthRepository(
+    service: ref.read(authServiceProvider),
+    apiClient: apiClient,
+  );
+  return repo;
+});
+
+class AuthNotifier extends StateNotifier<AuthState> {
+  final AuthRepository _repo;
+  Timer? _refreshTimer;
+
+  AuthNotifier(this._repo) : super(const AuthLoading()) {
+    _init();
+  }
+
+  Future<void> _init() async {
+    final restored = await _repo.restoreSession();
+    if (restored is Authenticated) {
+      // Validate token before setting authenticated state
+      final token = await _repo.getAccessToken();
+      if (token != null && !JwtHelper.isTokenExpired(token)) {
+        state = restored;
+        _scheduleTokenRefresh();
+      } else {
+        // Token is expired or invalid, try to refresh
+        final refreshed = await _repo.refreshToken();
+        if (refreshed) {
+          state = restored;
+          _scheduleTokenRefresh();
+        } else {
+          // Refresh failed, logout user
+          await logout();
+        }
+      }
+    } else {
+      state = restored;
+    }
+  }
+
+  Future<void> loginWithEmail(String email, String password) async {
+    state = const AuthLoading();
+    try {
+      final newState = await _repo.loginWithEmail(email, password);
+      state = newState;
+      _scheduleTokenRefresh();
+    } catch (e) {
+      state = const Unauthenticated();
+      rethrow;
+    }
+  }
+
+  Future<void> loginWithPhone(String phone, String password) async {
+    state = const AuthLoading();
+    try {
+      final newState = await _repo.loginWithPhone(phone, password);
+      state = newState;
+      _scheduleTokenRefresh();
+    } catch (e) {
+      state = const Unauthenticated();
+      rethrow;
+    }
+  }
+
+  Future<Map<String, dynamic>> forgotPassword(String email) async {
+    state = const AuthLoading();
+    try {
+      final response = await _repo.forgotPassword(email);
+      state = const Unauthenticated();
+      return response;
+    } catch (e) {
+      state = const Unauthenticated();
+      rethrow;
+    }
+  }
+
+  Future<Map<String, dynamic>> updatePassword(UpdatePasswordModel password) async {
+    state = const AuthLoading();
+    try {
+      final response = await _repo.updatePassword(password);
+      state = const Unauthenticated();
+      return response;
+    } catch (e) {
+      state = const Unauthenticated();
+      rethrow;
+    }
+  }
+
+  Future<void> logout() async {
+    await _repo.logout();
+    _cancelRefreshTimer();
+    state = const Unauthenticated();
+  }
+
+  Future<void> refreshProfile() async {
+    try {
+      final user = await _repo.refreshProfile();
+      state = Authenticated(user);
+    } catch (e) {
+      // If refresh profile fails, we don't necessarily want to logout
+      // but we should log it.
+      logger.e('Error refreshing profile', error: e);
+      rethrow;
+    }
+  }
+
+  Future<User?> getCurrentUser() => _repo.getCurrentUser();
+
+  void _scheduleTokenRefresh() {
+    _cancelRefreshTimer();
+    // Decode JWT exp and schedule refresh 60 seconds before expiry.
+    () async {
+      final token = await _repo.getAccessToken();
+      if (token == null || token.isEmpty) {
+        // No token available, logout
+        await logout();
+        return;
+      }
+
+      // Use JwtHelper for more robust token validation
+      if (JwtHelper.isTokenExpired(token)) {
+        // Token is already expired, try to refresh immediately
+        final ok = await _repo.refreshToken();
+        if (!ok) {
+          await logout();
+        } else {
+          _scheduleTokenRefresh(); // Schedule next refresh
+        }
+        return;
+      }
+
+      try {
+        final expiryDate = JwtHelper.getTokenExpiryDate(token);
+        if (expiryDate == null) {
+          // Cannot determine expiry, use fallback
+          _scheduleFallbackRefresh();
+          return;
+        }
+
+        final now = DateTime.now();
+        final timeUntilExpiry = expiryDate.difference(now);
+        final refreshTime = timeUntilExpiry - const Duration(seconds: 60);
+
+        if (refreshTime.isNegative) {
+          // Token expires soon, refresh immediately
+          final ok = await _repo.refreshToken();
+          if (!ok) {
+            await logout();
+          } else {
+            _scheduleTokenRefresh();
+          }
+        } else {
+          // Schedule refresh 60 seconds before expiry
+          _refreshTimer = Timer(refreshTime, () async {
+            final ok = await _repo.refreshToken();
+            if (!ok) {
+              await logout();
+            } else {
+              _scheduleTokenRefresh();
+            }
+          });
+        }
+      } catch (e, s) {
+        logger.e('Error scheduling token refresh', error: e, stackTrace: s);
+        _scheduleFallbackRefresh();
+      }
+    }();
+  }
+
+  void _scheduleFallbackRefresh() {
+    _refreshTimer = Timer.periodic(const Duration(minutes: 10), (_) async {
+      final token = await _repo.getAccessToken();
+      if (token != null && JwtHelper.isTokenExpired(token)) {
+        final ok = await _repo.refreshToken();
+        if (!ok) {
+          await logout();
+        }
+      }
+    });
+  }
+
+  void _cancelRefreshTimer() {
+    _refreshTimer?.cancel();
+    _refreshTimer = null;
+  }
+}
+
+final authProvider = StateNotifierProvider<AuthNotifier, AuthState>((ref) {
+  final repo = ref.watch(authRepositoryProvider);
+  return AuthNotifier(repo);
+});
+
+// Onboarding state management (persist simple seen flag)
+class OnboardingController extends StateNotifier<bool> {
+  OnboardingController() : super(false) {
+    _load();
+  }
+
+  static const _key = 'onboarding_seen';
+
+  Future<void> _load() async {
+    // Using SharedPreferences here is fine since it's non-sensitive UI state
+    final prefs = await SharedPreferences.getInstance();
+    state = prefs.getBool(_key) ?? false;
+  }
+
+  Future<void> complete() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_key, true);
+    state = true;
+  }
+}
+
+final onboardingProvider = StateNotifierProvider<OnboardingController, bool>((
+  ref,
+) {
+  return OnboardingController();
+});
