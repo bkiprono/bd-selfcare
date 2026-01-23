@@ -55,7 +55,8 @@ class HomeTab extends ConsumerWidget {
               color: AppColors.sage100,
               image: DecorationImage(
                 image: NetworkImage(
-                    user?.profileImage ?? 'https://i.pravatar.cc/150?img=14'),
+                  user?.profileImage ?? 'https://i.pravatar.cc/150?img=14',
+                ),
                 fit: BoxFit.contain,
               ),
             ),
@@ -158,8 +159,12 @@ class HomeTab extends ConsumerWidget {
       height: 180,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(24),
-        gradient:  const LinearGradient(
-          colors: [AppColors.accent500, AppColors.accent],
+        gradient: const LinearGradient(
+          colors: [
+            AppColors.primary900,
+            AppColors.secondary800,
+            AppColors.secondary,
+          ],
           begin: Alignment.centerLeft,
           end: Alignment.centerRight,
         ),
@@ -181,12 +186,14 @@ class HomeTab extends ConsumerWidget {
               bottom: -20,
               child: Container(
                 width: 200,
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: NetworkImage('https://bdcomputing.co.ke/assets/images/daisy.jpg'),
+                    image: const NetworkImage(
+                      'https://bdcomputing.co.ke/assets/images/daisy.jpg',
+                    ),
                     fit: BoxFit.contain,
                     colorFilter: ColorFilter.mode(
-                      AppColors.accent,
+                      Colors.black.withValues(alpha: 0.1),
                       BlendMode.darken,
                     ),
                   ),
@@ -300,7 +307,6 @@ class HomeTab extends ConsumerWidget {
       ),
     );
   }
-
 
   Widget _buildQuickActions() {
     return Column(
