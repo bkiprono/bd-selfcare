@@ -151,7 +151,7 @@ class HomeTab extends ConsumerWidget {
 
     // Default account number fallback
     final accountNumber =
-        user?.client?.accountNumber ?? user?.client?.serial ?? 'CL-2024-0536';
+        user?.client?.accountNumber ?? user?.client?.serial ?? '*********';
 
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20),
@@ -159,7 +159,7 @@ class HomeTab extends ConsumerWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(24),
         gradient:  const LinearGradient(
-          colors: [AppColors.primary, AppColors.primary],
+          colors: [AppColors.accent500, AppColors.accent],
           begin: Alignment.centerLeft,
           end: Alignment.centerRight,
         ),
@@ -183,10 +183,10 @@ class HomeTab extends ConsumerWidget {
                 width: 200,
                 decoration: const BoxDecoration(
                   image: DecorationImage(
-                    image: NetworkImage('https://i.pravatar.cc/400?img=27'),
-                    fit: BoxFit.cover,
+                    image: NetworkImage('https://bdcomputing.co.ke/assets/images/daisy.jpg'),
+                    fit: BoxFit.contain,
                     colorFilter: ColorFilter.mode(
-                      AppColors.primary,
+                      AppColors.accent,
                       BlendMode.darken,
                     ),
                   ),
