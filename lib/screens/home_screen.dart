@@ -18,7 +18,7 @@ class HomeTab extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     _buildHeader(),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 1),
                     _buildBalanceCard(),
                     const SizedBox(height: 24),
                     _buildQuickActions(),
@@ -136,13 +136,13 @@ class HomeTab extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(24),
         gradient: const LinearGradient(
-          colors: [AppColors.primary, AppColors.primary400],
+          colors: [AppColors.primary, AppColors.primary],
           begin: Alignment.centerLeft,
           end: Alignment.centerRight,
         ),
         boxShadow: [
           BoxShadow(
-            color: AppColors.primary.withOpacity(0.3),
+            color: AppColors.primary.withValues(alpha: 0.3),
             blurRadius: 20,
             offset: const Offset(0, 10),
           ),
@@ -160,7 +160,10 @@ class HomeTab extends StatelessWidget {
                 image: DecorationImage(
                   image: NetworkImage('https://i.pravatar.cc/400?img=27'),
                   fit: BoxFit.cover,
-                  colorFilter: ColorFilter.mode(Colors.black, BlendMode.darken),
+                  colorFilter: ColorFilter.mode(
+                    AppColors.primary,
+                    BlendMode.darken,
+                  ),
                 ),
               ),
             ),
@@ -185,7 +188,7 @@ class HomeTab extends StatelessWidget {
                     Container(
                       padding: const EdgeInsets.all(6),
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.2),
+                        color: Colors.white.withValues(alpha: 0.2),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: const HugeIcon(
@@ -198,7 +201,7 @@ class HomeTab extends StatelessWidget {
                     Container(
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.2),
+                        color: Colors.white.withValues(alpha: 0.2),
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: const HugeIcon(
@@ -229,8 +232,8 @@ class HomeTab extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 8),
-                const Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
+                const Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       'KES ',
@@ -240,22 +243,27 @@ class HomeTab extends StatelessWidget {
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                    Text(
-                      '869,699',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 36,
-                        fontWeight: FontWeight.w700,
-                        height: 1,
-                      ),
-                    ),
-                    Text(
-                      '.06',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
-                      ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(
+                          '869,699',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 36,
+                            fontWeight: FontWeight.w700,
+                            height: 1,
+                          ),
+                        ),
+                        Text(
+                          '.06',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
