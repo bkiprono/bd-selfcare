@@ -51,7 +51,7 @@ class _HomeWrapperState extends State<HomeWrapper> {
                 ),
                 const BottomNavigationBarItem(
                   icon: HugeIcon(
-                    icon: HugeIcons.strokeRoundedProjector01,
+                    icon: HugeIcons.strokeRoundedWork,
                     size: 30,
                   ),
                   label: 'Projects',
