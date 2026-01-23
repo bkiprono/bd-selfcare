@@ -1,6 +1,7 @@
 enum SocketIoTopics {
   paymentsSearch,
   invoiceSearch,
+  mpesaTransactionResponse,
 }
 
 extension SocketIoTopicsExtension on SocketIoTopics {
@@ -10,6 +11,8 @@ extension SocketIoTopicsExtension on SocketIoTopics {
         return 'paymentsSearch';
       case SocketIoTopics.invoiceSearch:
         return 'invoiceSearch';
+      case SocketIoTopics.mpesaTransactionResponse:
+        return 'mpesaTransactionResponse';
     }
   }
 }

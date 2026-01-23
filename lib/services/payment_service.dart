@@ -8,9 +8,12 @@ class PaymentService {
   final ApiClient _apiClient;
   PaymentService({required ApiClient apiClient}) : _apiClient = apiClient;
 
-  Future<dynamic> payWithMpesa(String invoiceId, String phoneNumber) async {
+  Future<dynamic> payWithMpesa(String invoiceId, String phoneNumber, {double? amount}) async {
     final url = '${ApiEndpoints.mpesaStkPush}/$invoiceId';
-    final response = await _apiClient.post(url, data: {'phoneNumber': phoneNumber});
+    final Map<String, dynamic> data = {'phoneNumber': phoneNumber};
+    if (amount != null) data['amount'] = amount;
+    
+    final response = await _apiClient.post(url, data: data);
     if (response.statusCode != null && (response.statusCode == 200 || response.statusCode == 201)) {
       return response.data;
     }

@@ -1,6 +1,7 @@
 import 'package:bdcomputing/components/shared/date_text.dart';
 import 'package:bdcomputing/components/shared/full_screen_loader.dart';
 import 'package:bdcomputing/core/routes.dart';
+import 'package:bdcomputing/core/styles.dart';
 import 'package:bdcomputing/models/common/http_response.dart';
 import 'package:bdcomputing/models/payments/mpesa_response.dart';
 import 'package:bdcomputing/models/payments/pesapal_error.dart';
@@ -37,7 +38,10 @@ class _InitiatePaymentScreenState extends ConsumerState<InitiatePaymentScreen> {
   String? _mpesaErrorMessage;
 
   bool _processingPesapal = false;
-  String? _pesapalErrorMessage;
+  String? _pesapalErrorMessage = null;
+
+  bool _payInFull = true;
+  final TextEditingController _amountController = TextEditingController();
 
   @override
   void initState() {
@@ -56,6 +60,15 @@ class _InitiatePaymentScreenState extends ConsumerState<InitiatePaymentScreen> {
       setState(() {
         _invoice = invoice;
         _isLoading = false;
+        
+        // Pre-fill phone number if available
+        if (invoice.client.phone.isNotEmpty) {
+          // Extract last 9 digits (format: 7XXXXXXXX)
+          final clean = invoice.client.phone.replaceAll(RegExp(r'[^0-9]'), '');
+          if (clean.length >= 9) {
+            _phoneController.text = clean.substring(clean.length - 9);
+          }
+        }
       });
 
       // Format amount based on selected payment method
@@ -71,6 +84,7 @@ class _InitiatePaymentScreenState extends ConsumerState<InitiatePaymentScreen> {
   @override
   void dispose() {
     _phoneController.dispose();
+    _amountController.dispose();
     super.dispose();
   }
 
@@ -80,6 +94,8 @@ class _InitiatePaymentScreenState extends ConsumerState<InitiatePaymentScreen> {
       _showPaymentDetails = true;
       _mpesaErrorMessage = null;
       _pesapalErrorMessage = null;
+      _payInFull = true;
+      _amountController.text = '';
     });
 
     // Handle Pesapal payment immediately
@@ -126,6 +142,7 @@ class _InitiatePaymentScreenState extends ConsumerState<InitiatePaymentScreen> {
             setState(() {
               _convertedAmount = convertedAmount;
               _formattedAmount = formattedAmount;
+              _amountController.text = convertedAmount.toStringAsFixed(2);
             });
           } else {
             final formatter = NumberFormat.currency(
@@ -196,8 +213,10 @@ class _InitiatePaymentScreenState extends ConsumerState<InitiatePaymentScreen> {
 
   String? _validatePhone(String input) {
     final clean = input.replaceAll(RegExp(r'[^0-9]'), '');
-    if (clean.length != 9) return 'Phone should be 9 digits (7XXXXXXXX)';
-    if (!clean.startsWith('7')) return 'Number must start with 7';
+    if (clean.length != 9) return 'Phone should be 9 digits (7XXXXXXXX or 1XXXXXXXX)';
+    if (!(clean.startsWith('7') || clean.startsWith('1'))) {
+      return 'Number must start with 7 or 1';
+    }
     return null;
   }
 
@@ -218,6 +237,33 @@ class _InitiatePaymentScreenState extends ConsumerState<InitiatePaymentScreen> {
       _mpesaErrorMessage = null;
     });
 
+    double? customAmount;
+    if (!_payInFull) {
+      final amountStr = _amountController.text.trim();
+      if (amountStr.isEmpty) {
+        setState(() {
+          _mpesaErrorMessage = 'Please enter an amount';
+          _processingMpesa = false;
+        });
+        return;
+      }
+      customAmount = double.tryParse(amountStr);
+      if (customAmount == null || customAmount <= 0) {
+        setState(() {
+          _mpesaErrorMessage = 'Please enter a valid amount';
+          _processingMpesa = false;
+        });
+        return;
+      }
+      if (customAmount > (_convertedAmount ?? 0)) {
+        setState(() {
+          _mpesaErrorMessage = 'Amount exceeds balance due';
+          _processingMpesa = false;
+        });
+        return;
+      }
+    }
+
     // Show full screen loader
     FullScreenLoader.show(
       context,
@@ -232,7 +278,7 @@ class _InitiatePaymentScreenState extends ConsumerState<InitiatePaymentScreen> {
       // Production-ready call with robust validation and error handling
       final paymentService = ref.read(paymentServiceProvider);
       final Map<String, dynamic> request =
-          await paymentService.payWithMpesa(invoiceId, fullPhone)
+          await paymentService.payWithMpesa(invoiceId, fullPhone, amount: customAmount)
               as Map<String, dynamic>;
       final CustomHttpResponse<MpesaStkResponse> result =
           CustomHttpResponse.fromJson(
@@ -439,7 +485,7 @@ class _InitiatePaymentScreenState extends ConsumerState<InitiatePaymentScreen> {
                   Text(
                     _selectedPaymentMethod == 'mpesa'
                         ? _formattedAmount
-                        : 'KES ${_convertedAmount?.toStringAsFixed(2) ?? '0.00'}',
+                        : 'KES ${_invoice!.amountDue.toStringAsFixed(2)}',
                     style: const TextStyle(
                       fontSize: 32,
                       fontWeight: FontWeight.bold,
@@ -592,6 +638,95 @@ class _InitiatePaymentScreenState extends ConsumerState<InitiatePaymentScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      const SizedBox(height: 8),
+                      // Amount Type Selection
+                      Row(
+                        children: [
+                          Expanded(
+                            child: InkWell(
+                              onTap: () => setState(() => _payInFull = true),
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(vertical: 8),
+                                decoration: BoxDecoration(
+                                  color: _payInFull ? Colors.green.withOpacity(0.1) : Colors.transparent,
+                                  border: Border.all(color: _payInFull ? Colors.green : Colors.grey[300]!),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    'Full Amount',
+                                    style: TextStyle(
+                                      color: _payInFull ? Colors.green[700] : Colors.grey[600],
+                                      fontWeight: _payInFull ? FontWeight.bold : FontWeight.normal,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: InkWell(
+                              onTap: () => setState(() => _payInFull = false),
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(vertical: 8),
+                                decoration: BoxDecoration(
+                                  color: !_payInFull ? Colors.green.withOpacity(0.1) : Colors.transparent,
+                                  border: Border.all(color: !_payInFull ? Colors.green : Colors.grey[300]!),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    'Custom Amount',
+                                    style: TextStyle(
+                                      color: !_payInFull ? Colors.green[700] : Colors.grey[600],
+                                      fontWeight: !_payInFull ? FontWeight.bold : FontWeight.normal,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+                      if (!_payInFull) ...[
+                        Text(
+                          'Amount to Pay',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.grey[700],
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        TextField(
+                          controller: _amountController,
+                          keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                          enabled: !_processingMpesa,
+                          decoration: InputDecoration(
+                            prefixIcon: const Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 12),
+                              child: Text('KES', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                            ),
+                            prefixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
+                            hintText: 'Enter amount',
+                            filled: true,
+                            fillColor: Colors.white,
+                            contentPadding: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: BorderSide(color: Colors.grey[300]!, width: 1.2),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: const BorderSide(color: AppColors.secondary, width: 1.8),
+                            ),
+                          ),
+                          onChanged: (_) => setState(() {}),
+                        ),
+                        const SizedBox(height: 16),
+                      ],
                       Row(
                         children: [
                           Icon(
@@ -647,14 +782,14 @@ class _InitiatePaymentScreenState extends ConsumerState<InitiatePaymentScreen> {
                               children: [
                                 Icon(
                                   Icons.phone_android,
-                                  color: Colors.green[700],
+                                  color: AppColors.secondary,
                                   size: 20,
                                 ),
                                 const SizedBox(width: 4),
                                 Text(
                                   '+254',
                                   style: TextStyle(
-                                    color: Colors.green[700],
+                                    color: AppColors.secondary,
                                     fontWeight: FontWeight.bold,
                                     fontSize: 15,
                                   ),
@@ -687,7 +822,7 @@ class _InitiatePaymentScreenState extends ConsumerState<InitiatePaymentScreen> {
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8),
                             borderSide: const BorderSide(
-                              color: Colors.green,
+                              color: AppColors.secondary,
                               width: 1.8,
                             ),
                           ),
@@ -716,7 +851,7 @@ class _InitiatePaymentScreenState extends ConsumerState<InitiatePaymentScreen> {
                             children: [
                               Icon(
                                 Icons.error,
-                                color: Colors.red[700],
+                                color: AppColors.error,
                                 size: 18,
                               ),
                               const SizedBox(width: 6),
@@ -724,7 +859,7 @@ class _InitiatePaymentScreenState extends ConsumerState<InitiatePaymentScreen> {
                                 child: Text(
                                   _mpesaErrorMessage!,
                                   style: const TextStyle(
-                                    color: Colors.red,
+                                    color: AppColors.error,
                                     fontWeight: FontWeight.w500,
                                     fontSize: 13,
                                   ),
@@ -744,8 +879,8 @@ class _InitiatePaymentScreenState extends ConsumerState<InitiatePaymentScreen> {
                     onPressed: _processingMpesa ? null : _submitMpesa,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: _processingMpesa
-                          ? Colors.grey
-                          : Colors.green,
+                          ? AppColors.border
+                          : AppColors.secondary,
                       foregroundColor: Colors.white,
                       elevation: 0,
                       shape: RoundedRectangleBorder(
@@ -762,7 +897,7 @@ class _InitiatePaymentScreenState extends ConsumerState<InitiatePaymentScreen> {
                             ),
                           )
                         : Text(
-                            'Initiate Payment of $_formattedAmount',
+                            'Initiate Payment of ${_payInFull ? _formattedAmount : 'KES ${_amountController.text}'}',
                             style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
@@ -771,36 +906,6 @@ class _InitiatePaymentScreenState extends ConsumerState<InitiatePaymentScreen> {
                   ),
                 ),
                 const SizedBox(height: 16),
-                Center(
-                  child: RichText(
-                    textAlign: TextAlign.center,
-                    text: TextSpan(
-                      style: TextStyle(fontSize: 13, color: Colors.grey[600]),
-                      children: [
-                        const TextSpan(
-                          text: 'Having issues with MPESA Express?\n',
-                        ),
-                        WidgetSpan(
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.of(context).pushNamed(
-                                AppRoutes.paybill,
-                                arguments: {'invoiceId': invoiceId},
-                              );
-                            },
-                            child: const Text(
-                              'Click here to use Paybill',
-                              style: TextStyle(
-                                color: Colors.red,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
               ],
               if (_showPaymentDetails &&
                   _selectedPaymentMethod == 'pesapal') ...[
@@ -882,7 +987,7 @@ class _InitiatePaymentScreenState extends ConsumerState<InitiatePaymentScreen> {
                                 child: Text(
                                   _pesapalErrorMessage!,
                                   style: const TextStyle(
-                                    color: Colors.red,
+                                    color: AppColors.error,
                                     fontWeight: FontWeight.w500,
                                     fontSize: 13,
                                   ),
@@ -908,7 +1013,7 @@ class _InitiatePaymentScreenState extends ConsumerState<InitiatePaymentScreen> {
                         child: Text(
                           _pesapalErrorMessage!,
                           style: const TextStyle(
-                            color: Colors.red,
+                            color: AppColors.error,
                             fontWeight: FontWeight.w500,
                             fontSize: 13,
                           ),
@@ -929,8 +1034,8 @@ class _InitiatePaymentScreenState extends ConsumerState<InitiatePaymentScreen> {
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: _selectedPaymentMethod == 'pesapal'
-                          ? Colors.green
-                          : Colors.grey[300]!,
+                          ? AppColors.secondary
+                          : AppColors.border,
                       width: _selectedPaymentMethod == 'pesapal' ? 2 : 1,
                     ),
                     borderRadius: BorderRadius.circular(12),
@@ -945,12 +1050,12 @@ class _InitiatePaymentScreenState extends ConsumerState<InitiatePaymentScreen> {
                           shape: BoxShape.circle,
                           border: Border.all(
                             color: _selectedPaymentMethod == 'pesapal'
-                                ? Colors.green
-                                : Colors.grey[400]!,
+                                ? AppColors.secondary
+                                : AppColors.border,
                             width: 2,
                           ),
                           color: _selectedPaymentMethod == 'pesapal'
-                              ? Colors.green
+                              ? AppColors.secondary
                               : Colors.transparent,
                         ),
                         child: _selectedPaymentMethod == 'pesapal'

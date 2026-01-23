@@ -47,8 +47,8 @@ class ApiEndpoints {
   static const String settings = '$baseUrl/settings';
 
   // Payment
-  static const String mpesaStkPush = '$baseUrl/pay/mpesa';
-  static const String mpesaPaymentStatus = '$baseUrl/pay/mpesa/stk-push';
-  static const String pesapalPayment = '$baseUrl/pay/pesapal';
+  static const String mpesaStkPush = '$baseUrl/payments/mpesa';
+  static const String mpesaPaymentStatus = '$baseUrl/payments/mpesa/stk-push';
+  static const String pesapalPayment = '$baseUrl/payments/pesapal';
   static const String payments = '$baseUrl/payments';
 }

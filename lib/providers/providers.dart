@@ -1,3 +1,4 @@
+import 'package:bdcomputing/core/socket/socket_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:bdcomputing/screens/auth/providers.dart';
 import 'package:bdcomputing/core/utils/api_client.dart';
@@ -10,6 +11,17 @@ import 'package:bdcomputing/services/payment_service.dart';
 final apiClientProvider = Provider<ApiClient>((ref) {
   final repo = ref.watch(authRepositoryProvider);
   return repo.client;
+});
+
+final accessTokenProvider = FutureProvider<String?>((ref) async {
+  final repo = ref.watch(authRepositoryProvider);
+  return await repo.getAccessToken();
+});
+
+final socketServiceProvider = Provider<SocketService?>((ref) {
+  final accessToken = ref.watch(accessTokenProvider).value;
+  if (accessToken == null) return null;
+  return SocketService(token: accessToken);
 });
 
 final settingsServiceProvider = Provider<SettingsService>((ref) {

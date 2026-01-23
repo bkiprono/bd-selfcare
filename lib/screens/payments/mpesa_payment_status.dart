@@ -1,9 +1,12 @@
-import 'package:flutter/material.dart';
-import 'package:hugeicons/hugeicons.dart';
-import 'package:bdcomputing/core/styles.dart';
-import 'package:bdcomputing/components/logger_config.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:bdcomputing/core/socket/socket_service.dart';
+import 'package:bdcomputing/core/socket/topics.dart';
 import 'package:bdcomputing/providers/providers.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:bdcomputing/components/logger_config.dart';
+import 'package:bdcomputing/core/styles.dart';
+import 'package:hugeicons/hugeicons.dart';
+import 'package:flutter/material.dart';
+import 'dart:async';
 
 class MpesaPaymentStatusScreen extends ConsumerStatefulWidget {
   final String checkoutRequestID;
@@ -24,11 +27,46 @@ class _MpesaPaymentStatusScreenState extends ConsumerState<MpesaPaymentStatusScr
   bool _paymentReceived = false;
   bool _isLoading = false;
   bool _isPolling = false;
+  StreamSubscription? _socketSubscription;
 
   @override
   void initState() {
     super.initState();
+    _initSocket();
     _checkPaymentStatus(withPolling: true);
+  }
+
+  void _initSocket() {
+    final socketService = ref.read(socketServiceProvider);
+    if (socketService == null) {
+      logger.w('Socket service not available');
+      return;
+    }
+
+    // Connect to /mpesa namespace and listen for mpesaTransactionResponse
+    _socketSubscription = socketService
+        .onEvent('/mpesa', SocketIoTopics.mpesaTransactionResponse.value)
+        .listen((data) {
+      logger.i('Received socket response: $data');
+      if (data != null && data is Map) {
+        final checkoutId = data['data'];
+        final statusCode = data['statusCode'];
+
+        if (checkoutId == widget.checkoutRequestID && statusCode == 200) {
+          if (mounted) {
+            setState(() {
+              _paymentReceived = true;
+            });
+          }
+        }
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _socketSubscription?.cancel();
+    super.dispose();
   }
 
   /// Poll payment status if [withPolling] is true.
