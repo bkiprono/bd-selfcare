@@ -1,6 +1,8 @@
 import 'package:bdcomputing/core/utils/api_client.dart';
 import 'package:bdcomputing/models/common/invoice.dart';
 import 'package:bdcomputing/core/endpoints.dart';
+import 'package:bdcomputing/models/common/paginated_data.dart';
+import 'package:bdcomputing/models/common/http_response.dart';
 
 class InvoiceService {
   final ApiClient _apiClient;
@@ -14,5 +16,35 @@ class InvoiceService {
       return Invoice.fromJson(response.data['data']);
     }
     throw Exception('Failed to fetch invoice: ${response.statusCode}');
+  }
+
+  Future<PaginatedData<Invoice>> fetchInvoices({
+    String? clientId,
+    int page = 1,
+    int limit = 10,
+    String? keyword,
+    String? status,
+  }) async {
+    final Map<String, dynamic> params = {
+      'page': page,
+      'limit': limit,
+    };
+    if (clientId != null && clientId.isNotEmpty) params['clientId'] = clientId;
+    if (keyword != null && keyword.isNotEmpty) params['keyword'] = keyword;
+    if (status != null && status.isNotEmpty) params['status'] = status;
+
+    final response = await _apiClient.get(ApiEndpoints.invoices, queryParameters: params);
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      final res = CustomHttpResponse.fromJson(
+        response.data,
+        (data) => PaginatedData<Invoice>.fromJson(
+          data,
+          (item) => Invoice.fromJson(item as Map<String, dynamic>),
+        ),
+      );
+      return res.data;
+    }
+    throw Exception('Failed to fetch invoices: ${response.statusCode}');
   }
 }

@@ -167,3 +167,4 @@ class Invoice extends Equatable {
         invoiceLink,
       ];
 }
+

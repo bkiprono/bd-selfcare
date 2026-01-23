@@ -1,3 +1,4 @@
+import 'package:bdcomputing/screens/billing/invoices_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hugeicons/hugeicons.dart';
@@ -18,9 +19,9 @@ class _HomeWrapperState extends State<HomeWrapper> {
   final List<Widget> _screens = const [
     HomeTab(),
     HomeTab(),
+    BillingScreen(),
     HomeTab(),
     HomeTab(),
-
   ];
 
   @override
@@ -48,24 +49,17 @@ class _HomeWrapperState extends State<HomeWrapper> {
                 ),
                 const BottomNavigationBarItem(
                   icon: HugeIcon(
-                    icon: HugeIcons.strokeRoundedDeliveryBox02,
+                    icon: HugeIcons.strokeRoundedProjector01,
                     size: 30,
                   ),
-                  label: 'Products',
-                ),
-                const BottomNavigationBarItem(
-                  icon: HugeIcon(
-                    icon: HugeIcons.strokeRoundedFuel,
-                    size: 30,
-                  ),
-                  label: 'Fuel',
+                  label: 'Projects',
                 ),
                 BottomNavigationBarItem(
                   icon: Stack(
                     clipBehavior: Clip.none,
                     children: [
                       const HugeIcon(
-                        icon: HugeIcons.strokeRoundedShoppingBag02,
+                        icon: HugeIcons.strokeRoundedInvoice01,
                         size: 30,
                       ),
                       if (itemCount > 0)
@@ -96,14 +90,19 @@ class _HomeWrapperState extends State<HomeWrapper> {
                         ),
                     ],
                   ),
-                  label: 'Orders',
+                  label: 'Invoices',
                 ),
                 const BottomNavigationBarItem(
+                  icon: HugeIcon(icon: HugeIcons.strokeRoundedWallet03, size: 30),
+                  label: 'Payments',
+                ),
+
+                const BottomNavigationBarItem(
                   icon: HugeIcon(
-                    icon: HugeIcons.strokeRoundedStore01,
+                    icon: HugeIcons.strokeRoundedUser,
                     size: 30,
                   ),
-                  label: 'Store Setup',
+                  label: 'Profile',
                 ),
               ],
               onTap: (index) {

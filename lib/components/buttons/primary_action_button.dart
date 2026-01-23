@@ -68,28 +68,31 @@ class PrimaryActionButton extends StatelessWidget {
                   color: fgColor,
                 ),
               )
-            : Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  if (leadingIcon != null) ...[
-                    _buildIcon(leadingIcon, fgColor),
-                    const SizedBox(width: AppSpacing.sm),
-                  ],
-                  Text(
-                    text,
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: fgColor,
+            : Padding(
+              padding: const EdgeInsets.symmetric(vertical: AppSpacing.xl),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (leadingIcon != null) ...[
+                      _buildIcon(leadingIcon, fgColor),
+                      const SizedBox(width: AppSpacing.sm),
+                    ],
+                    Text(
+                      text,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: fgColor,
+                      ),
                     ),
-                  ),
-                  if (trailingIcon != null) ...[
-                    const SizedBox(width: AppSpacing.sm),
-                    _buildIcon(trailingIcon, fgColor),
+                    if (trailingIcon != null) ...[
+                      const SizedBox(width: AppSpacing.sm),
+                      _buildIcon(trailingIcon, fgColor),
+                    ],
                   ],
-                ],
-              ),
+                ),
+            ),
       ),
     );
   }
