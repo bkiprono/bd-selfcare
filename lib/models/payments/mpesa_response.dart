@@ -15,11 +15,11 @@ class MpesaStkResponse {
 
   factory MpesaStkResponse.fromJson(Map<String, dynamic> json) {
     return MpesaStkResponse(
-      merchantRequestID: json['MerchantRequestID'] as String,
-      checkoutRequestID: json['CheckoutRequestID'] as String,
-      responseCode: json['ResponseCode'] as String,
-      responseDescription: json['ResponseDescription'] as String,
-      customerMessage: json['CustomerMessage'] as String,
+      merchantRequestID: (json['MerchantRequestID'] ?? '').toString(),
+      checkoutRequestID: (json['CheckoutRequestID'] ?? '').toString(),
+      responseCode: (json['ResponseCode'] ?? '').toString(),
+      responseDescription: (json['ResponseDescription'] ?? '').toString(),
+      customerMessage: (json['CustomerMessage'] ?? '').toString(),
     );
   }
 

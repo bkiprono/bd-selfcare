@@ -15,11 +15,11 @@ class PesapalResponse {
 
   factory PesapalResponse.fromJson(Map<String, dynamic> json) {
     return PesapalResponse(
-      orderTrackingId: json['order_tracking_id'] as String,
-      merchantReference: json['merchant_reference'] as String,
-      redirectUrl: json['redirect_url'] as String,
-      error: json['error'] as String?,
-      status: json['status'] as String,
+      orderTrackingId: (json['order_tracking_id'] ?? '').toString(),
+      merchantReference: (json['merchant_reference'] ?? '').toString(),
+      redirectUrl: (json['redirect_url'] ?? '').toString(),
+      error: json['error']?.toString(),
+      status: (json['status'] ?? '').toString(),
     );
   }
 
