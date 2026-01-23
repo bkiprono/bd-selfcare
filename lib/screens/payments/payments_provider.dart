@@ -1,5 +1,4 @@
 import 'package:bdcomputing/models/payments/payment.dart';
-import 'package:bdcomputing/models/common/paginated_data.dart';
 import 'package:bdcomputing/providers/providers.dart';
 import 'package:bdcomputing/screens/auth/providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -59,25 +58,25 @@ class PaymentsNotifier extends StateNotifier<PaymentsState> {
 
     try {
       final user = await _ref.read(authProvider.notifier).getCurrentUser();
-      final clientId = user?.clientId;
-
-      if (clientId == null) {
-        state = state.copyWith(isLoading: false, error: 'No client associated with this account');
+      if (user == null || user.clientId == null) {
+        state = state.copyWith(isLoading: false, error: 'User session or client ID not found');
         return;
       }
+      final clientId = user.clientId!;
 
       final service = _ref.read(paymentServiceProvider);
-      final PaginatedData<Payment> result = await service.fetchPayments(
+      final result = await service.fetchPayments(
         clientId: clientId,
         page: state.page,
         keyword: state.keyword,
       );
 
+      final newPayments = result.data ?? [];
       state = state.copyWith(
         isLoading: false,
-        payments: refresh ? result.data : [...state.payments, ...(result.data ?? [])],
+        payments: refresh ? newPayments : [...state.payments, ...newPayments],
         totalPages: result.pages,
-        page: state.page + 1,
+        page: newPayments.isNotEmpty ? state.page + 1 : state.page,
       );
     } catch (e) {
       state = state.copyWith(isLoading: false, error: e.toString());

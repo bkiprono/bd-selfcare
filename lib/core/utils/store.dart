@@ -3,7 +3,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class Store {
   const Store._();
-  static const FlutterSecureStorage _secureStorage = FlutterSecureStorage();
+  static const FlutterSecureStorage _secureStorage = FlutterSecureStorage(
+    aOptions: AndroidOptions(encryptedSharedPreferences: true),
+    iOptions: IOSOptions(accessibility: KeychainAccessibility.first_unlock),
+  );
 
   static const String _accessTokenKey = 'accessToken';
   static const String _refreshTokenKey = 'refreshToken';

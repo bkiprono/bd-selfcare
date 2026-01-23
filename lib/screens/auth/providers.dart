@@ -49,26 +49,17 @@ class AuthNotifier extends StateNotifier<AuthState> {
   }
 
   Future<void> _init() async {
-    final restored = await _repo.restoreSession();
-    if (restored is Authenticated) {
-      // Validate token before setting authenticated state
-      final token = await _repo.getAccessToken();
-      if (token != null && !JwtHelper.isTokenExpired(token)) {
+    try {
+      final restored = await _repo.restoreSession();
+      if (restored is Authenticated) {
         state = restored;
         _scheduleTokenRefresh();
       } else {
-        // Token is expired or invalid, try to refresh
-        final refreshed = await _repo.refreshToken();
-        if (refreshed) {
-          state = restored;
-          _scheduleTokenRefresh();
-        } else {
-          // Refresh failed, logout user
-          await logout();
-        }
+        state = restored;
       }
-    } else {
-      state = restored;
+    } catch (e, s) {
+      logger.e('Error during auth initialization', error: e, stackTrace: s);
+      state = const Unauthenticated();
     }
   }
 
@@ -205,7 +196,17 @@ class AuthNotifier extends StateNotifier<AuthState> {
       // Use JwtHelper for more robust token validation
       if (JwtHelper.isTokenExpired(token)) {
         // Token is already expired, try to refresh immediately
-        final ok = await _repo.refreshToken();
+        bool ok = await _repo.refreshToken();
+        
+        // Retry logic for transient failures
+        int retries = 0;
+        while (!ok && retries < 3) {
+          retries++;
+          logger.i('Token refresh failed, retrying ($retries/3)...');
+          await Future.delayed(Duration(seconds: 2 * retries));
+          ok = await _repo.refreshToken();
+        }
+
         if (!ok) {
           await logout();
         } else {
@@ -228,7 +229,17 @@ class AuthNotifier extends StateNotifier<AuthState> {
 
         if (refreshTime.isNegative) {
           // Token expires soon, refresh immediately
-          final ok = await _repo.refreshToken();
+          bool ok = await _repo.refreshToken();
+          
+          // Retry logic for transient failures
+          int retries = 0;
+          while (!ok && retries < 3) {
+            retries++;
+            logger.i('Token refresh failed, retrying ($retries/3)...');
+            await Future.delayed(Duration(seconds: 2 * retries));
+            ok = await _repo.refreshToken();
+          }
+
           if (!ok) {
             await logout();
           } else {
@@ -237,7 +248,17 @@ class AuthNotifier extends StateNotifier<AuthState> {
         } else {
           // Schedule refresh 60 seconds before expiry
           _refreshTimer = Timer(refreshTime, () async {
-            final ok = await _repo.refreshToken();
+            bool ok = await _repo.refreshToken();
+            
+            // Retry logic for transient failures
+            int retries = 0;
+            while (!ok && retries < 3) {
+              retries++;
+              logger.i('Token refresh failed (scheduled), retrying ($retries/3)...');
+              await Future.delayed(Duration(seconds: 2 * retries));
+              ok = await _repo.refreshToken();
+            }
+
             if (!ok) {
               await logout();
             } else {

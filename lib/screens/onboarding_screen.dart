@@ -203,7 +203,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> with Ticker
                             // Navigate to login screen
                             if (mounted) {
                               Navigator.of(context).pushReplacementNamed(
-                                AppRoutes.loginWithEmail,
+                                AppRoutes.home,
                               );
                             }
                           }

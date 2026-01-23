@@ -1,7 +1,7 @@
-import 'package:bdcomputing/core/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:bdcomputing/screens/auth/domain/auth_state.dart' show Authenticated;
+import 'package:bdcomputing/screens/auth/domain/auth_state.dart'
+    show Authenticated;
 import 'package:bdcomputing/screens/auth/presentation/auth_guard.dart';
 import 'package:bdcomputing/screens/auth/providers.dart';
 import 'package:bdcomputing/components/shared/header.dart';
@@ -68,81 +68,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                               ),
                             ),
 
-                            // if (user == null)
-                            //   // return const Center(child: Text('Please log in again.'));
-                            //   Padding(
-                            //     padding: const EdgeInsets.symmetric(
-                            //       horizontal: 16,
-                            //     ),
-                            //     child: UserWidget(
-                            //       user: user,
-                            //       padding: const EdgeInsets.symmetric(
-                            //         horizontal: 16,
-                            //       ),
-                            //     ),
-                            //   ),
-
-                            const SizedBox(height: 12),
-
-                            // Orders Management Card
-                            Container(
-                              margin: const EdgeInsets.symmetric(
-                                horizontal: 16,
-                              ),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(14),
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(16),
-                                    child: Text(
-                                      'Orders Management',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.grey[700],
-                                      ),
-                                    ),
-                                  ),
-                                  _buildMenuItem(
-                                    icon: Icons.inventory_2_outlined,
-                                    title: 'Product Orders',
-                                    subtitle: 'View and manage product orders',
-                                    onTap: () => validateTokenBeforeAction(() {
-                                      Navigator.of(
-                                        context,
-                                      ).pushNamed('/my-product-orders');
-                                    }),
-                                  ),
-                                  _buildDivider(),
-                                  _buildMenuItem(
-                                    icon: Icons.local_gas_station_outlined,
-                                    title: 'Fuel Orders',
-                                    subtitle: 'View and manage fuel orders',
-                                    onTap: () => validateTokenBeforeAction(() {
-                                      Navigator.of(
-                                        context,
-                                      ).pushNamed('/my-fuel-orders');
-                                    }),
-                                  ),
-                                  _buildDivider(),
-                                  _buildMenuItem(
-                                    icon: Icons.payments_outlined,
-                                    title: 'Payments History',
-                                    subtitle: 'View your transaction history',
-                                    onTap: () => validateTokenBeforeAction(() {
-                                      Navigator.of(
-                                        context,
-                                      ).pushNamed(AppRoutes.allPayments);
-                                    }),
-                                  ),
-                                ],
-                              ),
-                            ),
-
                             const SizedBox(height: 12),
 
                             // Account Settings Card
@@ -157,50 +82,15 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(16),
-                                    child: Text(
-                                      'Account Settings',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.grey[700],
-                                      ),
-                                    ),
-                                  ),
-                                  _buildMenuItem(
-                                    icon: Icons.store_outlined,
-                                    title: 'Store Setup',
-                                    subtitle: 'Configure your store details',
-                                    onTap: () => validateTokenBeforeAction(() {
-                                      Navigator.of(context).pushNamed('/store-setup');
-                                    }),
-                                  ),
-                                  _buildDivider(),
-                                  _buildMenuItem(
-                                    icon: Icons.description_outlined,
-                                    title: 'Documents & Compliance',
-                                    subtitle: 'Manage required documents',
-                                    onTap: () => validateTokenBeforeAction(() {
-                                      // TODO: Navigate to documents screen
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        const SnackBar(
-                                          content:
-                                              Text('Documents coming soon'),
-                                        ),
-                                      );
-                                    }),
-                                  ),
-                                  _buildDivider(),
                                   _buildMenuItem(
                                     icon: Icons.settings_outlined,
                                     title: 'Settings',
                                     subtitle: 'Account and app settings',
                                     onTap: () => validateTokenBeforeAction(() {
                                       // TODO: Navigate to settings screen
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
+                                      ScaffoldMessenger.of(
+                                        context,
+                                      ).showSnackBar(
                                         const SnackBar(
                                           content: Text('Settings coming soon'),
                                         ),
@@ -238,7 +128,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                     title: 'Help Center',
                                     subtitle: 'FAQs and guides',
                                     onTap: () => _openExternalLink(
-                                      'https://bdcomputing.co.ke/support-center',
+                                      'https://bdcomputing.co.ke/contact-us',
                                     ),
                                   ),
                                   _buildDivider(),
@@ -256,7 +146,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                     title: 'Terms & Conditions',
                                     subtitle: null,
                                     onTap: () => _openExternalLink(
-                                      'https://bdcomputing.co.ke/support-center/buyers',
+                                      'https://bdcomputing.co.ke/terms/terms-and-conditions',
                                     ),
                                   ),
                                 ],
@@ -353,11 +243,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                     : const Color(0xFFF5F5F5),
                 borderRadius: BorderRadius.circular(6),
               ),
-              child: Icon(
-                icon,
-                color: textColor ?? Colors.black87,
-                size: 16,
-              ),
+              child: Icon(icon, color: textColor ?? Colors.black87, size: 16),
             ),
             const SizedBox(width: 10),
             Expanded(

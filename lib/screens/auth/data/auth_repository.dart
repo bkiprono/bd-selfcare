@@ -25,26 +25,32 @@ class AuthRepository {
 
   AuthService get service => _service;
 
-  final FlutterSecureStorage _secureStorage = const FlutterSecureStorage();
+  final FlutterSecureStorage _secureStorage = const FlutterSecureStorage(
+    aOptions: AndroidOptions(encryptedSharedPreferences: true),
+    iOptions: IOSOptions(accessibility: KeychainAccessibility.first_unlock),
+  );
 
   Future<AuthState> restoreSession() async {
-    final accessToken = await _secureStorage.read(key: _keyAccessToken);
-    final refreshToken = await _secureStorage.read(key: _keyRefreshToken);
-    final userJson = await _secureStorage.read(key: _keyUser);
-
-    if (accessToken == null || refreshToken == null || userJson == null) {
-      return const Unauthenticated();
-    }
-
     try {
+      final accessToken = await _secureStorage.read(key: _keyAccessToken);
+      final refreshToken = await _secureStorage.read(key: _keyRefreshToken);
+      final userJson = await _secureStorage.read(key: _keyUser);
+
+      if (accessToken == null || refreshToken == null || userJson == null) {
+        _logger.i('No stored session found');
+        return const Unauthenticated();
+      }
+
       final userMap = jsonDecode(userJson) as Map<String, dynamic>;
       final user = User.fromJson(userMap);
 
       // Validate access token
       if (JwtHelper.isTokenExpired(accessToken)) {
+        _logger.i('Access token expired, attempting to refresh...');
         // Token is expired, try to refresh
         final refreshed = await this.refreshToken();
         if (!refreshed) {
+          _logger.i('Session restoration failed: Refresh token expired or invalid');
           // Refresh failed, clear session
           await logout();
           return const Unauthenticated();
@@ -52,8 +58,8 @@ class AuthRepository {
       }
 
       return Authenticated(user);
-    } catch (e) {
-      _logger.i('Error restoring session: $e');
+    } catch (e, s) {
+      _logger.e('Error restoring session', error: e, stackTrace: s);
       await logout();
       return const Unauthenticated();
     }
@@ -234,6 +240,16 @@ class AuthRepository {
     User user,
     Map<String, dynamic> userJson,
   ) async {
+    // If we have a clientId but no client object, or if some critical client fields are missing,
+    // we fetch the full profile to ensure all data is present.
+    if (user.clientId != null && (user.client == null || user.client!.name.isEmpty)) {
+      _logger.i('Client data incomplete for ${user.email}, fetching full profile...');
+      try {
+        return await refreshProfile();
+      } catch (e) {
+        _logger.w('Failed to enrich client data: $e');
+      }
+    }
     return user;
   }
 

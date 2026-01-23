@@ -56,11 +56,21 @@ class PaginatedData<T> {
     T Function(dynamic) fromDataJson,
   ) {
     return PaginatedData<T>(
-      page: json['page'] as int,
-      limit: json['limit'] as int,
-      total: json['total'] as int,
-      pages: json['pages'] as int,
-      data: (json['data'] as List).map(fromDataJson).toList(),
+      page: json['page'] is int
+          ? json['page'] as int
+          : int.tryParse(json['page']?.toString() ?? '1') ?? 1,
+      limit: json['limit'] is int
+          ? json['limit'] as int
+          : int.tryParse(json['limit']?.toString() ?? '10') ?? 10,
+      total: json['total'] is int
+          ? json['total'] as int
+          : int.tryParse(json['total']?.toString() ?? '0') ?? 0,
+      pages: json['pages'] is int
+          ? json['pages'] as int
+          : int.tryParse(json['pages']?.toString() ?? '1') ?? 1,
+      data: json['data'] is List
+          ? (json['data'] as List).map(fromDataJson).toList()
+          : [],
       monthsFilters: json['filters'] != null &&
               json['filters']['months'] != null
           ? (json['filters']['months'] as List)

@@ -1,4 +1,6 @@
 import 'package:bdcomputing/screens/billing/invoices_screen.dart';
+import 'package:bdcomputing/screens/payments/payments_screen.dart';
+import 'package:bdcomputing/screens/profile/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hugeicons/hugeicons.dart';
@@ -20,8 +22,8 @@ class _HomeWrapperState extends State<HomeWrapper> {
     HomeTab(),
     HomeTab(),
     BillingScreen(),
-    HomeTab(),
-    HomeTab(),
+    PaymentsScreen(),
+    ProfileScreen(),
   ];
 
   @override

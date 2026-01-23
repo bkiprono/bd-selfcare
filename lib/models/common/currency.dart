@@ -27,16 +27,18 @@ class Currency {
 
   factory Currency.fromJson(Map<String, dynamic> json) {
     return Currency(
-      id: json['_id'].toString(),
-      currencyId: json['currencyId'].toString(),
-      name: json['name'],
-      code: json['code'],
-      icon: json['icon'],
-      isIconImage: json['isIconImage'],
-      isBaseCurrency: json['isBaseCurrency'],
-      isCurrencySupported: json['isCurrencySupported'],
+      id: (json['_id'] ?? json['id'] ?? '').toString(),
+      currencyId: (json['currencyId'] ?? '').toString(),
+      name: (json['name'] ?? '').toString(),
+      code: (json['code'] ?? '').toString(),
+      icon: (json['icon'] ?? '').toString(),
+      isIconImage: json['isIconImage'] ?? false,
+      isBaseCurrency: json['isBaseCurrency'] ?? false,
+      isCurrencySupported: json['isCurrencySupported'] ?? false,
       createdBy: json['createdBy']?.toString(),
-      createdAt: json['createdAt'] != null ? DateTime.tryParse(json['createdAt']) : null,
+      createdAt: json['createdAt'] != null
+          ? DateTime.tryParse(json['createdAt'])
+          : null,
       rateAgainstBaseCurrency: (json['rateAgainstBaseCurrency'] ?? 0).toDouble(),
     );
   }
