@@ -323,7 +323,7 @@ class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen> {
               builder: (context, ref, _) {
                 final settings = ref.watch(settingsProvider);
                 final email =
-                    settings?.general.email ?? 'info@pedeapetroleum.com';
+                    settings?.general.email ?? 'info@bdcomputing.co.ke';
                 final phone = settings?.general.phone ?? '+254701514044';
                 final addressText = settings != null
                     ? '${settings.general.address.town}, ${settings.general.address.country}'

@@ -23,7 +23,7 @@ class BdcomputingPartner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Pedea Fulfillment Partner',
+      title: 'BD Work OS',
 
       // Light theme
       theme: AppTheme.lightTheme,

@@ -14,7 +14,7 @@ class CustomerMessageCreate {
     required this.phone,
     this.purpose,
     this.message,
-    this.source = 'pedea-otg',
+    this.source = 'bd-otg',
   });
 
   Map<String, dynamic> toJson() {
@@ -62,7 +62,7 @@ class CustomerMessage {
       phone: json['phone'] ?? '',
       purpose: json['purpose'],
       message: json['message'],
-      source: json['source'] ?? 'pedea-otg',
+      source: json['source'] ?? 'bd-otg',
       // createdAt: DateTime.tryParse(json['createdAt'] ?? json['created_at'] ?? ''),
        createdAt: DateTime.tryParse(json['createdAt'] ?? json['created_at'] ?? '') ?? DateTime.now(),
     );

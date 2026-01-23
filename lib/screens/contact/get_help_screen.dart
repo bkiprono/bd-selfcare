@@ -135,7 +135,7 @@ class _GetHelpScreenState extends State<GetHelpScreen> {
         {
           'question': 'How do I report a bug?',
           'answer':
-              'You can report bugs through Settings > Report Issue, or email our technical team at info@pedeapetroleum.com with a description of the issue and screenshots if possible.',
+              'You can report bugs through Settings > Report Issue, or email our technical team at info@bdcomputing.co.ke with a description of the issue and screenshots if possible.',
         },
       ],
     },
@@ -302,7 +302,7 @@ class _GetHelpScreenState extends State<GetHelpScreen> {
             builder: (context, ref, _) {
               final settings = ref.watch(settingsProvider);
               final email =
-                  settings?.general.email ?? 'info@pedeapetroleum.com';
+                  settings?.general.email ?? 'info@bdcomputing.co.ke';
               final phone = settings?.general.phone ?? '+254701514044';
               final prettyPhone = phone.replaceAllMapped(
                 RegExp(r'^(\+?\d{3})(\d{3})(\d{3})(\d{3})$'),

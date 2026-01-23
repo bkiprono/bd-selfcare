@@ -1,5 +1,5 @@
 class EnvConfig {
-  // static const String domainUrl = 'https://shop.pedeapetroleum.com';
+  // static const String domainUrl = 'https://shop.bdcomputing.co.ke';
   static const String domainUrl = 'https://wadable-sidesplittingly-lashawn.ngrok-free.dev';
   static const String devBaseUrl = '$domainUrl/api';
   static const String prodBaseUrl = '$domainUrl/api';

@@ -29,7 +29,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.pedeapetroleum.fulfillmentpartner"
+        applicationId = "com.bdcomputing.fulfillmentpartner"
         minSdk = flutter.minSdkVersion
         targetSdk = 36
         versionCode = flutter.versionCode

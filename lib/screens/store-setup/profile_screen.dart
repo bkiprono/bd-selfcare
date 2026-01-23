@@ -231,7 +231,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                     title: 'Help Center',
                                     subtitle: 'FAQs and guides',
                                     onTap: () => _openExternalLink(
-                                      'https://shop.pedeapetroleum.com/support-center',
+                                      'https://shop.bdcomputing.co.ke/support-center',
                                     ),
                                   ),
                                   _buildDivider(),
@@ -240,7 +240,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                     title: 'Privacy Policy',
                                     subtitle: null,
                                     onTap: () => _openExternalLink(
-                                      'https://shop.pedeapetroleum.com/terms/privacy-policy',
+                                      'https://shop.bdcomputing.co.ke/terms/privacy-policy',
                                     ),
                                   ),
                                   _buildDivider(),
@@ -249,7 +249,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                     title: 'Terms & Conditions',
                                     subtitle: null,
                                     onTap: () => _openExternalLink(
-                                      'https://shop.pedeapetroleum.com/support-center/buyers',
+                                      'https://shop.bdcomputing.co.ke/support-center/buyers',
                                     ),
                                   ),
                                 ],

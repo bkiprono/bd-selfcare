@@ -76,7 +76,7 @@ class InitializationWidget extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
                   const Text(
-                    'Pedea On-The-Go',
+                    'BD On-The-Go',
                     style: TextStyle(
                       fontSize: 11,
                       fontWeight: FontWeight.w600,

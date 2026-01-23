@@ -254,7 +254,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                           ),
                           const SizedBox(height: 8),
                           Text(
-                            'Join Pedea Fulfillment Partner Program and grow your business today.',
+                            'Join BD Work OS Program and grow your business today.',
                             style: TextStyle(
                               color: Colors.white.withValues(alpha: 0.9),
                               fontSize: 15,
