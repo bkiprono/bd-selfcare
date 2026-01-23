@@ -14,7 +14,7 @@ class CustomerMessageCreate {
     required this.phone,
     this.purpose,
     this.message,
-    this.source = 'bd-otg',
+    this.source = 'bd-selfcare',
   });
 
   Map<String, dynamic> toJson() {

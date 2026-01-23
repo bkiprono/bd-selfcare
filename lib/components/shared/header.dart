@@ -69,9 +69,9 @@ class Header extends StatelessWidget implements PreferredSizeWidget {
           },
           child: const CircleAvatar(
             radius: 18,
-            backgroundColor: AppColors.secondaryDark,
+            backgroundColor: AppColors.primary,
             child: HugeIcon(
-              icon: HugeIcons.strokeRoundedUser03,
+              icon: HugeIcons.strokeRoundedUser02,
               color: Colors.white,
               size: 20,
             ),
@@ -80,7 +80,7 @@ class Header extends StatelessWidget implements PreferredSizeWidget {
         const SizedBox(width: 16),
       ],
 
-      iconTheme: const IconThemeData(color: AppColors.accent),
+      iconTheme: const IconThemeData(color: AppColors.primary),
     );
   }
 
