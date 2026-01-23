@@ -1,5 +1,6 @@
 import 'package:bdcomputing/models/common/project.dart';
 import 'package:bdcomputing/providers/providers.dart';
+import 'package:bdcomputing/screens/billing/invoices_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hugeicons/hugeicons.dart';
@@ -322,50 +323,63 @@ class ProjectDetailContent extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             ...project.invoices!.map((invoice) {
-              return Container(
-                margin: const EdgeInsets.only(bottom: 8),
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFF9FAFB),
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: const Color(0xFFE5E7EB)),
-                ),
-                child: Row(
-                  children: [
-                    const HugeIcon(
-                      icon: HugeIcons.strokeRoundedInvoice01,
-                      size: 20,
-                      color: Color(0xFF666666),
+              return InkWell(
+                onTap: () {
+                  showModalBottomSheet(
+                    context: context,
+                    isScrollControlled: true,
+                    backgroundColor: Colors.transparent,
+                    builder: (context) => InvoiceDetailSheet(
+                      invoice: invoice,
+                      onClose: () => Navigator.pop(context),
                     ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            invoice.serial,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 14,
-                            ),
-                          ),
-                          Text(
-                            NumberFormat.currency(symbol: 'KES ')
-                                .format(invoice.totalAmount),
-                            style: const TextStyle(
-                              fontSize: 12,
-                              color: Color(0xFF666666),
-                            ),
-                          ),
-                        ],
+                  );
+                },
+                child: Container(
+                  margin: const EdgeInsets.only(bottom: 8),
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF9FAFB),
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: const Color(0xFFE5E7EB)),
+                  ),
+                  child: Row(
+                    children: [
+                      const HugeIcon(
+                        icon: HugeIcons.strokeRoundedInvoice01,
+                        size: 20,
+                        color: Color(0xFF666666),
                       ),
-                    ),
-                    const HugeIcon(
-                      icon: HugeIcons.strokeRoundedArrowRight01,
-                      size: 18,
-                      color: Color(0xFF999999),
-                    ),
-                  ],
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              invoice.serial,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 14,
+                              ),
+                            ),
+                            Text(
+                              NumberFormat.currency(symbol: 'KES ')
+                                  .format(invoice.totalAmount),
+                              style: const TextStyle(
+                                fontSize: 12,
+                                color: Color(0xFF666666),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const HugeIcon(
+                        icon: HugeIcons.strokeRoundedArrowRight01,
+                        size: 18,
+                        color: Color(0xFF999999),
+                      ),
+                    ],
+                  ),
                 ),
               );
             }).toList(),

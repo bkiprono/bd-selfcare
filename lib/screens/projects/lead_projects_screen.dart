@@ -358,6 +358,8 @@ class _CreateLeadProjectSheetState extends ConsumerState<CreateLeadProjectSheet>
         'features': [], // Can be extended to allow feature input
       };
 
+      print('Submitting lead project with payload: $payload'); // Debug log
+
       await service.createLeadProject(payload);
 
       if (mounted) {
@@ -371,9 +373,14 @@ class _CreateLeadProjectSheetState extends ConsumerState<CreateLeadProjectSheet>
         );
       }
     } catch (e) {
+      print('Error creating lead project: $e'); // Debug log
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: $e')),
+          SnackBar(
+            content: Text('Error: ${e.toString()}'),
+            duration: const Duration(seconds: 5),
+            backgroundColor: Colors.red,
+          ),
         );
       }
     } finally {

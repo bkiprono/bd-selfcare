@@ -11,12 +11,23 @@ class LeadProjectService {
 
   /// Create a new lead project (quote request)
   Future<LeadProject> createLeadProject(Map<String, dynamic> payload) async {
-    final response = await _apiClient.post(ApiEndpoints.leadProjects, data: payload);
+    try {
+      final response = await _apiClient.post(ApiEndpoints.leadProjects, data: payload);
 
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      return LeadProject.fromJson(response.data['data']);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return LeadProject.fromJson(response.data['data']);
+      }
+      
+      // Extract error message from response
+      final errorMessage = response.data?['message'] ?? 'Failed to create lead project';
+      throw Exception('$errorMessage (Status: ${response.statusCode})');
+    } catch (e) {
+      // Re-throw with more context
+      if (e is Exception) {
+        rethrow;
+      }
+      throw Exception('Failed to create lead project: $e');
     }
-    throw Exception('Failed to create lead project: ${response.statusCode}');
   }
 
   Future<LeadProject> fetchLeadProjectById(String leadProjectId) async {

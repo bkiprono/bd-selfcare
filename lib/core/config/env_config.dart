@@ -1,6 +1,6 @@
 class EnvConfig {
-  static const String domainUrl = 'https://apis.bdcomputing.co.ke';
-  // static const String domainUrl = 'https://wadable-sidesplittingly-lashawn.ngrok-free.dev';
+  // static const String domainUrl = 'https://apis.bdcomputing.co.ke';
+  static const String domainUrl = 'https://corazon-disbursable-shaina.ngrok-free.dev';
   static const String devBaseUrl = '$domainUrl/api';
   static const String prodBaseUrl = '$domainUrl/api';
 
