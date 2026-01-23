@@ -1,4 +1,4 @@
-import 'package:bdcomputing/screens/store-setup/profile_screen.dart';
+import 'package:bdcomputing/screens/profile/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:bdcomputing/core/navigation/adaptive_page_route.dart';
 import 'package:bdcomputing/screens/auth/presentation/auth_guard.dart';
@@ -14,6 +14,7 @@ import 'package:bdcomputing/screens/onboarding_screen.dart';
 import 'package:bdcomputing/screens/payments/mpesa_payment_status.dart';
 import 'package:bdcomputing/screens/payments/initiate_payment_screen.dart';
 import 'package:bdcomputing/screens/payments/paybill_screen.dart';
+import 'package:bdcomputing/screens/payments/payments_screen.dart';
 import 'package:bdcomputing/screens/help/privacy_policy_screen.dart';
 import 'package:bdcomputing/screens/wrapper.dart';
 import 'package:bdcomputing/screens/help/terms_screen.dart';
@@ -40,6 +41,7 @@ class AppRoutes {
   static const String payment = '/payment';
   static const String paybill = '/paybill';
   static const String mpesaPaymentStatus = '/mpesa-payment-status';
+  static const String allPayments = '/all-payments';
 
   // Profile
   static const String getHelp = '/get_help';
@@ -105,6 +107,10 @@ class AppRoutes {
             checkoutRequestID: checkoutRequestID,
             orderId: orderId,
           ),
+        );
+      case allPayments:
+        return AdaptivePageRoute(
+          builder: (_) => const AuthGuard(child: PaymentsScreen()),
         );
 
       case privacyPolicy:

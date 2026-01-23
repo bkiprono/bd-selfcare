@@ -1,3 +1,4 @@
+import 'package:bdcomputing/core/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:bdcomputing/screens/auth/domain/auth_state.dart' show Authenticated;
@@ -125,6 +126,17 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                       Navigator.of(
                                         context,
                                       ).pushNamed('/my-fuel-orders');
+                                    }),
+                                  ),
+                                  _buildDivider(),
+                                  _buildMenuItem(
+                                    icon: Icons.payments_outlined,
+                                    title: 'Payments History',
+                                    subtitle: 'View your transaction history',
+                                    onTap: () => validateTokenBeforeAction(() {
+                                      Navigator.of(
+                                        context,
+                                      ).pushNamed(AppRoutes.allPayments);
                                     }),
                                   ),
                                 ],
