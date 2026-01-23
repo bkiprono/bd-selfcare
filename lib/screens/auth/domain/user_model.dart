@@ -24,6 +24,7 @@ class User {
   final String? userId;
   final RoleModel? role;
   final Client? client;
+  final String? leadId;
 
   const User({
     required this.id,
@@ -49,6 +50,7 @@ class User {
     this.userId,
     this.role,
     this.client,
+    this.leadId,
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
@@ -80,6 +82,7 @@ class User {
       client: json['client'] != null
           ? Client.fromJson(json['client'] as Map<String, dynamic>)
           : null,
+      leadId: json['leadId']?.toString(),
     );
   }
 
@@ -108,6 +111,7 @@ class User {
         'userId': userId,
         'role': role?.toJson(),
         'client': client?.toJson(),
+        'leadId': leadId,
       };
 
 }

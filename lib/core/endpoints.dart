@@ -51,4 +51,13 @@ class ApiEndpoints {
   static const String mpesaPaymentStatus = '$baseUrl/payments/mpesa/stk-push';
   static const String pesapalPayment = '$baseUrl/payments/pesapal';
   static const String payments = '$baseUrl/payments';
+
+  // Quotes
+  static const String quotes = '$baseUrl/quotes';
+
+  // Projects
+  static const String projects = '$baseUrl/projects';
+
+  // Lead Projects
+  static const String leadProjects = '$baseUrl/lead-projects';
 }

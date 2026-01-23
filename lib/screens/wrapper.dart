@@ -2,6 +2,8 @@ import 'package:bdcomputing/screens/billing/invoices_screen.dart';
 import 'package:bdcomputing/screens/billing/invoices_provider.dart';
 import 'package:bdcomputing/screens/payments/payments_screen.dart';
 import 'package:bdcomputing/screens/profile/profile_screen.dart';
+import 'package:bdcomputing/screens/projects/lead_projects_screen.dart';
+import 'package:bdcomputing/screens/projects/projects_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hugeicons/hugeicons.dart';
@@ -21,7 +23,8 @@ class _HomeWrapperState extends State<HomeWrapper> {
 
   final List<Widget> _screens = const [
     HomeTab(),
-    HomeTab(),
+    LeadProjectsScreen(),
+    ProjectsScreen(),
     BillingScreen(),
     PaymentsScreen(),
     ProfileScreen(),
@@ -52,7 +55,14 @@ class _HomeWrapperState extends State<HomeWrapper> {
                 ),
                 const BottomNavigationBarItem(
                   icon: HugeIcon(
-                    icon: HugeIcons.strokeRoundedWork,
+                    icon: HugeIcons.strokeRoundedFileValidation,
+                    size: 30,
+                  ),
+                  label: 'Requests',
+                ),
+                 const BottomNavigationBarItem(
+                  icon: HugeIcon(
+                    icon: HugeIcons.strokeRoundedFolderFileStorage,
                     size: 30,
                   ),
                   label: 'Projects',
