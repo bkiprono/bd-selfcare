@@ -87,20 +87,32 @@ class _HomeTabState extends ConsumerState<HomeTab>
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Hello,',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: AppColors.textSecondary,
-                  fontWeight: FontWeight.w400,
-                ),
+              Row(
+                children: [
+                  const Text(
+                    '✋',
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: AppColors.textPrimary,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                  Text(
+                    'Hello ${user?.name.split(' ')[0] ?? ''},',
+                    style: const TextStyle(
+                      fontSize: 20,
+                      color: AppColors.textPrimary,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                ],
               ),
-              Text(
-                user?.name ?? 'Sanusi Olamide',
-                style: const TextStyle(
+              const Text(
+                'Welcome back to BD',
+                style: TextStyle(
                   fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.textPrimary,
+                  fontWeight: FontWeight.w400,
+                  color: AppColors.textSecondary,
                 ),
               ),
             ],
@@ -202,7 +214,7 @@ class _HomeTabState extends ConsumerState<HomeTab>
             // Animated background pattern 1 (Top Right)
             Positioned(
               top: -100,
-              right: -100,
+              left: -100,
               child: AnimatedBuilder(
                 animation: _controller,
                 builder: (context, child) {
