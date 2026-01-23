@@ -1,6 +1,8 @@
 import 'package:bdcomputing/models/common/client.dart';
 import 'package:bdcomputing/models/common/currency.dart';
 import 'package:bdcomputing/models/common/invoice.dart';
+import 'package:bdcomputing/models/payments/payment_allocation.dart';
+import 'package:bdcomputing/models/payments/payment_channels.dart';
 
 class Payment {
   final String id;
@@ -32,13 +34,13 @@ class Payment {
   final Client? client;
   final Invoice? invoice;
   final Currency? currency;
-  final Map<String, dynamic>? cash;
-  final Map<String, dynamic>? mpesaManual;
-  final Map<String, dynamic>? cheque;
-  final Map<String, dynamic>? mpesa;
-  final Map<String, dynamic>? bankTransfer;
-  final Map<String, dynamic>? bankDeposit;
-  final List<dynamic>? allocations;
+  final CashPayment? cash;
+  final ManualMpesaPayment? mpesaManual;
+  final ChequePayment? cheque;
+  final MpesaTransaction? mpesa;
+  final BankTransferPayment? bankTransfer;
+  final BankDepositPayment? bankDeposit;
+  final List<PaymentAllocation>? allocations;
 
   Payment({
     required this.id,
@@ -112,13 +114,15 @@ class Payment {
       client: json['client'] != null ? Client.fromJson(json['client']) : null,
       invoice: json['invoice'] != null ? Invoice.fromJson(json['invoice']) : null,
       currency: json['currency'] != null ? Currency.fromJson(json['currency']) : null,
-      cash: json['cash'],
-      mpesaManual: json['mpesa_manual'],
-      cheque: json['cheque'],
-      mpesa: json['mpesa'],
-      bankTransfer: json['bank_transfer'],
-      bankDeposit: json['bank_deposit'],
-      allocations: json['allocations'],
+      cash: json['cash'] != null ? CashPayment.fromJson(json['cash']) : null,
+      mpesaManual: json['mpesa_manual'] != null ? ManualMpesaPayment.fromJson(json['mpesa_manual']) : null,
+      cheque: json['cheque'] != null ? ChequePayment.fromJson(json['cheque']) : null,
+      mpesa: json['mpesa'] != null ? MpesaTransaction.fromJson(json['mpesa']) : null,
+      bankTransfer: json['bank_transfer'] != null ? BankTransferPayment.fromJson(json['bank_transfer']) : null,
+      bankDeposit: json['bank_deposit'] != null ? BankDepositPayment.fromJson(json['bank_deposit']) : null,
+      allocations: (json['allocations'] as List? ?? [])
+          .map((e) => PaymentAllocation.fromJson(e))
+          .toList(),
     );
   }
 
@@ -151,13 +155,13 @@ class Payment {
       'client': client?.toJson(),
       'invoice': invoice?.toJson(),
       'currency': currency?.toJson(),
-      'cash': cash,
-      'mpesa_manual': mpesaManual,
-      'cheque': cheque,
-      'mpesa': mpesa,
-      'bank_transfer': bankTransfer,
-      'bank_deposit': bankDeposit,
-      'allocations': allocations,
+      'cash': cash?.toJson(),
+      'mpesa_manual': mpesaManual?.toJson(),
+      'cheque': cheque?.toJson(),
+      'mpesa': mpesa?.toJson(),
+      'bank_transfer': bankTransfer?.toJson(),
+      'bank_deposit': bankDeposit?.toJson(),
+      'allocations': allocations?.map((e) => e.toJson()).toList(),
     };
   }
 }

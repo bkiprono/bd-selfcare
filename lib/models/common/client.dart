@@ -44,7 +44,9 @@ class Client extends Equatable {
       openingBalance: (json['openingBalance'] ?? 0).toDouble(),
       verified: json['verified'] ?? false,
       createdBy: json['createdBy'],
-      createdAt: DateTime.parse(json['createdAt']),
+      createdAt: json['createdAt'] != null
+          ? DateTime.parse(json['createdAt'])
+          : DateTime.now(),
       accountNumber: json['accountNumber'] ?? '',
       serial: json['serial'] ?? '',
       uniqueId: json['uniqueId'] ?? 0,

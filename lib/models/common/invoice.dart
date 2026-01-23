@@ -55,7 +55,9 @@ class Invoice extends Equatable {
       serial: json['serial'] ?? '',
       subTotal: (json['subTotal'] ?? 0).toDouble(),
       status: json['status'] ?? '',
-      dueDate: DateTime.parse(json['dueDate']),
+      dueDate: json['dueDate'] != null
+          ? DateTime.parse(json['dueDate'])
+          : DateTime.now(),
       paymentTerms: json['paymentTerms'] ?? '',
       notes: json['notes'] ?? '',
       client: Client.fromJson(json['client'] ?? {}),
@@ -66,7 +68,9 @@ class Invoice extends Equatable {
       isDraft: json['isDraft'] ?? false,
       amountDue: (json['amountDue'] ?? 0).toDouble(),
       createdBy: json['createdBy'] ?? '',
-      createdAt: DateTime.parse(json['createdAt']),
+      createdAt: json['createdAt'] != null
+          ? DateTime.parse(json['createdAt'])
+          : DateTime.now(),
       invoiceLink: json['invoiceLink'] ?? '',
     );
   }

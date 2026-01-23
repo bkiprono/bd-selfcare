@@ -25,19 +25,21 @@ class Term {
 
   factory Term.fromJson(Map<String, dynamic> json) {
     return Term(
-      id: json['_id'] as String,
-      termsCategory: json['termsCategory'] as String,
-      title: json['title'] as String,
-      content: List<String>.from(json['content'] as List),
-      createdBy: json['createdBy'] as String,
-      createdAt: DateTime.parse(json['createdAt'] as String),
-      updatedBy: json['updatedBy'] as String?,
+      id: (json['_id'] ?? '').toString(),
+      termsCategory: (json['termsCategory'] ?? '').toString(),
+      title: (json['title'] ?? '').toString(),
+      content: List<String>.from(json['content'] as List? ?? []),
+      createdBy: (json['createdBy'] ?? '').toString(),
+      createdAt: json['createdAt'] != null
+          ? DateTime.parse(json['createdAt'].toString())
+          : DateTime.now(),
+      updatedBy: json['updatedBy']?.toString(),
       updatedAt: json['updatedAt'] != null
-          ? DateTime.parse(json['updatedAt'] as String)
+          ? DateTime.parse(json['updatedAt'].toString())
           : null,
-      deletedBy: json['deletedBy'] as String?,
+      deletedBy: json['deletedBy']?.toString(),
       deletedAt: json['deletedAt'] != null
-          ? DateTime.parse(json['deletedAt'] as String)
+          ? DateTime.parse(json['deletedAt'].toString())
           : null,
     );
   }
