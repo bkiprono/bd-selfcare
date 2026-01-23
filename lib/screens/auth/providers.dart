@@ -302,7 +302,7 @@ class OnboardingController extends StateNotifier<bool> {
     _load();
   }
 
-  static const _key = 'onboarding_seen';
+  static const _key = 'onboarding_complete';
 
   Future<void> _load() async {
     // Using SharedPreferences here is fine since it's non-sensitive UI state
