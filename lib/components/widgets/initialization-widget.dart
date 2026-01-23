@@ -8,6 +8,60 @@ class InitializationWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFFEDD00), // Yellow background
+      body: SafeArea(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // Logo
+              Image.network(
+                'https://bdcomputing.co.ke/assets/images/logos/favicon.png',
+                width: 120,
+                height: 120,
+                fit: BoxFit.contain,
+                errorBuilder: (context, error, stackTrace) {
+                  return Container(
+                    width: 120,
+                    height: 120,
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.3),
+                      borderRadius: BorderRadius.circular(60),
+                    ),
+                    child: const Icon(
+                      Icons.image_not_supported,
+                      size: 40,
+                      color: Colors.black54,
+                    ),
+                  );
+                },
+              ),
+              const SizedBox(height: 40),
+              // Loading Spinner
+              const SizedBox(
+                width: 32,
+                height: 32,
+                child: CircularProgressIndicator(
+                  strokeWidth: 3,
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    Color(0xFFD4B000), // Darker yellow for contrast
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class InitializationWidgetOld extends StatelessWidget {
+  const InitializationWidgetOld({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
       backgroundColor: Colors.white,
       body: Container(
         width: double.infinity,
