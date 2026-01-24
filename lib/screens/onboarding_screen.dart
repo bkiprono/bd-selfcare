@@ -23,7 +23,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> with Ticker
 
     OnboardingPage(
       topLabel: 'ONBOARDING',
-      title: 'Seamless\onboarding',
+      title: 'Seamless\n onboarding',
       illustration: 'assets/images/onboarding/onboarding-1.png',
       gradientColors: [
         const Color(0xFF4ADE80),

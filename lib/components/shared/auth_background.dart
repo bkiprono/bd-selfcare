@@ -52,9 +52,9 @@ class _AuthBackgroundState extends State<AuthBackground>
                     colors: [
                       Colors.white,
                       AppColors.primary.withValues(alpha: 0.005),
+                      AppColors.secondary700.withValues(alpha: 0.005),
                       AppColors.secondary.withValues(alpha: 0.005),
                       AppColors.accent.withValues(alpha: 0.005),
-                      Colors.white,
                     ],
                     stops: [
                       0.0,
