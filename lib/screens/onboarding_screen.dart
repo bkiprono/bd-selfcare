@@ -30,7 +30,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> with Ticker
         const Color(0xFF22D3EE),
       ],
       iconData: Icons.receipt_long_outlined,
-      hasSpecialEffect: true,
+      hasSpecialEffect: false,
     ),
     OnboardingPage(
       topLabel: 'BILLING',

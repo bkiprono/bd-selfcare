@@ -27,6 +27,7 @@ class FullScreenBackGestureDetector<T> extends StatefulWidget {
 
 class _FullScreenBackGestureDetectorState<T>
     extends State<FullScreenBackGestureDetector<T>> {
+  bool _wasGestureStarted = false;
   HorizontalDragGestureRecognizer? _recognizer;
 
   @override
@@ -47,10 +48,12 @@ class _FullScreenBackGestureDetectorState<T>
 
   void _handleDragStart(DragStartDetails details) {
     widget.onBackGestureStarted();
+    _wasGestureStarted = true;
     HapticFeedback.lightImpact(); // Tactile feedback on start
   }
 
   void _handleDragUpdate(DragUpdateDetails details) {
+    if (!_wasGestureStarted) return;
     // Normalize drag distance based on screen width
     final screenWidth = MediaQuery.of(context).size.width;
     if (screenWidth > 0) {
@@ -59,16 +62,20 @@ class _FullScreenBackGestureDetectorState<T>
   }
 
   void _handleDragEnd(DragEndDetails details) {
+    if (!_wasGestureStarted) return;
     final screenWidth = MediaQuery.of(context).size.width;
     if (screenWidth > 0) {
       widget.onBackGestureEnded(
         details.velocity.pixelsPerSecond.dx / screenWidth,
       );
     }
+    _wasGestureStarted = false;
   }
 
   void _handleDragCancel() {
+    if (!_wasGestureStarted) return;
     widget.onBackGestureEnded(0.0);
+    _wasGestureStarted = false;
   }
 
   void _handlePointerDown(PointerDownEvent event) {
