@@ -453,18 +453,6 @@ class _HomeTabState extends ConsumerState<HomeTab>
                 ),
               ),
               _buildActionItem(
-                HugeIcons.strokeRoundedMail01,
-                'Messages',
-                AppColors.primary,
-                AppColors.accent,
-                () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Messages coming soon!')),
-                  );
-                },
-              ),
-
-              _buildActionItem(
                 HugeIcons.strokeRoundedWallet01,
                 'Payments',
                 AppColors.primary,

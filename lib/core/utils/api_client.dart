@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:bdoneapp/core/config/env_config.dart';
 import 'package:bdoneapp/components/logger_config.dart';
 
@@ -60,12 +61,14 @@ class ApiClient {
       },
     ));
 
-    // Add logging interceptor if needed
-    dio.interceptors.add(LogInterceptor(
-      requestBody: false,
-      responseBody: false,
-      logPrint: (obj) => logger.d(obj.toString()),
-    ));
+    // Add logging interceptor only in debug mode
+    if (kDebugMode) {
+      dio.interceptors.add(LogInterceptor(
+        requestBody: false,
+        responseBody: false,
+        logPrint: (obj) => logger.d(obj.toString()),
+      ));
+    }
   }
 
   Future<Response> get(String path, {
