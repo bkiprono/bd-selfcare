@@ -24,18 +24,20 @@ class _LeadProjectDetailScreenState
   Quote? _quote;
   bool _isLoadingQuote = false;
   String? _quoteError;
+  late bool _hasQuote;
 
   @override
   void initState() {
     super.initState();
-    if (widget.leadProject.hasQuote) {
+    _hasQuote = widget.leadProject.hasQuote;
+    if (_hasQuote) {
       _fetchQuote();
     }
   }
 
-  Future<void> _fetchQuote() async {
+  Future<void> _fetchQuote({bool isRefresh = false}) async {
     setState(() {
-      _isLoadingQuote = true;
+      _isLoadingQuote = !isRefresh;
       _quoteError = null;
     });
 
@@ -56,11 +58,12 @@ class _LeadProjectDetailScreenState
           if (mounted) {
             setState(() {
               _quote = quote;
+              _hasQuote = true;
             });
           }
         } catch (e) {
-          // Quote not found in the list, though hasQuote is true
-          if (mounted) {
+          // Quote not found in the list
+          if (mounted && _hasQuote) {
             setState(() {
               _quoteError = 'Quote details not found.';
             });
@@ -105,42 +108,45 @@ class _LeadProjectDetailScreenState
         showCurrencyIcon: false,
         actions: [],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            // Status Banner
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              color: widget.leadProject.hasQuote
-                  ? const Color(0xFFECFDF5) // Green 50
-                  : const Color(0xFFFFFBEB), // Amber 50
-              child: Row(
-                children: [
-                  HugeIcon(
-                    icon: widget.leadProject.hasQuote
-                        ? HugeIcons.strokeRoundedCheckmarkCircle02
-                        : HugeIcons.strokeRoundedTime02,
-                    size: 20,
-                    color: widget.leadProject.hasQuote
-                        ? const Color(0xFF059669)
-                        : const Color(0xFFD97706),
-                  ),
-                  const SizedBox(width: 12),
-                  Text(
-                    widget.leadProject.hasQuote
-                        ? 'Quote Prepared'
-                        : 'Review In Progress',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      color: widget.leadProject.hasQuote
+      body: RefreshIndicator(
+        onRefresh: () => _fetchQuote(isRefresh: true),
+        child: SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          child: Column(
+            children: [
+              // Status Banner
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                color: _hasQuote
+                    ? const Color(0xFFECFDF5) // Green 50
+                    : const Color(0xFFFFFBEB), // Amber 50
+                child: Row(
+                  children: [
+                    HugeIcon(
+                      icon: _hasQuote
+                          ? HugeIcons.strokeRoundedCheckmarkCircle02
+                          : HugeIcons.strokeRoundedTime02,
+                      size: 20,
+                      color: _hasQuote
                           ? const Color(0xFF059669)
                           : const Color(0xFFD97706),
                     ),
-                  ),
-                ],
+                    const SizedBox(width: 12),
+                    Text(
+                      _hasQuote
+                          ? 'Quote Prepared'
+                          : 'Review In Progress',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        color: _hasQuote
+                            ? const Color(0xFF059669)
+                            : const Color(0xFFD97706),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
 
             Padding(
               padding: const EdgeInsets.all(24.0),
@@ -213,7 +219,7 @@ class _LeadProjectDetailScreenState
                   const SizedBox(height: 32),
 
                   // Quote Section
-                  if (widget.leadProject.hasQuote) ...[
+                  if (_hasQuote) ...[
                     const Text(
                       'Quote Details',
                       style: TextStyle(
@@ -273,6 +279,7 @@ class _LeadProjectDetailScreenState
             ),
           ],
         ),
+      ),
       ),
     );
   }

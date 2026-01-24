@@ -2,7 +2,7 @@ import 'package:bdoneapp/components/shared/header.dart';
 import 'package:bdoneapp/core/styles.dart';
 import 'package:bdoneapp/models/common/support_request.dart';
 import 'package:bdoneapp/screens/help/create_support_ticket_sheet.dart';
-import 'package:bdoneapp/screens/help/support_provider.dart';
+import 'package:bdoneapp/providers/support_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hugeicons/hugeicons.dart';
