@@ -339,6 +339,7 @@ class _CreateLeadProjectSheetState
   List<ServiceModel> _services = [];
   String? _selectedProductId;
   String? _selectedServiceId;
+  String? _fetchError;
   bool _isLoadingItems = false;
 
   @override
@@ -351,6 +352,7 @@ class _CreateLeadProjectSheetState
   Future<void> _fetchItems() async {
     setState(() {
       _isLoadingItems = true;
+      _fetchError = null;
       _selectedProductId = null;
       _selectedServiceId = null;
     });
@@ -358,17 +360,26 @@ class _CreateLeadProjectSheetState
     try {
       if (_selectedProjectType == 'product') {
         final products = await ref.read(productServiceProvider).fetchProducts();
-        setState(() {
-          _products = products;
-        });
+        if (mounted) {
+          setState(() {
+            _products = products;
+          });
+        }
       } else if (_selectedProjectType == 'service') {
         final services = await ref.read(serviceServiceProvider).fetchServices();
-        setState(() {
-          _services = services;
-        });
+        if (mounted) {
+          setState(() {
+            _services = services;
+          });
+        }
       }
     } catch (e) {
       print('Error fetching items: $e');
+      if (mounted) {
+        setState(() {
+          _fetchError = 'Failed to load items. Please try again.';
+        });
+      }
     } finally {
       if (mounted) {
         setState(() {
@@ -759,22 +770,45 @@ class _CreateLeadProjectSheetState
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          RichText(
-                            text: const TextSpan(
-                              text: 'Choose Product',
-                              style: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w600,
-                                color: AppColors.textPrimary,
-                              ),
-                              children: [
-                                TextSpan(
-                                  text: ' *',
-                                  style: TextStyle(color: Colors.red),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              RichText(
+                                text: const TextSpan(
+                                  text: 'Choose Product',
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w600,
+                                    color: AppColors.textPrimary,
+                                  ),
+                                  children: [
+                                    TextSpan(
+                                      text: ' *',
+                                      style: TextStyle(color: Colors.red),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
+                              ),
+                              if (_fetchError != null)
+                                TextButton(
+                                  onPressed: _fetchItems,
+                                  style: TextButton.styleFrom(
+                                    padding: EdgeInsets.zero,
+                                    minimumSize: const Size(50, 20),
+                                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                  ),
+                                  child: const Text('Retry', style: TextStyle(fontSize: 12)),
+                                ),
+                            ],
                           ),
+                          if (_fetchError != null)
+                            Padding(
+                              padding: const EdgeInsets.only(top: 4, bottom: 4),
+                              child: Text(
+                                _fetchError!,
+                                style: const TextStyle(color: Colors.red, fontSize: 12),
+                              ),
+                            ),
                           const SizedBox(height: 8),
                           DropdownButtonFormField<String>(
                             initialValue: _selectedProductId,
@@ -782,7 +816,9 @@ class _CreateLeadProjectSheetState
                               border: const OutlineInputBorder(),
                               hintText: _isLoadingItems
                                   ? 'Loading products...'
-                                  : 'Select a product',
+                                  : _fetchError != null
+                                      ? 'Error loading products'
+                                      : 'Select a product',
                               suffixIcon: _isLoadingItems
                                   ? const SizedBox(
                                       width: 20,
@@ -826,22 +862,45 @@ class _CreateLeadProjectSheetState
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          RichText(
-                            text: const TextSpan(
-                              text: 'Choose Service',
-                              style: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w600,
-                                color: AppColors.textPrimary,
-                              ),
-                              children: [
-                                TextSpan(
-                                  text: ' *',
-                                  style: TextStyle(color: Colors.red),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              RichText(
+                                text: const TextSpan(
+                                  text: 'Choose Service',
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w600,
+                                    color: AppColors.textPrimary,
+                                  ),
+                                  children: [
+                                    TextSpan(
+                                      text: ' *',
+                                      style: TextStyle(color: Colors.red),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
+                              ),
+                              if (_fetchError != null)
+                                TextButton(
+                                  onPressed: _fetchItems,
+                                  style: TextButton.styleFrom(
+                                    padding: EdgeInsets.zero,
+                                    minimumSize: const Size(50, 20),
+                                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                  ),
+                                  child: const Text('Retry', style: TextStyle(fontSize: 12)),
+                                ),
+                            ],
                           ),
+                          if (_fetchError != null)
+                            Padding(
+                              padding: const EdgeInsets.only(top: 4, bottom: 4),
+                              child: Text(
+                                _fetchError!,
+                                style: const TextStyle(color: Colors.red, fontSize: 12),
+                              ),
+                            ),
                           const SizedBox(height: 8),
                           DropdownButtonFormField<String>(
                             initialValue: _selectedServiceId,
@@ -849,7 +908,9 @@ class _CreateLeadProjectSheetState
                               border: const OutlineInputBorder(),
                               hintText: _isLoadingItems
                                   ? 'Loading services...'
-                                  : 'Select a service',
+                                  : _fetchError != null
+                                      ? 'Error loading services'
+                                      : 'Select a service',
                               suffixIcon: _isLoadingItems
                                   ? const SizedBox(
                                       width: 20,

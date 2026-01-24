@@ -77,7 +77,10 @@ class User {
       phoneVerified: json['phoneVerified'] ?? false,
       verified: json['verified'] ?? false,
       customerId: json['customerId']?.toString(),
-      clientId: json['clientId']?.toString(),
+      clientId: json['clientId']?.toString() ??
+          (json['client'] != null && json['client'] is Map
+              ? (json['client']['_id'] ?? json['client']['id'])?.toString()
+              : null),
       profileImage: json['profileImage']?.toString(),
       defaultAddress: json['defaultAddress']?.toString(),
       passwordResetCode: json['passwordResetCode']?.toString(),
@@ -88,20 +91,29 @@ class User {
       notifications: (json['notifications'] as List<dynamic>? ?? [])
           .map((n) => NotificationSetting.fromJson(n as Map<String, dynamic>))
           .toList(),
-      createdAt: json['createdAt'] != null ? DateTime.tryParse(json['createdAt']) : null,
-      lastPasswordChange: json['lastPasswordChange'] != null ? DateTime.tryParse(json['lastPasswordChange']) : null,
+      createdAt: json['createdAt'] != null
+          ? DateTime.tryParse(json['createdAt'])
+          : null,
+      lastPasswordChange: json['lastPasswordChange'] != null
+          ? DateTime.tryParse(json['lastPasswordChange'])
+          : null,
       userId: json['userId']?.toString(),
-      role: json['role'] != null ? RoleModel.fromJson(json['role'] as Map<String, dynamic>) : null,
-      client: json['client'] != null
+      role: json['role'] != null
+          ? RoleModel.fromJson(json['role'] as Map<String, dynamic>)
+          : null,
+      client: json['client'] != null && json['client'] is Map
           ? Client.fromJson(json['client'] as Map<String, dynamic>)
           : null,
-      leadId: json['leadId']?.toString(),
+      leadId: json['leadId']?.toString() ??
+          (json['lead'] != null && json['lead'] is Map
+              ? (json['lead']['_id'] ?? json['lead']['id'])?.toString()
+              : null),
       mfaEnabled: json['mfaEnabled'] ?? false,
       mfaMethods: (json['mfaMethods'] as List<dynamic>? ?? [])
           .map((m) => MfaMethod.fromString(m.toString()))
           .toList(),
-      preferredMfaMethod: json['preferredMfaMethod'] != null 
-          ? MfaMethod.fromString(json['preferredMfaMethod'].toString()) 
+      preferredMfaMethod: json['preferredMfaMethod'] != null
+          ? MfaMethod.fromString(json['preferredMfaMethod'].toString())
           : null,
       whatsappVerified: json['whatsappVerified'] ?? false,
       googleAuthEnabled: json['googleAuthEnabled'] ?? false,
