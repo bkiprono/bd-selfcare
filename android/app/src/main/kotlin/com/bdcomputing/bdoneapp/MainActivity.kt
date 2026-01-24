@@ -1,4 +1,4 @@
-package com.example.bdcomputing
+package com.bdcomputing.bdoneapp
 
 import io.flutter.embedding.android.FlutterActivity
 
