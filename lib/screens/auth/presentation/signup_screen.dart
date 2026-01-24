@@ -396,8 +396,9 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                     variant: 'filled',
                     validator: (v) {
                       if (v == null || v.isEmpty) return 'Password is required';
-                      if (v.length < 8)
+                      if (v.length < 8) {
                         return 'Password must be at least 8 characters';
+                      }
                       return null;
                     },
                   ),
@@ -411,10 +412,12 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                     isRequired: true,
                     variant: 'filled',
                     validator: (v) {
-                      if (v == null || v.isEmpty)
+                      if (v == null || v.isEmpty) {
                         return 'Please confirm your password';
-                      if (v != _passwordCtrl.text)
+                      }
+                      if (v != _passwordCtrl.text) {
                         return 'Passwords do not match';
+                      }
                       return null;
                     },
                   ),
@@ -517,7 +520,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
           hintText: hintText,
         ),
         items: items,
-        value: value,
+        initialValue: value,
         onChanged: onChanged,
       ),
     );

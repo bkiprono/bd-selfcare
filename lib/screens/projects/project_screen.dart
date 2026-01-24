@@ -267,7 +267,7 @@ class ProjectDetailContent extends StatelessWidget {
                   ],
                 ),
               );
-            }).toList(),
+            }),
           ],
 
           // Links
@@ -361,7 +361,7 @@ class ProjectDetailContent extends StatelessWidget {
                   ),
                 ),
               );
-            }).toList(),
+            }),
           ],
 
           const SizedBox(height: 32),

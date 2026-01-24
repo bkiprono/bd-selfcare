@@ -640,7 +640,7 @@ class _CreateLeadProjectSheetState
                         ),
                         const SizedBox(height: 8),
                         DropdownButtonFormField<String>(
-                          value: _selectedSource,
+                          initialValue: _selectedSource,
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                           ),
@@ -722,7 +722,7 @@ class _CreateLeadProjectSheetState
                         ),
                         const SizedBox(height: 8),
                         DropdownButtonFormField<String>(
-                          value: _selectedProjectType,
+                          initialValue: _selectedProjectType,
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                           ),
@@ -777,7 +777,7 @@ class _CreateLeadProjectSheetState
                           ),
                           const SizedBox(height: 8),
                           DropdownButtonFormField<String>(
-                            value: _selectedProductId,
+                            initialValue: _selectedProductId,
                             decoration: InputDecoration(
                               border: const OutlineInputBorder(),
                               hintText: _isLoadingItems
@@ -844,7 +844,7 @@ class _CreateLeadProjectSheetState
                           ),
                           const SizedBox(height: 8),
                           DropdownButtonFormField<String>(
-                            value: _selectedServiceId,
+                            initialValue: _selectedServiceId,
                             decoration: InputDecoration(
                               border: const OutlineInputBorder(),
                               hintText: _isLoadingItems

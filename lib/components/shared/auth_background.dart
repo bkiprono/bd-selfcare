@@ -23,8 +23,8 @@ class _AuthBackgroundState extends State<AuthBackground>
       vsync: this,
       duration: const Duration(seconds: 40),
     )..repeat();
-    const int _particleCount = 12;
-    for (int i = 0; i < _particleCount; i++) {
+    const int particleCount = 12;
+    for (int i = 0; i < particleCount; i++) {
       _particles.add(_Particle());
     }
   }
