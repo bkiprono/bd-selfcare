@@ -6,6 +6,7 @@ import 'package:bdcomputing/core/styles.dart';
 import 'package:bdcomputing/components/shared/custom_text_field.dart';
 import 'package:bdcomputing/components/shared/custom_button.dart';
 import 'package:hugeicons/hugeicons.dart';
+import 'package:bdcomputing/components/shared/auth_background.dart';
 
 class UpdatePasswordScreen extends ConsumerStatefulWidget {
   final String token;
@@ -93,9 +94,9 @@ class _UpdatePasswordScreenState extends ConsumerState<UpdatePasswordScreen> {
     final isLoading = _submitting || state is AuthLoading;
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: AppColors.background,
+        backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
           icon: const HugeIcon(
@@ -105,114 +106,114 @@ class _UpdatePasswordScreenState extends ConsumerState<UpdatePasswordScreen> {
           onPressed: () => Navigator.pop(context),
         ),
       ),
-      body: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  const SizedBox(height: 20),
-                  
-                  // Logo/Icon
-                  Center(
-                    child: Container(
-                      width: 64,
-                      height: 64,
-                      decoration: BoxDecoration(
-                        color: AppColors.primary,
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: const Center(
-                        child: HugeIcon(
-                          icon: HugeIcons.strokeRoundedLockPassword,
+      extendBodyBehindAppBar: true,
+      body: AuthBackground(
+        child: SafeArea(
+          child: Center(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const SizedBox(height: 20),
+                    
+                    // Logo/Icon
+                    Center(
+                      child: Container(
+                        width: 150,
+                        decoration: BoxDecoration(
                           color: Colors.white,
-                          size: 32,
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: const Center(
+                          child: Image(
+                            image: AssetImage('assets/images/brand/dark.png'),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 32),
-                  
-                  // Title
-                  const Text(
-                    'Update Password',
-                    style: TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.textPrimary,
+                    const SizedBox(height: 32),
+                    
+                    // Title
+                    const Text(
+                      'Update Password',
+                      style: TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.textPrimary,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 8),
-                  
-                  // Subtitle
-                  const Text(
-                    'Enter your new password below',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: AppColors.textSecondary,
-                      height: 1.5,
+                    const SizedBox(height: 8),
+                    
+                    // Subtitle
+                    const Text(
+                      'Enter your new password below',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: AppColors.textSecondary,
+                        height: 1.5,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 40),
-
-                  // New Password Field
-                  CustomTextField(
-                    label: 'New Password',
-                    controller: _passwordCtrl,
-                    hintText: 'New Password',
-                    prefixIcon: HugeIcons.strokeRoundedLockPassword,
-                    isRequired: true,
-                    isPassword: true,
-                    variant: 'filled',
-                    showLabel: true,
-                    validator: (v) {
-                      if (v == null || v.isEmpty) {
-                        return 'Password is required';
-                      }
-                      if (v.length < 8) {
-                        return 'Password must be at least 8 characters';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 16),
-
-                  // Confirm Password Field
-                  CustomTextField(
-                    label: 'Confirm Password',
-                    controller: _confirmPasswordCtrl,
-                    hintText: 'Confirm Password',
-                    prefixIcon: HugeIcons.strokeRoundedLockPassword,
-                    isRequired: true,
-                    isPassword: true,
-                    variant: 'filled',
-                    showLabel: true,
-                    validator: (v) {
-                      if (v == null || v.isEmpty) {
-                        return 'Please confirm your password';
-                      }
-                      if (v != _passwordCtrl.text) {
-                        return 'Passwords do not match';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 24),
-
-                  // Update Password Button
-                  CustomButton(
-                    text: 'Update Password',
-                    onPressed: _submit,
-                    isLoading: isLoading,
-                  ),
-                  const SizedBox(height: 40),
-                ],
+                    const SizedBox(height: 40),
+  
+                    // New Password Field
+                    CustomTextField(
+                      label: 'New Password',
+                      controller: _passwordCtrl,
+                      hintText: 'New Password',
+                      prefixIcon: HugeIcons.strokeRoundedLockPassword,
+                      isRequired: true,
+                      isPassword: true,
+                      variant: 'filled',
+                      showLabel: true,
+                      validator: (v) {
+                        if (v == null || v.isEmpty) {
+                          return 'Password is required';
+                        }
+                        if (v.length < 8) {
+                          return 'Password must be at least 8 characters';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 16),
+  
+                    // Confirm Password Field
+                    CustomTextField(
+                      label: 'Confirm Password',
+                      controller: _confirmPasswordCtrl,
+                      hintText: 'Confirm Password',
+                      prefixIcon: HugeIcons.strokeRoundedLockPassword,
+                      isRequired: true,
+                      isPassword: true,
+                      variant: 'filled',
+                      showLabel: true,
+                      validator: (v) {
+                        if (v == null || v.isEmpty) {
+                          return 'Please confirm your password';
+                        }
+                        if (v != _passwordCtrl.text) {
+                          return 'Passwords do not match';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 24),
+  
+                    // Update Password Button
+                    CustomButton(
+                      text: 'Update Password',
+                      onPressed: _submit,
+                      isLoading: isLoading,
+                    ),
+                    const SizedBox(height: 40),
+                  ],
+                ),
               ),
             ),
           ),

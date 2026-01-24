@@ -5,6 +5,7 @@ import 'package:bdcomputing/core/styles.dart';
 import 'package:bdcomputing/components/shared/custom_text_field.dart';
 import 'package:bdcomputing/components/shared/custom_button.dart';
 import 'package:hugeicons/hugeicons.dart';
+import 'package:bdcomputing/components/shared/auth_background.dart';
 
 class ForgotPasswordScreen extends ConsumerStatefulWidget {
   const ForgotPasswordScreen({super.key});
@@ -69,9 +70,9 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
     final isLoading = _submitting || state is AuthLoading;
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: AppColors.background,
+        backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
           icon: const HugeIcon(
@@ -81,105 +82,103 @@ class _ForgotPasswordScreenState extends ConsumerState<ForgotPasswordScreen> {
           onPressed: () => Navigator.pop(context),
         ),
       ),
-      body: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  const SizedBox(height: 20),
-                  
-                  // Logo/Icon
-                  Center(
-                    child: Container(
-                      width: 64,
-                      height: 64,
-                      decoration: BoxDecoration(
-                        color: AppColors.primary,
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: const Center(
-                        child: HugeIcon(
-                          icon: HugeIcons.strokeRoundedLockPassword,
+      extendBodyBehindAppBar: true,
+      body: AuthBackground(
+        child: SafeArea(
+          child: Center(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const SizedBox(height: 20),
+                    
+                    // Logo/Icon
+                    Center(
+                      child: Container(
+                        width: 150,
+                        decoration: BoxDecoration(
                           color: Colors.white,
-                          size: 32,
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: const Center(
+                          child: Image(
+                            image: AssetImage('assets/images/brand/dark.png'),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 32),
-                  
-                  // Title
-                  const Text(
-                    'Forgot Password?',
-                    style: TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.textPrimary,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 8),
-                  
-                  // Subtitle
-                  Text(
-                    'Enter your email address and we\'ll send you\na link to reset your password',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: AppColors.textSecondary,
-                      height: 1.5,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 40),
-
-                  // Email Field
-                  CustomTextField(
-                    label: 'Email',
-                    controller: _emailCtrl,
-                    hintText: 'e.g., john@example.com',
-                    prefixIcon: HugeIcons.strokeRoundedMail01,
-                    isRequired: true,
-                    keyboardType: TextInputType.emailAddress,
-                    variant: 'filled',
-                    showLabel: true,
-                    validator: (v) =>
-                        (v == null || v.isEmpty) ? 'Email is required' : null,
-                  ),
-                  const SizedBox(height: 24),
-
-                  // Send Reset Link Button
-                  CustomButton(
-                    text: 'Send Reset Link',
-                    onPressed: _submit,
-                    isLoading: isLoading,
-                  ),
-                  const SizedBox(height: 24),
-
-                  // Back to Login
-                  Center(
-                    child: TextButton(
-                      onPressed: isLoading
-                          ? null
-                          : () => Navigator.pop(context),
-                      style: TextButton.styleFrom(
-                        foregroundColor: AppColors.primary,
+                    const SizedBox(height: 32),
+                    
+                    // Title
+                    const Text(
+                      'Forgot Password?',
+                      style: TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.textPrimary,
                       ),
-                      child: const Text(
-                        'Back to Login',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 8),
+                    
+                    // Subtitle
+                    const Text(
+                      'Enter your email address and we\'ll send you\na link to reset your password',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: AppColors.textSecondary,
+                        height: 1.5,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 40),
+  
+                    // Email Field
+                    CustomTextField(
+                      label: 'Email',
+                      controller: _emailCtrl,
+                      hintText: 'e.g., john@example.com',
+                      prefixIcon: HugeIcons.strokeRoundedMail01,
+                      isRequired: true,
+                      keyboardType: TextInputType.emailAddress,
+                      variant: 'filled',
+                      showLabel: true,
+                      validator: (v) =>
+                          (v == null || v.isEmpty) ? 'Email is required' : null,
+                    ),
+                    const SizedBox(height: 24),
+  
+                    // Send Reset Link Button
+                    CustomButton(
+                      text: 'Send Reset Link',
+                      onPressed: _submit,
+                      isLoading: isLoading,
+                    ),
+                    const SizedBox(height: 24),
+  
+                    // Back to Login Link
+                    Center(
+                      child: TextButton(
+                        onPressed: isLoading ? null : () => Navigator.of(context).pop(),
+                        style: TextButton.styleFrom(
+                          foregroundColor: AppColors.primary,
+                        ),
+                        child: const Text(
+                          'Back to Login',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 40),
-                ],
+                    const SizedBox(height: 40),
+                  ],
+                ),
               ),
             ),
           ),
