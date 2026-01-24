@@ -85,7 +85,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   _buildMenuItem(
-                                    icon: Icons.settings_outlined,
+                                    icon: HugeIcons.strokeRoundedSettings01,
                                     title: 'Settings',
                                     subtitle: 'Account and app settings',
                                     onTap: () => validateTokenBeforeAction(() {
@@ -122,7 +122,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                               child: Column(
                                 children: [
                                   _buildMenuItem(
-                                    icon: Icons.headset_mic_outlined,
+                                    icon: HugeIcons.strokeRoundedCustomerSupport,
                                     title: 'Contact Support',
                                     subtitle: 'Get help from our team',
                                     onTap: () => Navigator.of(
@@ -131,7 +131,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                   ),
                                   _buildDivider(),
                                   _buildMenuItem(
-                                    icon: Icons.help_outline,
+                                    icon: HugeIcons.strokeRoundedHelpSquare,
                                     title: 'Help Center',
                                     subtitle: 'FAQs and guides',
                                     onTap: () => _openExternalLink(
@@ -140,7 +140,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                   ),
                                   _buildDivider(),
                                   _buildMenuItem(
-                                    icon: Icons.shield_outlined,
+                                    icon: HugeIcons.strokeRoundedShield01,
                                     title: 'Privacy Policy',
                                     subtitle: null,
                                     onTap: () => _openExternalLink(
@@ -149,7 +149,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                   ),
                                   _buildDivider(),
                                   _buildMenuItem(
-                                    icon: Icons.description_outlined,
+                                    icon: HugeIcons.strokeRoundedComputerTerminal01,
                                     title: 'Terms & Conditions',
                                     subtitle: null,
                                     onTap: () => _openExternalLink(
@@ -172,7 +172,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                 borderRadius: BorderRadius.circular(14),
                               ),
                               child: _buildMenuItem(
-                                icon: Icons.logout_outlined,
+                                icon: HugeIcons.strokeRoundedLogout01,
                                 title: 'Log out',
                                 subtitle: null,
                                 textColor: Colors.red[700],
@@ -250,7 +250,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                     : const Color(0xFFF5F5F5),
                 borderRadius: BorderRadius.circular(6),
               ),
-              child: Icon(icon, color: textColor ?? Colors.black87, size: 16),
+              child: HugeIcon(icon: icon, color: textColor ?? Colors.black87, size: 16),
             ),
             const SizedBox(width: 10),
             Expanded(

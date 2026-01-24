@@ -25,7 +25,7 @@ class _MfaSettingsScreenState extends ConsumerState<MfaSettingsScreen> {
         _showTotpSetup();
         return;
       }
-      
+
       await ref.read(authProvider.notifier).toggleMfaMethod(method, enabled);
       Fluttertoast.showToast(msg: 'MFA settings updated');
     } catch (e) {
@@ -45,112 +45,137 @@ class _MfaSettingsScreenState extends ConsumerState<MfaSettingsScreen> {
     final authState = ref.watch(authProvider);
     final user = authState is Authenticated ? authState.user : null;
 
-    if (user == null) return const Scaffold(body: Center(child: Text('Not logged in')));
+    if (user == null)
+      return const Scaffold(body: Center(child: Text('Not logged in')));
 
     return Scaffold(
       backgroundColor: const Color(0xFFF8F9FA),
       appBar: AppBar(
-        title: const Text('MFA & Security', style: TextStyle(fontWeight: FontWeight.bold)),
+        title: const Text(
+          'MFA & Security',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
         backgroundColor: Colors.white,
         foregroundColor: AppColors.textPrimary,
         elevation: 0,
       ),
-      body: _isLoading 
-        ? const Center(child: CircularProgressIndicator())
-        : ListView(
-            padding: const EdgeInsets.all(20),
-            children: [
-              // Header Status Card
-              Container(
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(16),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.05),
-                      blurRadius: 10,
-                      offset: const Offset(0, 4),
-                    ),
-                  ],
-                ),
-                child: Row(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: user.mfaEnabled ? Colors.green.withOpacity(0.1) : Colors.red.withOpacity(0.1),
-                        shape: BoxShape.circle,
+      body: _isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : ListView(
+              padding: const EdgeInsets.all(20),
+              children: [
+                // Header Status Card
+                Container(
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(16),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.05),
+                        blurRadius: 10,
+                        offset: const Offset(0, 4),
                       ),
-                      child: HugeIcon(
-                        icon: user.mfaEnabled ? HugeIcons.strokeRoundedShield01 : HugeIcons.strokeRoundedShield02,
-                        color: user.mfaEnabled ? Colors.green : Colors.red,
+                    ],
+                  ),
+                  child: Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: user.mfaEnabled
+                              ? Colors.green.withOpacity(0.1)
+                              : Colors.red.withOpacity(0.1),
+                          shape: BoxShape.circle,
+                        ),
+                        child: HugeIcon(
+                          icon: user.mfaEnabled
+                              ? HugeIcons.strokeRoundedShield01
+                              : HugeIcons.strokeRoundedShield02,
+                          color: user.mfaEnabled ? Colors.green : Colors.red,
+                        ),
                       ),
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            user.mfaEnabled ? 'Protection Active' : 'MFA Disabled',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: user.mfaEnabled ? Colors.green : Colors.red,
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              user.mfaEnabled
+                                  ? 'Protection Active'
+                                  : 'MFA Disabled',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: user.mfaEnabled
+                                    ? Colors.green
+                                    : Colors.red,
+                              ),
                             ),
-                          ),
-                          const Text(
-                            'Add an extra layer of security to your account.',
-                            style: TextStyle(fontSize: 12, color: AppColors.textSecondary),
-                          ),
-                        ],
+                            const Text(
+                              'Add an extra layer of security to your account.',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: AppColors.textSecondary,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              const SizedBox(height: 24),
-              
-              // Methods List
-              _buildMethodCard(
-                title: 'Email OTP',
-                subtitle: 'Verification codes sent to registered email.',
-                icon: HugeIcons.strokeRoundedMail01,
-                iconBg: Colors.blue.withOpacity(0.1),
-                iconColor: Colors.blue,
-                isSelected: user.mfaMethods.contains(MfaMethod.email),
-                onChanged: (val) => _toggleMethod(MfaMethod.email, val),
-              ),
-              const SizedBox(height: 12),
-              
-              _buildMethodCard(
-                title: 'WhatsApp',
-                subtitle: user.phone != null ? 'Official WhatsApp notifications.' : 'Setup phone number first.',
-                icon: HugeIcons.strokeRoundedWhatsapp,
-                iconBg: Colors.green.withOpacity(0.1),
-                iconColor: Colors.green,
-                isSelected: user.mfaMethods.contains(MfaMethod.whatsapp),
-                enabled: user.phone != null,
-                badge: user.phone != null && user.whatsappVerified 
-                    ? _buildBadge('Verified', Colors.green) 
-                    : user.phone != null ? _buildBadge('Verification Pending', Colors.orange) : null,
-                onChanged: (val) => _toggleMethod(MfaMethod.whatsapp, val),
-              ),
-              const SizedBox(height: 12),
-              
-              _buildMethodCard(
-                title: 'Authenticator App',
-                subtitle: 'Secure app-based codes (TOTP).',
-                icon: HugeIcons.strokeRoundedShield01,
-                iconBg: Colors.purple.withOpacity(0.1),
-                iconColor: Colors.purple,
-                isSelected: user.mfaMethods.contains(MfaMethod.totp),
-                badge: !user.mfaMethods.contains(MfaMethod.totp) ? _buildBadge('Setup Required', AppColors.primary, isUnderlined: true) : null,
-                onChanged: (val) => _toggleMethod(MfaMethod.totp, val),
-              ),
-            ],
-          ),
+                const SizedBox(height: 24),
+
+                // Methods List
+                _buildMethodCard(
+                  title: 'Email OTP',
+                  subtitle: 'Verification codes sent to registered email.',
+                  icon: HugeIcons.strokeRoundedMail01,
+                  iconBg: Colors.blue.withOpacity(0.1),
+                  iconColor: Colors.blue,
+                  isSelected: user.mfaMethods.contains(MfaMethod.email),
+                  onChanged: (val) => _toggleMethod(MfaMethod.email, val),
+                ),
+                const SizedBox(height: 12),
+
+                _buildMethodCard(
+                  title: 'WhatsApp',
+                  subtitle: user.phone != null
+                      ? 'Official WhatsApp notifications.'
+                      : 'Setup phone number first.',
+                  icon: HugeIcons.strokeRoundedWhatsapp,
+                  iconBg: Colors.green.withOpacity(0.1),
+                  iconColor: Colors.green,
+                  isSelected: user.mfaMethods.contains(MfaMethod.whatsapp),
+                  enabled: user.phone != null,
+                  badge: user.phone != null && user.whatsappVerified
+                      ? _buildBadge('Verified', Colors.green)
+                      : user.phone != null
+                      ? _buildBadge('Verification Pending', Colors.orange)
+                      : null,
+                  onChanged: (val) => _toggleMethod(MfaMethod.whatsapp, val),
+                ),
+                const SizedBox(height: 12),
+
+                _buildMethodCard(
+                  title: 'Authenticator App',
+                  subtitle: 'Secure app-based codes (TOTP).',
+                  icon: HugeIcons.strokeRoundedShield01,
+                  iconBg: Colors.purple.withOpacity(0.1),
+                  iconColor: Colors.purple,
+                  isSelected: user.mfaMethods.contains(MfaMethod.totp),
+                  badge: !user.mfaMethods.contains(MfaMethod.totp)
+                      ? _buildBadge(
+                          'Setup Required',
+                          AppColors.primary,
+                          isUnderlined: true,
+                        )
+                      : null,
+                  onChanged: (val) => _toggleMethod(MfaMethod.totp, val),
+                ),
+              ],
+            ),
     );
   }
 
@@ -171,7 +196,9 @@ class _MfaSettingsScreenState extends ConsumerState<MfaSettingsScreen> {
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: isSelected ? AppColors.primary.withOpacity(0.5) : Colors.transparent,
+          color: isSelected
+              ? AppColors.primary.withOpacity(0.5)
+              : Colors.transparent,
           width: 2,
         ),
         boxShadow: [
@@ -188,11 +215,8 @@ class _MfaSettingsScreenState extends ConsumerState<MfaSettingsScreen> {
           children: [
             Container(
               padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: iconBg,
-                shape: BoxShape.circle,
-              ),
-              child: Icon(icon, color: iconColor, size: 24),
+              decoration: BoxDecoration(color: iconBg, shape: BoxShape.circle),
+              child: HugeIcon(icon: icon, color: iconColor, size: 24),
             ),
             const SizedBox(width: 16),
             Expanded(
@@ -203,18 +227,21 @@ class _MfaSettingsScreenState extends ConsumerState<MfaSettingsScreen> {
                     children: [
                       Text(
                         title,
-                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
                       ),
-                      if (badge != null) ...[
-                        const SizedBox(width: 8),
-                        badge,
-                      ],
+                      if (badge != null) ...[const SizedBox(width: 8), badge],
                     ],
                   ),
                   const SizedBox(height: 4),
                   Text(
                     subtitle,
-                    style: const TextStyle(fontSize: 12, color: AppColors.textSecondary),
+                    style: const TextStyle(
+                      fontSize: 12,
+                      color: AppColors.textSecondary,
+                    ),
                   ),
                 ],
               ),
