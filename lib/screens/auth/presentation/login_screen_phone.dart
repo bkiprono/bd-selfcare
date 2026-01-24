@@ -99,22 +99,19 @@ class _LoginWithPhoneScreenState extends ConsumerState<LoginWithPhoneScreen> {
                   
                   // Logo/Icon
                   Center(
-                    child: Container(
-                      width: 64,
-                      height: 64,
-                      decoration: BoxDecoration(
-                        color: AppColors.primary,
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: const Center(
-                        child: HugeIcon(
-                          icon: HugeIcons.strokeRoundedAiMagic,
-                          color: Colors.white,
-                          size: 32,
-                        ),
+                  child: Container(
+                    width: 150,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: const Center(
+                      child: Image(
+                        image: AssetImage('assets/images/brand/dark.png'),
                       ),
                     ),
                   ),
+                ),
                   const SizedBox(height: 32),
                   
                   // Title
@@ -250,6 +247,99 @@ class _LoginWithPhoneScreenState extends ConsumerState<LoginWithPhoneScreen> {
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
                         ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+
+                  // Sign in with Apple
+                  SizedBox(
+                    height: 52,
+                    child: OutlinedButton.icon(
+                      onPressed: isLoading ? null : () {},
+                      style: OutlinedButton.styleFrom(
+                        backgroundColor: const Color(0xFFF5F5F5),
+                        foregroundColor: AppColors.textPrimary,
+                        elevation: 0,
+                        side: BorderSide.none,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      icon: const HugeIcon(
+                        icon: HugeIcons.strokeRoundedApple,
+                        size: 24,
+                        color: AppColors.textPrimary,
+                      ),
+                      label: const Text(
+                        'Sign in with Apple',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+
+                  // Sign in with Google
+                  SizedBox(
+                    height: 52,
+                    child: OutlinedButton.icon(
+                      onPressed: isLoading ? null : () {},
+                      style: OutlinedButton.styleFrom(
+                        backgroundColor: const Color(0xFFF5F5F5),
+                        foregroundColor: AppColors.textPrimary,
+                        elevation: 0,
+                        side: BorderSide.none,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      icon: const HugeIcon(
+                        icon: HugeIcons.strokeRoundedGoogle,
+                        size: 20,
+                        color: AppColors.textPrimary,
+                      ),
+                      label: const Text(
+                        'Sign in with Google',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 32),
+
+                  // Terms and Privacy
+                  Center(
+                    child: RichText(
+                      textAlign: TextAlign.center,
+                      text: TextSpan(
+                        text: 'By clicking "Continue", I have read and agree\nwith the ',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: AppColors.textSecondary,
+                          height: 1.5,
+                        ),
+                        children: const [
+                          TextSpan(
+                            text: 'Term Sheet',
+                            style: TextStyle(
+                              decoration: TextDecoration.underline,
+                              color: AppColors.textPrimary,
+                            ),
+                          ),
+                          TextSpan(text: ', '),
+                          TextSpan(
+                            text: 'Privacy Policy',
+                            style: TextStyle(
+                              decoration: TextDecoration.underline,
+                              color: AppColors.textPrimary,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),

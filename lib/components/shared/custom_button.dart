@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:bdcomputing/core/styles.dart';
+import 'package:flutter/material.dart';
+import 'package:hugeicons/hugeicons.dart';
 
 enum CustomButtonStyle { primary, outlined, ghost }
 
@@ -8,7 +9,7 @@ class CustomButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final bool isLoading;
   final bool isDisabled;
-  final IconData? icon;
+  final dynamic icon;
   final CustomButtonStyle style;
   final Color? color;
   final double? width;
@@ -30,32 +31,35 @@ class CustomButton extends StatelessWidget {
     final effectiveColor = color ?? AppColors.primary;
     final isEnabled = !isDisabled && !isLoading && onPressed != null;
 
-    Widget content = Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        if (isLoading) ...[
-          const SizedBox(
-            width: 18,
-            height: 18,
-            child: CircularProgressIndicator(
-              strokeWidth: 2,
-              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+    Widget content = Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (isLoading) ...[
+            const SizedBox(
+              width: 18,
+              height: 18,
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+              ),
+            ),
+            const SizedBox(width: 10),
+          ] else if (icon != null) ...[
+            _buildIcon(icon, style == CustomButtonStyle.primary ? Colors.white : effectiveColor),
+            const SizedBox(width: 8),
+          ],
+          Text(
+            text,
+            style: const TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.w600,
             ),
           ),
-          const SizedBox(width: 10),
-        ] else if (icon != null) ...[
-          Icon(icon, size: 18),
-          const SizedBox(width: 8),
         ],
-        Text(
-          text,
-          style: const TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-      ],
+      ),
     );
 
     switch (style) {
@@ -108,5 +112,20 @@ class CustomButton extends StatelessWidget {
           ),
         );
     }
+  }
+
+  Widget _buildIcon(dynamic icon, Color color) {
+    if (icon is IconData) {
+      return Icon(
+        icon,
+        color: color,
+        size: 18,
+      );
+    }
+    return HugeIcon(
+      icon: icon,
+      color: color,
+      size: 18,
+    );
   }
 }

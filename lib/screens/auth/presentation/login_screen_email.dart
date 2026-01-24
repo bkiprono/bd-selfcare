@@ -105,22 +105,19 @@ class _LoginWithEmailScreenState extends ConsumerState<LoginWithEmailScreen> {
                   
                   // Logo/Icon
                   Center(
-                    child: Container(
-                      width: 64,
-                      height: 64,
-                      decoration: BoxDecoration(
-                        color: AppColors.primary,
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: const Center(
-                        child: HugeIcon(
-                          icon: HugeIcons.strokeRoundedAiMagic,
-                          color: Colors.white,
-                          size: 32,
-                        ),
+                  child: Container(
+                    width: 150,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: const Center(
+                      child: Image(
+                        image: AssetImage('assets/images/brand/dark.png'),
                       ),
                     ),
                   ),
+                ),
                   const SizedBox(height: 32),
                   
                   // Title
@@ -136,7 +133,7 @@ class _LoginWithEmailScreenState extends ConsumerState<LoginWithEmailScreen> {
                   const SizedBox(height: 8),
                   
                   // Subtitle
-                  Text(
+                  const Text(
                     'To sign in to an account in the application,\nenter your email and password',
                     style: TextStyle(
                       fontSize: 14,
@@ -210,7 +207,7 @@ class _LoginWithEmailScreenState extends ConsumerState<LoginWithEmailScreen> {
                   const SizedBox(height: 24),
 
                   // Don't have an account
-                  Center(
+                  const Center(
                     child: Text(
                       'Don\'t have an account yet?',
                       style: TextStyle(
@@ -318,14 +315,14 @@ class _LoginWithEmailScreenState extends ConsumerState<LoginWithEmailScreen> {
                   Center(
                     child: RichText(
                       textAlign: TextAlign.center,
-                      text: TextSpan(
+                      text: const TextSpan(
                         text: 'By clicking "Continue", I have read and agree\nwith the ',
                         style: TextStyle(
                           fontSize: 12,
                           color: AppColors.textSecondary,
                           height: 1.5,
                         ),
-                        children: const [
+                        children: [
                           TextSpan(
                             text: 'Term Sheet',
                             style: TextStyle(

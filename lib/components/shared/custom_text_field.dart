@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:bdcomputing/core/styles.dart';
+import 'package:flutter/material.dart';
+import 'package:hugeicons/hugeicons.dart';
 
 class CustomTextField extends StatefulWidget {
   final TextEditingController? controller;
@@ -147,15 +148,33 @@ class _CustomTextFieldState extends State<CustomTextField> {
                   )
                 : widget.suffixIcon,
             prefixIcon: widget.prefixIcon != null
-                ? Icon(
-                    widget.prefixIcon,
-                    color: isFilled ? AppColors.primary : Colors.grey[600],
-                    size: 20,
+                ? Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: _buildIcon(
+                      widget.prefixIcon,
+                      AppColors.primary,
+                    ),
                   )
                 : null,
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildIcon(dynamic icon, Color color) {
+    if (icon is IconData) {
+      return Icon(
+        icon,
+        color: color,
+        size: 20,
+      );
+    }
+    // If it's from HugeIcons, it's typically a List<List<dynamic>> or HugeIconData
+    return HugeIcon(
+      icon: icon,
+      color: color,
+      size: 20,
     );
   }
 }
