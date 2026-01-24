@@ -208,6 +208,65 @@ class AuthNotifier extends StateNotifier<AuthState> {
     }
   }
 
+  Future<void> toggleMfaMethod(MfaMethod method, bool enabled) async {
+    state = const AuthLoading();
+    try {
+      final user = await _repo.toggleMfaMethod(method, enabled);
+      state = Authenticated(user);
+    } catch (e) {
+      // Re-read current user to reset state if failed
+      final user = await _repo.getCurrentUser();
+      if (user != null) {
+        state = Authenticated(user);
+      } else {
+        state = const Unauthenticated();
+      }
+      rethrow;
+    }
+  }
+
+  Future<void> disableTotp(String password) async {
+    state = const AuthLoading();
+    try {
+      final user = await _repo.disableTotp(password);
+      state = Authenticated(user);
+    } catch (e) {
+      final user = await _repo.getCurrentUser();
+      if (user != null) {
+        state = Authenticated(user);
+      } else {
+        state = const Unauthenticated();
+      }
+      rethrow;
+    }
+  }
+
+  Future<Map<String, dynamic>> startTotpSetup() async {
+    return await _repo.startTotpSetup();
+  }
+
+  Future<Map<String, dynamic>> completeTotpSetup(String setupToken, String verificationCode) async {
+    state = const AuthLoading();
+    try {
+      final res = await _repo.completeTotpSetup(setupToken, verificationCode);
+      final user = await _repo.getCurrentUser();
+      if (user != null) {
+        state = Authenticated(user);
+      } else {
+        state = const Unauthenticated();
+      }
+      return res;
+    } catch (e) {
+       final user = await _repo.getCurrentUser();
+      if (user != null) {
+        state = Authenticated(user);
+      } else {
+        state = const Unauthenticated();
+      }
+      rethrow;
+    }
+  }
+
   Future<void> refreshProfile() async {
     try {
       final user = await _repo.refreshProfile();

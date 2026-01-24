@@ -1,4 +1,5 @@
 import 'package:bdcomputing/screens/auth/presentation/google_confirm_screen.dart';
+import 'package:bdcomputing/screens/settings/mfa_settings_screen.dart';
 import 'package:bdcomputing/screens/profile/profile_screen.dart';
 import 'package:bdcomputing/screens/auth/presentation/forgot_password.dart';
 import 'package:flutter/material.dart';
@@ -38,6 +39,7 @@ class AppRoutes {
   static const String updatePassword = '/update-password';
   static const String mfaVerification = '/mfa-verification';
   static const String googleConfirm = '/google-confirm';
+  static const String mfaSettings = '/mfa-settings';
   static const String dashboard = '/dashboard';
 
 
@@ -84,6 +86,10 @@ class AppRoutes {
             tempToken: args?['tempToken'] as String? ?? '',
             email: args?['email'] as String? ?? '',
           ),
+        );
+      case mfaSettings:
+        return AdaptivePageRoute(
+          builder: (_) => const AuthGuard(child: MfaSettingsScreen()),
         );
 
       case updatePassword:

@@ -304,4 +304,75 @@ class AuthService {
       throw ApiException(message: e.toString());
     }
   }
+
+  Future<Map<String, dynamic>> getMfaStatus() async {
+    try {
+      final res = await _apiClient.post(ApiEndpoints.mfaStatusEndpoint, data: {});
+      final root = res.data as Map<String, dynamic>;
+      return (root['data'] ?? root) as Map<String, dynamic>;
+    } on DioException catch (e) {
+      throw ApiException.fromDioException(e);
+    } catch (e) {
+      throw ApiException(message: e.toString());
+    }
+  }
+
+  Future<User> disableTotp(String password) async {
+    try {
+      final res = await _apiClient.post(
+        ApiEndpoints.mfaTotpDisableEndpoint,
+        data: {'password': password},
+      );
+      final root = res.data as Map<String, dynamic>;
+      final userData = (root['data'] ?? root) as Map<String, dynamic>;
+      return User.fromJson(userData);
+    } on DioException catch (e) {
+      throw ApiException.fromDioException(e);
+    } catch (e) {
+      throw ApiException(message: e.toString());
+    }
+  }
+
+  Future<User> toggleMfaMethod(MfaMethod method, bool enabled) async {
+    try {
+      final res = await _apiClient.post(
+        ApiEndpoints.mfaToggleMethodEndpoint,
+        data: {'method': method.name.toUpperCase(), 'enabled': enabled},
+      );
+      final root = res.data as Map<String, dynamic>;
+      final userData = (root['data'] ?? root) as Map<String, dynamic>;
+      return User.fromJson(userData);
+    } on DioException catch (e) {
+      throw ApiException.fromDioException(e);
+    } catch (e) {
+      throw ApiException(message: e.toString());
+    }
+  }
+
+  Future<Map<String, dynamic>> startTotpSetup() async {
+    try {
+      final res = await _apiClient.post(ApiEndpoints.mfaStartTotpSetupEndpoint, data: {});
+      final root = res.data as Map<String, dynamic>;
+      return (root['data'] ?? root) as Map<String, dynamic>;
+    } on DioException catch (e) {
+      throw ApiException.fromDioException(e);
+    } catch (e) {
+      throw ApiException(message: e.toString());
+    }
+  }
+
+  Future<Map<String, dynamic>> completeTotpSetup(String setupToken, String verificationCode) async {
+    try {
+      final res = await _apiClient.post(
+        ApiEndpoints.mfaCompleteTotpSetupEndpoint,
+        data: {'setupToken': setupToken, 'verificationCode': verificationCode},
+      );
+      final root = res.data as Map<String, dynamic>;
+      return (root['data'] ?? root) as Map<String, dynamic>;
+    } on DioException catch (e) {
+      throw ApiException.fromDioException(e);
+    } catch (e) {
+      throw ApiException(message: e.toString());
+    }
+  }
 }

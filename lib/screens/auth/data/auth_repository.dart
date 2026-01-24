@@ -287,5 +287,37 @@ class AuthRepository {
     await _secureStorage.write(key: _keyUser, value: jsonEncode(user));
   }
 
+  Future<Map<String, dynamic>> getMfaStatus() async {
+    return await _service.getMfaStatus();
+  }
+
+  Future<User> toggleMfaMethod(MfaMethod method, bool enabled) async {
+    var user = await _service.toggleMfaMethod(method, enabled);
+    user = await _ensureClientData(user, user.toJson());
+    await _saveUser(user.toJson());
+    return user;
+  }
+
+  Future<User> disableTotp(String password) async {
+    var user = await _service.disableTotp(password);
+    user = await _ensureClientData(user, user.toJson());
+    await _saveUser(user.toJson());
+    return user;
+  }
+
+  Future<Map<String, dynamic>> startTotpSetup() async {
+    return await _service.startTotpSetup();
+  }
+
+  Future<Map<String, dynamic>> completeTotpSetup(String setupToken, String verificationCode) async {
+    final res = await _service.completeTotpSetup(setupToken, verificationCode);
+    if (res['success'] == true && res['user'] != null) {
+      var user = User.fromJson(res['user'] as Map<String, dynamic>);
+      user = await _ensureClientData(user, user.toJson());
+      await _saveUser(user.toJson());
+    }
+    return res;
+  }
+
   ApiClient get client => _apiClient;
 }

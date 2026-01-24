@@ -156,9 +156,10 @@ class AuthSwitchScreen extends ConsumerWidget {
                           borderRadius: BorderRadius.circular(12),
                         ),
                       ),
-                      icon: Image.asset(
-                        'assets/images/auth/google.png',
-                        height: 24,
+                      icon: const HugeIcon(
+                        icon: HugeIcons.strokeRoundedGoogle,
+                        size: 20,
+                        color: AppColors.textPrimary,
                       ),
                       label: const Text(
                         'Continue with Google',

@@ -1,3 +1,4 @@
+import 'package:bdcomputing/core/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:bdcomputing/screens/auth/domain/auth_state.dart'
@@ -8,6 +9,7 @@ import 'package:bdcomputing/components/shared/header.dart';
 import 'package:bdcomputing/components/widgets/user_widget.dart';
 import 'package:bdcomputing/core/mixins/token_validation_mixin.dart';
 import 'package:bdcomputing/core/styles.dart';
+import 'package:hugeicons/hugeicons.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ProfileScreen extends ConsumerStatefulWidget {
@@ -87,14 +89,19 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
                                     title: 'Settings',
                                     subtitle: 'Account and app settings',
                                     onTap: () => validateTokenBeforeAction(() {
-                                      // TODO: Navigate to settings screen
-                                      ScaffoldMessenger.of(
-                                        context,
-                                      ).showSnackBar(
-                                        const SnackBar(
-                                          content: Text('Settings coming soon'),
-                                        ),
+                                      // TODO: Build general settings
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        const SnackBar(content: Text('General settings coming soon')),
                                       );
+                                    }),
+                                  ),
+                                  _buildDivider(),
+                                  _buildMenuItem(
+                                    icon: HugeIcons.strokeRoundedShield01,
+                                    title: 'MFA & Security',
+                                    subtitle: 'Manage two-factor authentication',
+                                    onTap: () => validateTokenBeforeAction(() {
+                                      Navigator.of(context).pushNamed(AppRoutes.mfaSettings);
                                     }),
                                   ),
                                 ],
@@ -221,7 +228,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
   }
 
   Widget _buildMenuItem({
-    required IconData icon,
+    required dynamic icon,
     required String title,
     String? subtitle,
     VoidCallback? onTap,
@@ -239,7 +246,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen>
               height: 28,
               decoration: BoxDecoration(
                 color: textColor != null
-                    ? textColor.withOpacity(0.1)
+                    ? textColor.withValues(alpha: 0.1)
                     : const Color(0xFFF5F5F5),
                 borderRadius: BorderRadius.circular(6),
               ),

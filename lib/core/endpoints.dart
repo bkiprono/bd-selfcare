@@ -12,6 +12,11 @@ class ApiEndpoints {
   static const String registerEndpoint = '$baseUrl/auth/register';
   static const String mfaVerifyEndpoint = '$baseUrl/auth/mfa-verify';
   static const String mfaResendEndpoint = '$baseUrl/auth/mfa-resend';
+  static const String mfaStatusEndpoint = '$baseUrl/auth/mfa/status';
+  static const String mfaTotpDisableEndpoint = '$baseUrl/auth/mfa/totp-disable';
+  static const String mfaToggleMethodEndpoint = '$baseUrl/auth/mfa/toggle-method';
+  static const String mfaStartTotpSetupEndpoint = '$baseUrl/auth/mfa/start-totp-setup';
+  static const String mfaCompleteTotpSetupEndpoint = '$baseUrl/auth/mfa/complete-totp-setup';
   static const String addresses = '$baseUrl/addresses';
   static const String resetPasswordEndpoint = '$baseUrl/auth/password/reset';
   static const String loginWithGoogleEndpoint = '$baseUrl/auth/sign-in/google';
