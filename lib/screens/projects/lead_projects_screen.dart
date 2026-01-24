@@ -618,17 +618,6 @@ class _CreateLeadProjectSheetState
                     ),
                     const SizedBox(height: 16),
 
-                    // Duration (Optional)
-                    TextFormField(
-                      controller: _durationController,
-                      decoration: const InputDecoration(
-                        labelText: 'Duration',
-                        hintText: 'e.g., 2 weeks, 1 month',
-                        border: OutlineInputBorder(),
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-
                     // Source Selector (Required)
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -795,9 +784,13 @@ class _CreateLeadProjectSheetState
                                   style: TextButton.styleFrom(
                                     padding: EdgeInsets.zero,
                                     minimumSize: const Size(50, 20),
-                                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                    tapTargetSize:
+                                        MaterialTapTargetSize.shrinkWrap,
                                   ),
-                                  child: const Text('Retry', style: TextStyle(fontSize: 12)),
+                                  child: const Text(
+                                    'Retry',
+                                    style: TextStyle(fontSize: 12),
+                                  ),
                                 ),
                             ],
                           ),
@@ -806,7 +799,10 @@ class _CreateLeadProjectSheetState
                               padding: const EdgeInsets.only(top: 4, bottom: 4),
                               child: Text(
                                 _fetchError!,
-                                style: const TextStyle(color: Colors.red, fontSize: 12),
+                                style: const TextStyle(
+                                  color: Colors.red,
+                                  fontSize: 12,
+                                ),
                               ),
                             ),
                           const SizedBox(height: 8),
@@ -817,8 +813,8 @@ class _CreateLeadProjectSheetState
                               hintText: _isLoadingItems
                                   ? 'Loading products...'
                                   : _fetchError != null
-                                      ? 'Error loading products'
-                                      : 'Select a product',
+                                  ? 'Error loading products'
+                                  : 'Select a product',
                               suffixIcon: _isLoadingItems
                                   ? const SizedBox(
                                       width: 20,
@@ -887,9 +883,13 @@ class _CreateLeadProjectSheetState
                                   style: TextButton.styleFrom(
                                     padding: EdgeInsets.zero,
                                     minimumSize: const Size(50, 20),
-                                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                    tapTargetSize:
+                                        MaterialTapTargetSize.shrinkWrap,
                                   ),
-                                  child: const Text('Retry', style: TextStyle(fontSize: 12)),
+                                  child: const Text(
+                                    'Retry',
+                                    style: TextStyle(fontSize: 12),
+                                  ),
                                 ),
                             ],
                           ),
@@ -898,7 +898,10 @@ class _CreateLeadProjectSheetState
                               padding: const EdgeInsets.only(top: 4, bottom: 4),
                               child: Text(
                                 _fetchError!,
-                                style: const TextStyle(color: Colors.red, fontSize: 12),
+                                style: const TextStyle(
+                                  color: Colors.red,
+                                  fontSize: 12,
+                                ),
                               ),
                             ),
                           const SizedBox(height: 8),
@@ -909,8 +912,8 @@ class _CreateLeadProjectSheetState
                               hintText: _isLoadingItems
                                   ? 'Loading services...'
                                   : _fetchError != null
-                                      ? 'Error loading services'
-                                      : 'Select a service',
+                                  ? 'Error loading services'
+                                  : 'Select a service',
                               suffixIcon: _isLoadingItems
                                   ? const SizedBox(
                                       width: 20,
