@@ -162,6 +162,10 @@ class AuthNotifier extends StateNotifier<AuthState> {
   }
 
   Future<void> logout() async {
+    // Clear all local data
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
+
     await _repo.logout();
     _cancelRefreshTimer();
     state = const Unauthenticated();

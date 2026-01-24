@@ -5,8 +5,10 @@ import 'package:bdoneapp/models/payments/payment.dart';
 import 'package:bdoneapp/screens/auth/domain/auth_state.dart';
 import 'package:bdoneapp/screens/auth/domain/user_model.dart';
 import 'package:bdoneapp/screens/auth/providers.dart';
+import 'package:bdoneapp/screens/billing/invoices_provider.dart';
 import 'package:bdoneapp/screens/billing/invoices_screen.dart';
 import 'package:bdoneapp/screens/home/home_provider.dart';
+import 'package:bdoneapp/screens/payments/payments_provider.dart';
 import 'package:bdoneapp/screens/payments/payments_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -38,6 +40,14 @@ class _HomeTabState extends ConsumerState<HomeTab>
     _controller.dispose();
     super.dispose();
   }
+
+  Future<void> _onRefresh() async {
+    await Future.wait([
+      ref.read(authProvider.notifier).refreshProfile(),
+      ref.read(invoicesProvider.notifier).refresh(),
+      ref.read(paymentsProvider.notifier).refresh(),
+    ]);
+  }
   @override
   Widget build(BuildContext context) {
     final authState = ref.watch(authProvider);
@@ -48,19 +58,25 @@ class _HomeTabState extends ConsumerState<HomeTab>
     return Column(
       children: [
         Expanded(
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildHeader(user),
-                const SizedBox(height: 1),
-                _buildBalanceCard(user, formatter),
-                const SizedBox(height: 24),
-                _buildQuickActions(),
-                const SizedBox(height: 28),
-                _buildRecentTransactions(context, transactions),
-                const SizedBox(height: 20),
-              ],
+          child: RefreshIndicator(
+            onRefresh: _onRefresh,
+            color: AppColors.primary,
+            backgroundColor: Colors.white,
+            child: SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildHeader(user),
+                  const SizedBox(height: 1),
+                  _buildBalanceCard(user, formatter),
+                  const SizedBox(height: 24),
+                  _buildQuickActions(),
+                  const SizedBox(height: 28),
+                  _buildRecentTransactions(context, transactions),
+                  const SizedBox(height: 20),
+                ],
+              ),
             ),
           ),
         ),
