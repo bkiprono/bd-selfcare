@@ -236,7 +236,7 @@ class _CreateSupportTicketSheetState extends ConsumerState<CreateSupportTicketSh
                         ),
                         const SizedBox(height: 8),
                         DropdownButtonFormField<String>(
-                          value: _selectedProjectId,
+                          initialValue: _selectedProjectId,
                           decoration: InputDecoration(
                             border: const OutlineInputBorder(),
                             hintText: _isLoadingProjects
@@ -296,7 +296,7 @@ class _CreateSupportTicketSheetState extends ConsumerState<CreateSupportTicketSh
                         ),
                         const SizedBox(height: 8),
                         DropdownButtonFormField<RequestPriorityEnum>(
-                          value: _selectedPriority,
+                          initialValue: _selectedPriority,
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                           ),
