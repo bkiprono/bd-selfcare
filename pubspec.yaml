@@ -22,7 +22,7 @@ dependencies:
   fl_chart:
   geocoding: ^4.0.0
   google_fonts: ^8.0.0
-  google_sign_in: ^7.2.0
+  google_sign_in: ^6.2.1
   http: ^1.5.0
   hugeicons: ^1.0.0
   intl: ^0.20.2

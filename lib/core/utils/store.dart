@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class Store {
   const Store._();
   static const FlutterSecureStorage _secureStorage = FlutterSecureStorage(
-    aOptions: AndroidOptions(encryptedSharedPreferences: true),
+    aOptions: AndroidOptions(),
     iOptions: IOSOptions(accessibility: KeychainAccessibility.first_unlock),
   );
 
