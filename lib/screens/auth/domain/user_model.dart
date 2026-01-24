@@ -1,4 +1,5 @@
 import 'package:bdcomputing/models/common/client.dart';
+import 'package:bdcomputing/screens/auth/domain/mfa_models.dart';
 
 class User {
   final String id;
@@ -25,6 +26,13 @@ class User {
   final RoleModel? role;
   final Client? client;
   final String? leadId;
+  
+  // MFA Fields
+  final bool mfaEnabled;
+  final List<MfaMethod> mfaMethods;
+  final MfaMethod? preferredMfaMethod;
+  final bool whatsappVerified;
+  final bool googleAuthEnabled;
 
   const User({
     required this.id,
@@ -51,6 +59,11 @@ class User {
     this.role,
     this.client,
     this.leadId,
+    required this.mfaEnabled,
+    required this.mfaMethods,
+    this.preferredMfaMethod,
+    required this.whatsappVerified,
+    required this.googleAuthEnabled,
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
@@ -83,6 +96,15 @@ class User {
           ? Client.fromJson(json['client'] as Map<String, dynamic>)
           : null,
       leadId: json['leadId']?.toString(),
+      mfaEnabled: json['mfaEnabled'] ?? false,
+      mfaMethods: (json['mfaMethods'] as List<dynamic>? ?? [])
+          .map((m) => MfaMethod.fromString(m.toString()))
+          .toList(),
+      preferredMfaMethod: json['preferredMfaMethod'] != null 
+          ? MfaMethod.fromString(json['preferredMfaMethod'].toString()) 
+          : null,
+      whatsappVerified: json['whatsappVerified'] ?? false,
+      googleAuthEnabled: json['googleAuthEnabled'] ?? false,
     );
   }
 
@@ -112,6 +134,11 @@ class User {
         'role': role?.toJson(),
         'client': client?.toJson(),
         'leadId': leadId,
+        'mfaEnabled': mfaEnabled,
+        'mfaMethods': mfaMethods.map((m) => m.name.toUpperCase()).toList(),
+        'preferredMfaMethod': preferredMfaMethod?.name.toUpperCase(),
+        'whatsappVerified': whatsappVerified,
+        'googleAuthEnabled': googleAuthEnabled,
       };
 
 }

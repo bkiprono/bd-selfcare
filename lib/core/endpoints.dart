@@ -14,6 +14,8 @@ class ApiEndpoints {
   static const String mfaResendEndpoint = '$baseUrl/auth/mfa-resend';
   static const String addresses = '$baseUrl/addresses';
   static const String resetPasswordEndpoint = '$baseUrl/auth/password/reset';
+  static const String loginWithGoogleEndpoint = '$baseUrl/auth/sign-in/google';
+  static const String confirmGoogleLoginEndpoint = '$baseUrl/auth/sign-in/google/confirm';
   static const String updatePasswordWithOTPEndpoint =
       '$baseUrl/auth/password/update-with-otp';
   static const String requestVerificationEndpoint =

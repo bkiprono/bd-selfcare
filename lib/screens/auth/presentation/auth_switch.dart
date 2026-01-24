@@ -43,6 +43,15 @@ class AuthSwitchScreen extends ConsumerWidget {
             'email': result.email,
           },
         );
+      } else if (result is MfaRequired) {
+        // MFA required
+        Navigator.of(context).pushNamed(
+          AppRoutes.mfaVerification,
+          arguments: {
+            'mfaToken': result.mfaToken,
+            'methods': result.mfaMethods,
+          },
+        );
       }
     } catch (e) {
       Fluttertoast.showToast(msg: 'Google Sign-In failed: $e');
@@ -52,7 +61,7 @@ class AuthSwitchScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      backgroundColor: Colors.transparent,
+      backgroundColor: Colors.white,
       body: AuthBackground(
         child: SafeArea(
           child: Center(
@@ -211,7 +220,7 @@ class AuthSwitchScreen extends ConsumerWidget {
                         ),
                       ),
                       icon: const HugeIcon(
-                        icon: HugeIcons.smartPhone01,
+                        icon: HugeIcons.strokeRoundedPhoneErase,
                         size: 20,
                         color: AppColors.textPrimary,
                       ),

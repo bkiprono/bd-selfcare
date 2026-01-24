@@ -91,7 +91,7 @@ class _LoginWithEmailScreenState extends ConsumerState<LoginWithEmailScreen> {
     final isLoading = _submitting || state is AuthLoading;
 
     return Scaffold(
-      backgroundColor: Colors.transparent,
+      backgroundColor: Colors.white,
       body: AuthBackground(
         child: SafeArea(
           child: Center(
