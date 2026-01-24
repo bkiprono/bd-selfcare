@@ -53,3 +53,13 @@ class MfaRequired extends LoginResult {
     required this.mfaMethods,
   });
 }
+
+class LoginAccepted extends LoginResult {
+  final String tempToken;
+  final String email;
+
+  const LoginAccepted({
+    required this.tempToken,
+    required this.email,
+  });
+}

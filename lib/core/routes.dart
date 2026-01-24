@@ -1,4 +1,6 @@
+import 'package:bdcomputing/screens/auth/presentation/google_confirm_screen.dart';
 import 'package:bdcomputing/screens/profile/profile_screen.dart';
+import 'package:bdcomputing/screens/auth/presentation/forgot_password.dart';
 import 'package:flutter/material.dart';
 import 'package:bdcomputing/core/navigation/adaptive_page_route.dart';
 import 'package:bdcomputing/screens/auth/presentation/auth_guard.dart';
@@ -35,6 +37,8 @@ class AppRoutes {
   static const String forgotPassword = '/forgot-password';
   static const String updatePassword = '/update-password';
   static const String mfaVerification = '/mfa-verification';
+  static const String googleConfirm = '/google-confirm';
+  static const String dashboard = '/dashboard';
 
 
   // Payment
@@ -69,6 +73,18 @@ class AppRoutes {
         return AdaptivePageRoute(builder: (_) => const LoginWithPhoneScreen());
       case register:
         return AdaptivePageRoute(builder: (_) => const SignupScreen());
+      case forgotPassword:
+        return AdaptivePageRoute(builder: (_) => const ForgotPasswordScreen());
+      case dashboard:
+        return AdaptivePageRoute(builder: (_) => const HomeWrapper());
+      case googleConfirm:
+        final args = settings.arguments as Map<String, dynamic>?;
+        return AdaptivePageRoute(
+          builder: (_) => GoogleConfirmationScreen(
+            tempToken: args?['tempToken'] as String? ?? '',
+            email: args?['email'] as String? ?? '',
+          ),
+        );
 
       case updatePassword:
         return AdaptivePageRoute(builder: (_) => const UpdatePasswordScreen(token: '',));

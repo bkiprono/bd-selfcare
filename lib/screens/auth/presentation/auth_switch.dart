@@ -1,15 +1,56 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:bdcomputing/core/routes.dart';
 import 'package:bdcomputing/components/shared/custom_button.dart';
 import 'package:bdcomputing/core/styles.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:bdcomputing/components/shared/auth_background.dart';
+import 'package:bdcomputing/screens/auth/auth_provider.dart';
+import 'package:bdcomputing/screens/auth/domain/mfa_models.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
-class AuthSwitchScreen extends StatelessWidget {
+class AuthSwitchScreen extends ConsumerWidget {
   const AuthSwitchScreen({super.key});
 
+  Future<void> _handleGoogleSignIn(BuildContext context, WidgetRef ref) async {
+    try {
+      final googleSignIn = GoogleSignIn(
+        scopes: ['email', 'profile', 'openid'],
+      );
+      
+      final account = await googleSignIn.signIn();
+      if (account == null) return; // User cancelled
+
+      final auth = await account.authentication;
+      final idToken = auth.idToken;
+
+      if (idToken == null) {
+        Fluttertoast.showToast(msg: 'Failed to get Google ID Token');
+        return;
+      }
+
+      final result = await ref.read(authProvider.notifier).loginWithGoogle(idToken);
+
+      if (result is LoginSuccess) {
+        Navigator.of(context).pushNamedAndRemoveUntil(AppRoutes.dashboard, (route) => false);
+      } else if (result is LoginAccepted) {
+        // Confirmation required (account exists but not linked)
+        Navigator.of(context).pushNamed(
+          AppRoutes.googleConfirm,
+          arguments: {
+            'tempToken': result.tempToken,
+            'email': result.email,
+          },
+        );
+      }
+    } catch (e) {
+      Fluttertoast.showToast(msg: 'Google Sign-In failed: $e');
+    }
+  }
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: AuthBackground(
@@ -91,6 +132,35 @@ class AuthSwitchScreen extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 24),
+
+                  // login with google
+                  SizedBox(
+                    height: 52,
+                    child: OutlinedButton.icon(
+                      onPressed: () => _handleGoogleSignIn(context, ref),
+                      style: OutlinedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        foregroundColor: AppColors.textPrimary,
+                        elevation: 0,
+                        side: const BorderSide(color: Color(0xFFE0E0E0)),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      icon: Image.asset(
+                        'assets/images/auth/google.png',
+                        height: 24,
+                      ),
+                      label: const Text(
+                        'Continue with Google',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
   
                   // login with email
                   SizedBox(
@@ -141,7 +211,7 @@ class AuthSwitchScreen extends StatelessWidget {
                         ),
                       ),
                       icon: const HugeIcon(
-                        icon: HugeIcons.strokeRoundedSmartPhone01,
+                        icon: HugeIcons.smartPhone01,
                         size: 20,
                         color: AppColors.textPrimary,
                       ),

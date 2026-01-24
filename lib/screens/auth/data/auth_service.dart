@@ -212,6 +212,86 @@ class AuthService {
     }
   }
 
+  Future<LoginResult> loginWithGoogle(String idToken) async {
+    try {
+      final res = await _apiClient.post(
+        ApiEndpoints.loginWithGoogleEndpoint,
+        data: {'idToken': idToken},
+      );
+
+      return _handleLoginResponse(res);
+    } on DioException catch (e) {
+      if (e.response?.statusCode == 202) {
+        final data = e.response?.data['data'] ?? e.response?.data;
+        return LoginAccepted(
+          tempToken: data['tempToken'] as String,
+          email: data['email'] as String,
+        );
+      }
+      throw ApiException.fromDioException(e);
+    } catch (e) {
+      throw ApiException(message: e.toString());
+    }
+  }
+
+  Future<LoginResult> confirmGoogleLogin({
+    required String tempToken,
+    required String password,
+  }) async {
+    try {
+      final res = await _apiClient.post(
+        ApiEndpoints.confirmGoogleLoginEndpoint,
+        data: {'tempToken': tempToken, 'password': password},
+      );
+
+      return _handleLoginResponse(res);
+    } on DioException catch (e) {
+      throw ApiException.fromDioException(e);
+    } catch (e) {
+      throw ApiException(message: e.toString());
+    }
+  }
+
+  LoginResult _handleLoginResponse(Response res) {
+    final root = res.data as Map<String, dynamic>;
+    final payload = (root['data'] ?? root) as Map<String, dynamic>;
+
+    // Handle MFA required
+    if (payload['mfaToken'] != null) {
+      return MfaRequired(
+        mfaToken: payload['mfaToken'] as String,
+        mfaMethods: (payload['mfaMethods'] as List?)
+                ?.map((e) => MfaMethod.fromString(e.toString()))
+                .toList() ??
+            [],
+      );
+    }
+
+    final userBody = payload['user'];
+    if (userBody == null) {
+      throw ApiException(message: 'User data not found in response');
+    }
+
+    // Include vendor data if present in the response
+    final userMap = userBody as Map<String, dynamic>;
+    if (payload['client'] != null) {
+      userMap['client'] = payload['client'];
+    }
+
+    final user = User.fromJson(userMap);
+    if (user.clientId == null) {
+      throw ApiException(message: 'User is not a client');
+    }
+
+    return LoginSuccess(
+      accessToken:
+          (payload['access_token'] ?? payload['accessToken'] ?? '') as String,
+      refreshToken:
+          (payload['refresh_token'] ?? payload['refreshToken'] ?? '') as String,
+      user: user.toJson(),
+    );
+  }
+
   Future<void> resendMfa(String mfaToken) async {
     try {
       await _apiClient.post(

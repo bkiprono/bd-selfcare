@@ -121,6 +121,46 @@ class AuthNotifier extends StateNotifier<AuthState> {
     }
   }
 
+  Future<LoginResult> loginWithGoogle(String idToken) async {
+    state = const AuthLoading();
+    try {
+      final result = await _repo.loginWithGoogle(idToken);
+      if (result is LoginSuccess) {
+        state = Authenticated(User.fromJson(result.user));
+        _scheduleTokenRefresh();
+      } else {
+        state = const Unauthenticated();
+      }
+      return result;
+    } catch (e) {
+      state = const Unauthenticated();
+      rethrow;
+    }
+  }
+
+  Future<LoginResult> confirmGoogleLogin({
+    required String tempToken,
+    required String password,
+  }) async {
+    state = const AuthLoading();
+    try {
+      final result = await _repo.confirmGoogleLogin(
+        tempToken: tempToken,
+        password: password,
+      );
+      if (result is LoginSuccess) {
+        state = Authenticated(User.fromJson(result.user));
+        _scheduleTokenRefresh();
+      } else {
+        state = const Unauthenticated();
+      }
+      return result;
+    } catch (e) {
+      state = const Unauthenticated();
+      rethrow;
+    }
+  }
+
   Future<void> logout() async {
     await _repo.logout();
     _cancelRefreshTimer();

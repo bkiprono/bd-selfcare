@@ -72,17 +72,7 @@ class AuthRepository {
     );
 
     if (result is LoginSuccess) {
-      var userJson = result.user;
-      var user = User.fromJson(userJson);
-
-      // Ensure we have full client data including country
-      user = await _ensureClientData(user, userJson);
-
-      await saveSession(
-        accessToken: result.accessToken,
-        refreshToken: result.refreshToken,
-        user: user.toJson(),
-      );
+      await _handleLoginSuccess(result);
     }
     
     return result;
@@ -95,20 +85,50 @@ class AuthRepository {
     );
 
     if (result is LoginSuccess) {
-      var userJson = result.user;
-      var user = User.fromJson(userJson);
-
-      // Ensure we have full client data including country
-      user = await _ensureClientData(user, userJson);
-
-      await saveSession(
-        accessToken: result.accessToken,
-        refreshToken: result.refreshToken,
-        user: user.toJson(),
-      );
+      await _handleLoginSuccess(result);
     }
     
     return result;
+  }
+
+  Future<LoginResult> loginWithGoogle(String idToken) async {
+    final result = await _service.loginWithGoogle(idToken);
+
+    if (result is LoginSuccess) {
+      await _handleLoginSuccess(result);
+    }
+    
+    return result;
+  }
+
+  Future<LoginResult> confirmGoogleLogin({
+    required String tempToken,
+    required String password,
+  }) async {
+    final result = await _service.confirmGoogleLogin(
+      tempToken: tempToken,
+      password: password,
+    );
+
+    if (result is LoginSuccess) {
+      await _handleLoginSuccess(result);
+    }
+    
+    return result;
+  }
+
+  Future<void> _handleLoginSuccess(LoginSuccess result) async {
+    var userJson = result.user;
+    var user = User.fromJson(userJson);
+
+    // Ensure we have full client data including country
+    user = await _ensureClientData(user, userJson);
+
+    await saveSession(
+      accessToken: result.accessToken,
+      refreshToken: result.refreshToken,
+      user: user.toJson(),
+    );
   }
 
   Future<void> saveSession({
