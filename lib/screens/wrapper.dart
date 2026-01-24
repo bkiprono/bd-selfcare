@@ -1,16 +1,16 @@
-import 'package:bdcomputing/screens/billing/invoices_screen.dart';
-import 'package:bdcomputing/screens/billing/invoices_provider.dart';
-import 'package:bdcomputing/screens/payments/payments_screen.dart';
-import 'package:bdcomputing/screens/profile/profile_screen.dart';
-import 'package:bdcomputing/screens/projects/lead_projects_screen.dart';
-import 'package:bdcomputing/screens/projects/lead_projects_provider.dart';
-import 'package:bdcomputing/screens/projects/projects_screen.dart';
+import 'package:bdoneapp/screens/billing/invoices_screen.dart';
+import 'package:bdoneapp/screens/billing/invoices_provider.dart';
+import 'package:bdoneapp/screens/payments/payments_screen.dart';
+import 'package:bdoneapp/screens/profile/profile_screen.dart';
+import 'package:bdoneapp/screens/projects/lead_projects_screen.dart';
+import 'package:bdoneapp/screens/projects/lead_projects_provider.dart';
+import 'package:bdoneapp/screens/projects/projects_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hugeicons/hugeicons.dart';
-import 'package:bdcomputing/screens/auth/presentation/auth_guard.dart';
-import 'package:bdcomputing/core/styles.dart';
-import 'package:bdcomputing/screens/home_screen.dart';
+import 'package:bdoneapp/screens/auth/presentation/auth_guard.dart';
+import 'package:bdoneapp/core/styles.dart';
+import 'package:bdoneapp/screens/home_screen.dart';
 
 class HomeWrapper extends StatefulWidget {
   const HomeWrapper({super.key});

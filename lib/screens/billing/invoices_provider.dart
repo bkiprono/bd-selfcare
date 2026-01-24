@@ -1,7 +1,7 @@
-import 'package:bdcomputing/models/common/invoice.dart';
-import 'package:bdcomputing/models/common/paginated_data.dart';
-import 'package:bdcomputing/providers/providers.dart';
-import 'package:bdcomputing/screens/auth/providers.dart';
+import 'package:bdoneapp/models/common/invoice.dart';
+import 'package:bdoneapp/models/common/paginated_data.dart';
+import 'package:bdoneapp/providers/providers.dart';
+import 'package:bdoneapp/screens/auth/providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 

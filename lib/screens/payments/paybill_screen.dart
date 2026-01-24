@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:bdcomputing/providers/providers.dart';
-import 'package:bdcomputing/providers/currencies/currency_list_provider.dart';
-import 'package:bdcomputing/models/common/invoice.dart';
-import 'package:bdcomputing/components/shared/date_text.dart';
-import 'package:bdcomputing/components/shared/header.dart';
+import 'package:bdoneapp/providers/providers.dart';
+import 'package:bdoneapp/providers/currencies/currency_list_provider.dart';
+import 'package:bdoneapp/models/common/invoice.dart';
+import 'package:bdoneapp/components/shared/date_text.dart';
+import 'package:bdoneapp/components/shared/header.dart';
 import 'package:intl/intl.dart';
-import 'package:bdcomputing/components/logger_config.dart';
+import 'package:bdoneapp/components/logger_config.dart';
 
 class PaybillScreen extends ConsumerStatefulWidget {
   final String invoiceId;

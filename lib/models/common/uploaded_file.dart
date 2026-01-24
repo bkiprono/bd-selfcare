@@ -1,4 +1,4 @@
-import 'package:bdcomputing/models/common/file.dart';
+import 'package:bdoneapp/models/common/file.dart';
 
 class FileModel {
   final String id;

@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:bdcomputing/models/common/client.dart';
+import 'package:bdoneapp/models/common/client.dart';
 
 class LeadProject extends Equatable {
   final String id;

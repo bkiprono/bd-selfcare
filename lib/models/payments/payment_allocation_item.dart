@@ -1,4 +1,4 @@
-import 'package:bdcomputing/models/common/invoice.dart';
+import 'package:bdoneapp/models/common/invoice.dart';
 
 class PaymentAllocationItem {
   final String? id;

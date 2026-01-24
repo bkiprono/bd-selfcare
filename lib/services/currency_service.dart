@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:bdcomputing/core/endpoints.dart';
-import 'package:bdcomputing/models/common/currency.dart';
+import 'package:bdoneapp/core/endpoints.dart';
+import 'package:bdoneapp/models/common/currency.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:logger/logger.dart';
-import 'package:bdcomputing/core/utils/api_client.dart';
+import 'package:bdoneapp/core/utils/api_client.dart';
 
 class CurrencyService extends ChangeNotifier {
   static const _currencyKey = 'currencyId';

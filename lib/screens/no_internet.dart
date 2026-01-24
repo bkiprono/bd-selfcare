@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:bdcomputing/core/styles.dart';
+import 'package:bdoneapp/core/styles.dart';
 
 class NoInternetScreen extends StatefulWidget {
   final VoidCallback? onRetry;

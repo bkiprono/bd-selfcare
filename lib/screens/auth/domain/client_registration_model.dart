@@ -1,4 +1,4 @@
-import 'package:bdcomputing/models/enums/industry_enum.dart';
+import 'package:bdoneapp/models/enums/industry_enum.dart';
 
 class ClientRegistration {
   final String name;

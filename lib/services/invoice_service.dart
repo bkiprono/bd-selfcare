@@ -1,8 +1,8 @@
-import 'package:bdcomputing/core/utils/api_client.dart';
-import 'package:bdcomputing/models/common/invoice.dart';
-import 'package:bdcomputing/core/endpoints.dart';
-import 'package:bdcomputing/models/common/paginated_data.dart';
-import 'package:bdcomputing/models/common/http_response.dart';
+import 'package:bdoneapp/core/utils/api_client.dart';
+import 'package:bdoneapp/models/common/invoice.dart';
+import 'package:bdoneapp/core/endpoints.dart';
+import 'package:bdoneapp/models/common/paginated_data.dart';
+import 'package:bdoneapp/models/common/http_response.dart';
 
 class InvoiceService {
   final ApiClient _apiClient;

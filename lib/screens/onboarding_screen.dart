@@ -1,9 +1,9 @@
-import 'package:bdcomputing/core/styles.dart';
+import 'package:bdoneapp/core/styles.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:bdcomputing/screens/auth/auth_provider.dart';
-import 'package:bdcomputing/core/routes.dart';
+import 'package:bdoneapp/screens/auth/auth_provider.dart';
+import 'package:bdoneapp/core/routes.dart';
 
 class OnboardingScreen extends ConsumerStatefulWidget {
   const OnboardingScreen({super.key});

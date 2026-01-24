@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:bdcomputing/models/common/country.dart';
-import 'package:bdcomputing/core/utils/api_client.dart';
-import 'package:bdcomputing/providers/providers.dart';
+import 'package:bdoneapp/models/common/country.dart';
+import 'package:bdoneapp/core/utils/api_client.dart';
+import 'package:bdoneapp/providers/providers.dart';
 
 class CountryService {
   final ApiClient _client;

@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:bdcomputing/core/navigation/back_gesture_detector.dart';
+import 'package:bdoneapp/core/navigation/back_gesture_detector.dart';
 import 'package:flutter/cupertino.dart';
 
 /// Platform-adaptive page route that automatically uses:

@@ -1,10 +1,10 @@
-import 'package:bdcomputing/components/shared/header.dart';
-import 'package:bdcomputing/core/navigation/adaptive_page_route.dart';
-import 'package:bdcomputing/core/styles.dart';
-import 'package:bdcomputing/models/payments/payment.dart';
-import 'package:bdcomputing/providers/providers.dart';
-import 'package:bdcomputing/screens/common/pdf_viewer_screen.dart';
-import 'package:bdcomputing/screens/payments/payments_provider.dart';
+import 'package:bdoneapp/components/shared/header.dart';
+import 'package:bdoneapp/core/navigation/adaptive_page_route.dart';
+import 'package:bdoneapp/core/styles.dart';
+import 'package:bdoneapp/models/payments/payment.dart';
+import 'package:bdoneapp/providers/providers.dart';
+import 'package:bdoneapp/screens/common/pdf_viewer_screen.dart';
+import 'package:bdoneapp/screens/payments/payments_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hugeicons/hugeicons.dart';

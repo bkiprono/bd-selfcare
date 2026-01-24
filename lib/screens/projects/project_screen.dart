@@ -1,8 +1,8 @@
-import 'package:bdcomputing/components/shared/header.dart';
-import 'package:bdcomputing/core/styles.dart';
-import 'package:bdcomputing/models/common/project.dart';
-import 'package:bdcomputing/providers/providers.dart';
-import 'package:bdcomputing/screens/billing/invoices_screen.dart';
+import 'package:bdoneapp/components/shared/header.dart';
+import 'package:bdoneapp/core/styles.dart';
+import 'package:bdoneapp/models/common/project.dart';
+import 'package:bdoneapp/providers/providers.dart';
+import 'package:bdoneapp/screens/billing/invoices_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hugeicons/hugeicons.dart';

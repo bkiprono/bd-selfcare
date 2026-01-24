@@ -1,14 +1,14 @@
 import 'dart:convert';
-import 'package:bdcomputing/screens/auth/domain/mfa_models.dart';
+import 'package:bdoneapp/screens/auth/domain/mfa_models.dart';
 import 'package:logger/logger.dart';
-import 'package:bdcomputing/screens/auth/domain/auth_state.dart';
-import 'package:bdcomputing/screens/auth/domain/password_model.dart';
-import 'package:bdcomputing/screens/auth/domain/user_model.dart';
-import 'package:bdcomputing/core/endpoints.dart';
-import 'package:bdcomputing/core/utils/api_client.dart';
-import 'package:bdcomputing/core/utils/jwt_helper.dart';
+import 'package:bdoneapp/screens/auth/domain/auth_state.dart';
+import 'package:bdoneapp/screens/auth/domain/password_model.dart';
+import 'package:bdoneapp/screens/auth/domain/user_model.dart';
+import 'package:bdoneapp/core/endpoints.dart';
+import 'package:bdoneapp/core/utils/api_client.dart';
+import 'package:bdoneapp/core/utils/jwt_helper.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:bdcomputing/screens/auth/data/auth_service.dart';
+import 'package:bdoneapp/screens/auth/data/auth_service.dart';
 
 class AuthRepository {
   static const _keyAccessToken = 'accessToken';

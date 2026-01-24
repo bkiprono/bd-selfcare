@@ -1,6 +1,6 @@
-import 'package:bdcomputing/core/endpoints.dart';
-import 'package:bdcomputing/models/common/term_model.dart';
-import 'package:bdcomputing/core/utils/api_client.dart';
+import 'package:bdoneapp/core/endpoints.dart';
+import 'package:bdoneapp/models/common/term_model.dart';
+import 'package:bdoneapp/core/utils/api_client.dart';
 
 class TermsService {
   final ApiClient _apiClient;

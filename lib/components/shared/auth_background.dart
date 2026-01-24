@@ -1,6 +1,6 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
-import 'package:bdcomputing/core/styles.dart';
+import 'package:bdoneapp/core/styles.dart';
 
 class AuthBackground extends StatefulWidget {
   final Widget child;

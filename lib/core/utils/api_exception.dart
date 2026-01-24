@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:bdcomputing/components/logger_config.dart';
+import 'package:bdoneapp/components/logger_config.dart';
 
 class ApiException implements Exception {
   final String message;

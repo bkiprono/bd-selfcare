@@ -1,16 +1,16 @@
-import 'package:bdcomputing/core/socket/socket_service.dart';
+import 'package:bdoneapp/core/socket/socket_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:bdcomputing/screens/auth/providers.dart';
-import 'package:bdcomputing/core/utils/api_client.dart';
-import 'package:bdcomputing/services/settings_service.dart';
-import 'package:bdcomputing/services/terms_service.dart';
-import 'package:bdcomputing/services/invoice_service.dart';
-import 'package:bdcomputing/services/payment_service.dart';
-import 'package:bdcomputing/services/quote_service.dart';
-import 'package:bdcomputing/services/project_service.dart';
-import 'package:bdcomputing/services/lead_project_service.dart';
-import 'package:bdcomputing/services/product_service.dart';
-import 'package:bdcomputing/services/service_service.dart';
+import 'package:bdoneapp/screens/auth/providers.dart';
+import 'package:bdoneapp/core/utils/api_client.dart';
+import 'package:bdoneapp/services/settings_service.dart';
+import 'package:bdoneapp/services/terms_service.dart';
+import 'package:bdoneapp/services/invoice_service.dart';
+import 'package:bdoneapp/services/payment_service.dart';
+import 'package:bdoneapp/services/quote_service.dart';
+import 'package:bdoneapp/services/project_service.dart';
+import 'package:bdoneapp/services/lead_project_service.dart';
+import 'package:bdoneapp/services/product_service.dart';
+import 'package:bdoneapp/services/service_service.dart';
 
 /// Global ApiClient provider
 final apiClientProvider = Provider<ApiClient>((ref) {

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:bdcomputing/core/styles.dart';
+import 'package:bdoneapp/core/styles.dart';
 import 'package:hugeicons/hugeicons.dart';
-import 'package:bdcomputing/screens/auth/auth_provider.dart';
-import 'package:bdcomputing/screens/auth/domain/mfa_models.dart';
+import 'package:bdoneapp/screens/auth/auth_provider.dart';
+import 'package:bdoneapp/screens/auth/domain/mfa_models.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 

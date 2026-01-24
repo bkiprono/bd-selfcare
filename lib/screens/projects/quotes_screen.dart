@@ -1,5 +1,5 @@
-import 'package:bdcomputing/models/common/quote.dart';
-import 'package:bdcomputing/screens/projects/quotes_provider.dart';
+import 'package:bdoneapp/models/common/quote.dart';
+import 'package:bdoneapp/screens/projects/quotes_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hugeicons/hugeicons.dart';

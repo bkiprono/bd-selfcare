@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:bdcomputing/screens/no_internet.dart';
-import 'package:bdcomputing/services/connectivity_service.dart';
-import 'package:bdcomputing/components/widgets/initialization-widget.dart';
+import 'package:bdoneapp/screens/no_internet.dart';
+import 'package:bdoneapp/services/connectivity_service.dart';
+import 'package:bdoneapp/components/widgets/initialization-widget.dart';
 
 class AppWrapper extends StatefulWidget {
   final Widget child;

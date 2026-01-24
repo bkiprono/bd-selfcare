@@ -1,6 +1,6 @@
-import 'package:bdcomputing/core/utils/api_client.dart';
-import 'package:bdcomputing/core/endpoints.dart';
-import 'package:bdcomputing/models/common/product.dart';
+import 'package:bdoneapp/core/utils/api_client.dart';
+import 'package:bdoneapp/core/endpoints.dart';
+import 'package:bdoneapp/models/common/product.dart';
 
 class ProductService {
   final ApiClient _apiClient;

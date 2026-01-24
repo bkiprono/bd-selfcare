@@ -1,4 +1,4 @@
-import 'package:bdcomputing/models/payments/payment_allocation_item.dart';
+import 'package:bdoneapp/models/payments/payment_allocation_item.dart';
 
 class PaymentAllocation {
   final String? id;

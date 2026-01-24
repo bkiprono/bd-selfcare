@@ -1,8 +1,8 @@
 // lib/providers/currency_list_provider.dart
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:bdcomputing/models/common/currency.dart';
-import 'package:bdcomputing/services/currency_service.dart';
-import 'package:bdcomputing/screens/auth/providers.dart';
+import 'package:bdoneapp/models/common/currency.dart';
+import 'package:bdoneapp/services/currency_service.dart';
+import 'package:bdoneapp/screens/auth/providers.dart';
 
 // State for currency list management
 class CurrencyListState {

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart';
-import 'package:bdcomputing/components/currency/currency_selection_icon.dart';
-import 'package:bdcomputing/core/routes.dart';
-import 'package:bdcomputing/core/styles.dart';
+import 'package:bdoneapp/components/currency/currency_selection_icon.dart';
+import 'package:bdoneapp/core/routes.dart';
+import 'package:bdoneapp/core/styles.dart';
 
 class Header extends StatelessWidget implements PreferredSizeWidget {
   final String title;

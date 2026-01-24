@@ -1,4 +1,4 @@
-import 'package:bdcomputing/models/common/country.dart';
+import 'package:bdoneapp/models/common/country.dart';
 
 class Address {
   final String id;

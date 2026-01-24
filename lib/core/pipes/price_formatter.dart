@@ -1,7 +1,7 @@
 import 'package:intl/intl.dart';
-import 'package:bdcomputing/models/common/currency.dart';
+import 'package:bdoneapp/models/common/currency.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:bdcomputing/providers/currencies/currency_list_provider.dart';
+import 'package:bdoneapp/providers/currencies/currency_list_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PriceFormatter {

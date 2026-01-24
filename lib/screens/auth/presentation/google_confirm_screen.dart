@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:bdcomputing/components/shared/custom_button.dart';
-import 'package:bdcomputing/components/shared/custom_text_field.dart';
-import 'package:bdcomputing/core/routes.dart';
-import 'package:bdcomputing/core/styles.dart';
+import 'package:bdoneapp/components/shared/custom_button.dart';
+import 'package:bdoneapp/components/shared/custom_text_field.dart';
+import 'package:bdoneapp/core/routes.dart';
+import 'package:bdoneapp/core/styles.dart';
 import 'package:hugeicons/hugeicons.dart';
-import 'package:bdcomputing/components/shared/auth_background.dart';
-import 'package:bdcomputing/screens/auth/auth_provider.dart';
-import 'package:bdcomputing/screens/auth/domain/mfa_models.dart';
+import 'package:bdoneapp/components/shared/auth_background.dart';
+import 'package:bdoneapp/screens/auth/auth_provider.dart';
+import 'package:bdoneapp/screens/auth/domain/mfa_models.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class GoogleConfirmationScreen extends ConsumerStatefulWidget {

@@ -1,20 +1,20 @@
-import 'package:bdcomputing/components/shared/date_text.dart';
-import 'package:bdcomputing/components/shared/full_screen_loader.dart';
-import 'package:bdcomputing/core/routes.dart';
-import 'package:bdcomputing/core/styles.dart';
-import 'package:bdcomputing/models/common/http_response.dart';
-import 'package:bdcomputing/models/payments/mpesa_response.dart';
-import 'package:bdcomputing/models/payments/pesapal_error.dart';
-import 'package:bdcomputing/models/payments/pesapal_response.dart';
-import 'package:bdcomputing/models/common/invoice.dart';
+import 'package:bdoneapp/components/shared/date_text.dart';
+import 'package:bdoneapp/components/shared/full_screen_loader.dart';
+import 'package:bdoneapp/core/routes.dart';
+import 'package:bdoneapp/core/styles.dart';
+import 'package:bdoneapp/models/common/http_response.dart';
+import 'package:bdoneapp/models/payments/mpesa_response.dart';
+import 'package:bdoneapp/models/payments/pesapal_error.dart';
+import 'package:bdoneapp/models/payments/pesapal_response.dart';
+import 'package:bdoneapp/models/common/invoice.dart';
 import 'package:flutter/material.dart';
-import 'package:bdcomputing/components/shared/header.dart';
+import 'package:bdoneapp/components/shared/header.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:bdcomputing/components/logger_config.dart';
+import 'package:bdoneapp/components/logger_config.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:bdcomputing/providers/providers.dart';
-import 'package:bdcomputing/providers/currencies/currency_list_provider.dart';
+import 'package:bdoneapp/providers/providers.dart';
+import 'package:bdoneapp/providers/currencies/currency_list_provider.dart';
 
 class InitiatePaymentScreen extends ConsumerStatefulWidget {
   final String invoiceId;

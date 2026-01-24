@@ -1,4 +1,4 @@
-import 'package:bdcomputing/screens/auth/domain/user_model.dart';
+import 'package:bdoneapp/screens/auth/domain/user_model.dart';
 
 sealed class AuthState {
   const AuthState();

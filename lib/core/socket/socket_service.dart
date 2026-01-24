@@ -1,6 +1,6 @@
 import 'dart:async';
-import 'package:bdcomputing/components/logger_config.dart';
-import 'package:bdcomputing/core/socket/socket_endpoints.dart';
+import 'package:bdoneapp/components/logger_config.dart';
+import 'package:bdoneapp/core/socket/socket_endpoints.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class SocketService {

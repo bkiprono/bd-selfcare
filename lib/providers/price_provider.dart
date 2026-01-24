@@ -1,8 +1,8 @@
 // lib/providers/price_provider.dart
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:bdcomputing/core/pipes/price_formatter.dart';
-import 'package:bdcomputing/providers/currencies/selected_currency_provider.dart';
-import 'package:bdcomputing/providers/currencies/currency_list_provider.dart';
+import 'package:bdoneapp/core/pipes/price_formatter.dart';
+import 'package:bdoneapp/providers/currencies/selected_currency_provider.dart';
+import 'package:bdoneapp/providers/currencies/currency_list_provider.dart';
 
 /// Cached price formatter to avoid recreating on every call
 final _priceFormatterProvider = Provider<PriceFormatter>((ref) {

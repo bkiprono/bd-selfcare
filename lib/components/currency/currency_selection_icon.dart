@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:bdcomputing/components/currency/currency_picker.dart';
-import 'package:bdcomputing/core/styles.dart';
-import 'package:bdcomputing/providers/currencies/selected_currency_provider.dart';
-import 'package:bdcomputing/providers/currencies/currency_list_provider.dart';
+import 'package:bdoneapp/components/currency/currency_picker.dart';
+import 'package:bdoneapp/core/styles.dart';
+import 'package:bdoneapp/providers/currencies/selected_currency_provider.dart';
+import 'package:bdoneapp/providers/currencies/currency_list_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:bdcomputing/components/logger_config.dart';
+import 'package:bdoneapp/components/logger_config.dart';
 
 class CurrencySelectorIcon extends ConsumerStatefulWidget {
   const CurrencySelectorIcon({super.key});

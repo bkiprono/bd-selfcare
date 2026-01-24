@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:bdcomputing/components/shared/header.dart';
+import 'package:bdoneapp/components/shared/header.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:bdcomputing/core/styles.dart';
-import 'package:bdcomputing/providers/settings_provider.dart';
+import 'package:bdoneapp/core/styles.dart';
+import 'package:bdoneapp/providers/settings_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class PrivacySection {

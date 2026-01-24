@@ -1,8 +1,8 @@
-import 'package:bdcomputing/core/socket/topics.dart';
-import 'package:bdcomputing/providers/providers.dart';
+import 'package:bdoneapp/core/socket/topics.dart';
+import 'package:bdoneapp/providers/providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:bdcomputing/components/logger_config.dart';
-import 'package:bdcomputing/core/styles.dart';
+import 'package:bdoneapp/components/logger_config.dart';
+import 'package:bdoneapp/core/styles.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';

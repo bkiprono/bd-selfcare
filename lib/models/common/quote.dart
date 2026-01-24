@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
-import 'package:bdcomputing/models/common/client.dart';
-import 'package:bdcomputing/models/common/quote_item.dart';
-import 'package:bdcomputing/models/enums/quote_status.dart';
+import 'package:bdoneapp/models/common/client.dart';
+import 'package:bdoneapp/models/common/quote_item.dart';
+import 'package:bdoneapp/models/enums/quote_status.dart';
 
 class Quote extends Equatable {
   final String id;

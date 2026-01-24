@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
-import 'package:bdcomputing/core/endpoints.dart';
-import 'package:bdcomputing/core/utils/store.dart';
-import 'package:bdcomputing/core/utils/jwt_helper.dart';
-import 'package:bdcomputing/components/logger_config.dart';
+import 'package:bdoneapp/core/endpoints.dart';
+import 'package:bdoneapp/core/utils/store.dart';
+import 'package:bdoneapp/core/utils/jwt_helper.dart';
+import 'package:bdoneapp/components/logger_config.dart';
 
 class DioInterceptor extends QueuedInterceptor {
   final Dio _dio;

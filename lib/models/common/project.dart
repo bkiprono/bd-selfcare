@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
-import 'package:bdcomputing/models/common/client.dart';
-import 'package:bdcomputing/models/common/invoice.dart';
+import 'package:bdoneapp/models/common/client.dart';
+import 'package:bdoneapp/models/common/invoice.dart';
 
 class Project extends Equatable {
   final String id;

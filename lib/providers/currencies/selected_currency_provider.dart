@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:bdcomputing/providers/currencies/currency_list_provider.dart';
-import 'package:bdcomputing/components/logger_config.dart';
+import 'package:bdoneapp/providers/currencies/currency_list_provider.dart';
+import 'package:bdoneapp/components/logger_config.dart';
 
 /// Notifier to manage the selected currency ID
 class SelectedCurrencyNotifier extends Notifier<String?> {

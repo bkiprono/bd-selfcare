@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:bdcomputing/models/common/country.dart';
-import 'package:bdcomputing/models/enums/industry_enum.dart';
-import 'package:bdcomputing/screens/auth/domain/client_registration_model.dart';
-import 'package:bdcomputing/components/shared/custom_text_field.dart';
-import 'package:bdcomputing/components/shared/custom_button.dart';
-import 'package:bdcomputing/components/shared/country_picker_field.dart';
-import 'package:bdcomputing/screens/auth/auth_provider.dart';
-import 'package:bdcomputing/components/shared/auth_background.dart';
-import 'package:bdcomputing/core/styles.dart';
+import 'package:bdoneapp/models/common/country.dart';
+import 'package:bdoneapp/models/enums/industry_enum.dart';
+import 'package:bdoneapp/screens/auth/domain/client_registration_model.dart';
+import 'package:bdoneapp/components/shared/custom_text_field.dart';
+import 'package:bdoneapp/components/shared/custom_button.dart';
+import 'package:bdoneapp/components/shared/country_picker_field.dart';
+import 'package:bdoneapp/screens/auth/auth_provider.dart';
+import 'package:bdoneapp/components/shared/auth_background.dart';
+import 'package:bdoneapp/core/styles.dart';
 
 class SignupScreen extends ConsumerStatefulWidget {
   const SignupScreen({super.key});

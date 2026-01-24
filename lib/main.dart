@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:bdcomputing/core/app_wrapper.dart';
-import 'package:bdcomputing/core/routes.dart';
-import 'package:bdcomputing/core/theme/app_theme.dart';
-import 'package:bdcomputing/components/widgets/currency_initializer.dart';
+import 'package:bdoneapp/core/app_wrapper.dart';
+import 'package:bdoneapp/core/routes.dart';
+import 'package:bdoneapp/core/theme/app_theme.dart';
+import 'package:bdoneapp/components/widgets/currency_initializer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {

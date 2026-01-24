@@ -1,5 +1,5 @@
-import 'package:bdcomputing/models/common/client.dart';
-import 'package:bdcomputing/screens/auth/domain/mfa_models.dart';
+import 'package:bdoneapp/models/common/client.dart';
+import 'package:bdoneapp/screens/auth/domain/mfa_models.dart';
 
 class User {
   final String id;

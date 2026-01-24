@@ -1,7 +1,7 @@
-import 'package:bdcomputing/core/styles.dart';
-import 'package:bdcomputing/models/common/base_transaction.dart';
-import 'package:bdcomputing/screens/billing/invoices_provider.dart';
-import 'package:bdcomputing/screens/payments/payments_provider.dart';
+import 'package:bdoneapp/core/styles.dart';
+import 'package:bdoneapp/models/common/base_transaction.dart';
+import 'package:bdoneapp/screens/billing/invoices_provider.dart';
+import 'package:bdoneapp/screens/payments/payments_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:intl/intl.dart';

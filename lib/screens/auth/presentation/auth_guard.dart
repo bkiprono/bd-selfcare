@@ -1,10 +1,10 @@
-import 'package:bdcomputing/core/styles.dart';
+import 'package:bdoneapp/core/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:bdcomputing/screens/auth/domain/auth_state.dart';
-import 'package:bdcomputing/screens/auth/presentation/auth_switch.dart';
-import 'package:bdcomputing/screens/auth/providers.dart';
-import 'package:bdcomputing/core/routes.dart';
+import 'package:bdoneapp/screens/auth/domain/auth_state.dart';
+import 'package:bdoneapp/screens/auth/presentation/auth_switch.dart';
+import 'package:bdoneapp/screens/auth/providers.dart';
+import 'package:bdoneapp/core/routes.dart';
 
 class AuthGuard extends ConsumerWidget {
   final Widget child;

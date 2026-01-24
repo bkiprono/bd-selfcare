@@ -1,11 +1,11 @@
 import 'package:dio/dio.dart';
-import 'package:bdcomputing/screens/auth/domain/password_model.dart';
-import 'package:bdcomputing/screens/auth/domain/user_model.dart';
-import 'package:bdcomputing/screens/auth/domain/client_registration_model.dart';
-import 'package:bdcomputing/screens/auth/domain/mfa_models.dart';
-import 'package:bdcomputing/core/endpoints.dart';
-import 'package:bdcomputing/core/utils/api_client.dart';
-import 'package:bdcomputing/core/utils/api_exception.dart';
+import 'package:bdoneapp/screens/auth/domain/password_model.dart';
+import 'package:bdoneapp/screens/auth/domain/user_model.dart';
+import 'package:bdoneapp/screens/auth/domain/client_registration_model.dart';
+import 'package:bdoneapp/screens/auth/domain/mfa_models.dart';
+import 'package:bdoneapp/core/endpoints.dart';
+import 'package:bdoneapp/core/utils/api_client.dart';
+import 'package:bdoneapp/core/utils/api_exception.dart';
 
 class AuthService {
   final ApiClient _apiClient;

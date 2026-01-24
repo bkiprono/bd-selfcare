@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:bdcomputing/core/styles.dart';
+import 'package:bdoneapp/core/styles.dart';
 
 class SectionCard extends StatelessWidget {
   final String title;

@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:bdcomputing/core/interceptors/dio_interceptor.dart';
+import 'package:bdoneapp/core/interceptors/dio_interceptor.dart';
 
 class DioApiClient {
   late final Dio _dio;

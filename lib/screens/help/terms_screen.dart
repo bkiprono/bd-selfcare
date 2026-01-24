@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:bdcomputing/components/shared/header.dart';
-import 'package:bdcomputing/core/styles.dart';
-import 'package:bdcomputing/models/common/term_model.dart';
+import 'package:bdoneapp/components/shared/header.dart';
+import 'package:bdoneapp/core/styles.dart';
+import 'package:bdoneapp/models/common/term_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:bdcomputing/providers/providers.dart';
+import 'package:bdoneapp/providers/providers.dart';
 
 class TermsScreen extends ConsumerStatefulWidget {
   const TermsScreen({super.key});

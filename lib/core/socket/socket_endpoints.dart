@@ -1,5 +1,5 @@
-import 'package:bdcomputing/core/endpoints.dart';
-import 'package:bdcomputing/components/logger_config.dart';
+import 'package:bdoneapp/core/endpoints.dart';
+import 'package:bdoneapp/components/logger_config.dart';
 
 String socketUrl() {
   // Convert HTTPS URL to WSS URL for WebSocket connection

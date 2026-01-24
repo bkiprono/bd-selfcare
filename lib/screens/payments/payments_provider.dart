@@ -1,6 +1,6 @@
-import 'package:bdcomputing/models/payments/payment.dart';
-import 'package:bdcomputing/providers/providers.dart';
-import 'package:bdcomputing/screens/auth/providers.dart';
+import 'package:bdoneapp/models/payments/payment.dart';
+import 'package:bdoneapp/providers/providers.dart';
+import 'package:bdoneapp/screens/auth/providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 

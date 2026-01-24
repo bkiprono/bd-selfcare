@@ -1,17 +1,17 @@
 import 'dart:async';
-import 'package:bdcomputing/screens/auth/domain/auth_state.dart';
-import 'package:bdcomputing/screens/auth/domain/password_model.dart';
+import 'package:bdoneapp/screens/auth/domain/auth_state.dart';
+import 'package:bdoneapp/screens/auth/domain/password_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
-import 'package:bdcomputing/core/endpoints.dart';
+import 'package:bdoneapp/core/endpoints.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:bdcomputing/core/utils/api_client.dart';
-import 'package:bdcomputing/core/utils/jwt_helper.dart';
-import 'package:bdcomputing/components/logger_config.dart';
-import 'package:bdcomputing/screens/auth/data/auth_repository.dart';
-import 'package:bdcomputing/screens/auth/data/auth_service.dart';
-import 'package:bdcomputing/screens/auth/domain/user_model.dart';
-import 'package:bdcomputing/screens/auth/domain/mfa_models.dart';
+import 'package:bdoneapp/core/utils/api_client.dart';
+import 'package:bdoneapp/core/utils/jwt_helper.dart';
+import 'package:bdoneapp/components/logger_config.dart';
+import 'package:bdoneapp/screens/auth/data/auth_repository.dart';
+import 'package:bdoneapp/screens/auth/data/auth_service.dart';
+import 'package:bdoneapp/screens/auth/domain/user_model.dart';
+import 'package:bdoneapp/screens/auth/domain/mfa_models.dart';
 
 final baseUrlProvider = Provider<String>((ref) => ApiEndpoints.baseUrl);
 

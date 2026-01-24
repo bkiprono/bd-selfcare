@@ -1,7 +1,7 @@
 // lib/widgets/price_text.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:bdcomputing/providers/price_provider.dart';
+import 'package:bdoneapp/providers/price_provider.dart';
 
 /// Production-ready price text widget with optimized rendering and caching
 class PriceText extends ConsumerWidget {

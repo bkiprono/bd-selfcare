@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:bdcomputing/providers/currencies/currency_list_provider.dart';
-import 'package:bdcomputing/components/widgets/initialization-widget.dart';
+import 'package:bdoneapp/providers/currencies/currency_list_provider.dart';
+import 'package:bdoneapp/components/widgets/initialization-widget.dart';
 
 /// Widget that ensures currencies are loaded when the app starts
 class CurrencyInitializer extends ConsumerWidget {

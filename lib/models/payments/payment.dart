@@ -1,8 +1,8 @@
-import 'package:bdcomputing/models/common/client.dart';
-import 'package:bdcomputing/models/common/currency.dart';
-import 'package:bdcomputing/models/common/invoice.dart';
-import 'package:bdcomputing/models/payments/payment_allocation.dart';
-import 'package:bdcomputing/models/payments/payment_channels.dart';
+import 'package:bdoneapp/models/common/client.dart';
+import 'package:bdoneapp/models/common/currency.dart';
+import 'package:bdoneapp/models/common/invoice.dart';
+import 'package:bdoneapp/models/payments/payment_allocation.dart';
+import 'package:bdoneapp/models/payments/payment_channels.dart';
 
 class Payment {
   final String id;

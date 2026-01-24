@@ -1,5 +1,5 @@
-import 'package:bdcomputing/models/enums/lead_source.dart';
-import 'package:bdcomputing/models/enums/project_type.dart';
+import 'package:bdoneapp/models/enums/lead_source.dart';
+import 'package:bdoneapp/models/enums/project_type.dart';
 
 /// DTO for creating a lead project (quote request)
 /// Matches the TypeScript CreateLeadProject interface

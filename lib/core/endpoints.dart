@@ -1,4 +1,4 @@
-import 'package:bdcomputing/core/config/env_config.dart';
+import 'package:bdoneapp/core/config/env_config.dart';
 
 class ApiEndpoints {
   static const String domainUrl = EnvConfig.domainUrl;

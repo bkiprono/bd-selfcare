@@ -1,9 +1,9 @@
-import 'package:bdcomputing/core/utils/api_client.dart';
-import 'package:bdcomputing/models/common/lead_project.dart';
-import 'package:bdcomputing/models/common/project.dart';
-import 'package:bdcomputing/core/endpoints.dart';
-import 'package:bdcomputing/models/common/paginated_data.dart';
-import 'package:bdcomputing/models/common/http_response.dart';
+import 'package:bdoneapp/core/utils/api_client.dart';
+import 'package:bdoneapp/models/common/lead_project.dart';
+import 'package:bdoneapp/models/common/project.dart';
+import 'package:bdoneapp/core/endpoints.dart';
+import 'package:bdoneapp/models/common/paginated_data.dart';
+import 'package:bdoneapp/models/common/http_response.dart';
 
 class LeadProjectService {
   final ApiClient _apiClient;

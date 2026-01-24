@@ -2,10 +2,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:bdcomputing/core/routes.dart';
-import 'package:bdcomputing/core/styles.dart';
-import 'package:bdcomputing/screens/auth/domain/mfa_models.dart';
-import 'package:bdcomputing/screens/auth/providers.dart';
+import 'package:bdoneapp/core/routes.dart';
+import 'package:bdoneapp/core/styles.dart';
+import 'package:bdoneapp/screens/auth/domain/mfa_models.dart';
+import 'package:bdoneapp/screens/auth/providers.dart';
 import 'package:hugeicons/hugeicons.dart';
 
 class MfaVerificationScreen extends ConsumerStatefulWidget {

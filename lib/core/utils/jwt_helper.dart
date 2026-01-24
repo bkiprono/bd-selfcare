@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
-import 'package:bdcomputing/components/logger_config.dart';
+import 'package:bdoneapp/components/logger_config.dart';
 
 class JwtHelper {
   /// Decode JWT token
