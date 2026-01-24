@@ -226,30 +226,32 @@ class _HomeTabState extends ConsumerState<HomeTab>
             Positioned(
               top: -100,
               left: -100,
-              child: AnimatedBuilder(
-                animation: _controller,
-                builder: (context, child) {
-                  // Pulse scale between 1.0 and 1.1
-                  final pulse = 1.0 + 0.05 * (1 - (2 * _controller.value - 1).abs());
+              child: RepaintBoundary(
+                child: AnimatedBuilder(
+                  animation: _controller,
+                  builder: (context, child) {
+                    // Pulse scale between 1.0 and 1.1
+                    final pulse = 1.0 + 0.05 * (1 - (2 * _controller.value - 1).abs());
 
-                  return Transform.scale(
-                    scale: pulse,
-                    child: Transform.rotate(
-                      angle: _controller.value * 2 * 3.14159,
-                      child: child,
-                    ),
-                  );
-                },
-                child: Container(
-                  width: 300,
-                  height: 300,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    gradient: RadialGradient(
-                      colors: [
-                        Colors.white.withValues(alpha:0.1),
-                        Colors.white.withValues(alpha:0.0),
-                      ],
+                    return Transform.scale(
+                      scale: pulse,
+                      child: Transform.rotate(
+                        angle: _controller.value * 2 * 3.14159,
+                        child: child,
+                      ),
+                    );
+                  },
+                  child: Container(
+                    width: 300,
+                    height: 300,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      gradient: RadialGradient(
+                        colors: [
+                          Colors.white.withValues(alpha:0.1),
+                          Colors.white.withValues(alpha:0.0),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -259,28 +261,30 @@ class _HomeTabState extends ConsumerState<HomeTab>
             Positioned(
               bottom: -80,
               left: -40,
-              child: AnimatedBuilder(
-                animation: _controller,
-                builder: (context, child) {
-                   final pulse = 1.0 + 0.08 * (1 - (2 * ((_controller.value + 0.5) % 1.0) - 1).abs());
-                  return Transform.scale(
-                    scale: pulse,
-                    child: Transform.rotate(
-                      angle: -_controller.value * 2 * 3.14159,
-                      child: child,
-                    ),
-                  );
-                },
-                child: Container(
-                  width: 200,
-                  height: 200,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    gradient: RadialGradient(
-                      colors: [
-                        Colors.white.withValues(alpha:0.08),
-                        Colors.white.withValues(alpha:0.0),
-                      ],
+              child: RepaintBoundary(
+                child: AnimatedBuilder(
+                  animation: _controller,
+                  builder: (context, child) {
+                     final pulse = 1.0 + 0.08 * (1 - (2 * ((_controller.value + 0.5) % 1.0) - 1).abs());
+                    return Transform.scale(
+                      scale: pulse,
+                      child: Transform.rotate(
+                        angle: -_controller.value * 2 * 3.14159,
+                        child: child,
+                      ),
+                    );
+                  },
+                  child: Container(
+                    width: 200,
+                    height: 200,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      gradient: RadialGradient(
+                        colors: [
+                          Colors.white.withValues(alpha:0.08),
+                          Colors.white.withValues(alpha:0.0),
+                        ],
+                      ),
                     ),
                   ),
                 ),

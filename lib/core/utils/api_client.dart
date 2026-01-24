@@ -62,8 +62,8 @@ class ApiClient {
 
     // Add logging interceptor if needed
     dio.interceptors.add(LogInterceptor(
-      requestBody: true,
-      responseBody: true,
+      requestBody: false,
+      responseBody: false,
       logPrint: (obj) => logger.d(obj.toString()),
     ));
   }

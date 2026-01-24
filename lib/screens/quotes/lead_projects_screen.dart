@@ -1,4 +1,5 @@
 import 'package:bdoneapp/components/shared/header.dart';
+import 'package:bdoneapp/components/logger_config.dart';
 import 'package:bdoneapp/core/styles.dart';
 import 'package:bdoneapp/models/common/lead_project.dart';
 import 'package:bdoneapp/models/common/product.dart';
@@ -359,7 +360,7 @@ class _CreateLeadProjectSheetState
         }
       }
     } catch (e) {
-      print('Error fetching items: $e');
+      logger.e('Error fetching items: $e');
       if (mounted) {
         setState(() {
           _fetchError = 'Failed to load items. Please try again.';
@@ -425,11 +426,11 @@ class _CreateLeadProjectSheetState
       );
 
       final payload = dto.toJson();
-      print('Submitting lead project with payload: $payload'); // Debug log
+      logger.d('Submitting lead project with payload: $payload'); // Debug log
 
       final result = await service.createLeadProject(payload);
 
-      print('Lead project created successfully: ${result.id}'); // Debug log
+      logger.i('Lead project created successfully: ${result.id}'); // Debug log
 
       if (mounted) {
         Navigator.pop(context);
@@ -445,7 +446,7 @@ class _CreateLeadProjectSheetState
         );
       }
     } catch (e) {
-      print('Error creating lead project: $e'); // Debug log
+      logger.e('Error creating lead project: $e'); // Debug log
 
       // Extract more detailed error info
       String errorMessage = 'Failed to submit quote request';

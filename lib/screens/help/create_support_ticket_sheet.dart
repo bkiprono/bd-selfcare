@@ -1,3 +1,4 @@
+import 'package:bdoneapp/components/logger_config.dart';
 import 'package:bdoneapp/core/styles.dart';
 import 'package:bdoneapp/models/common/project.dart';
 import 'package:bdoneapp/models/common/support_request.dart';
@@ -53,7 +54,7 @@ class _CreateSupportTicketSheetState extends ConsumerState<CreateSupportTicketSh
         }
       }
     } catch (e) {
-      print('Error fetching projects: $e');
+      logger.e('Error fetching projects: $e');
     } finally {
       if (mounted) {
         setState(() {

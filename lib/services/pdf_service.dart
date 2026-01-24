@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:flutter/foundation.dart';
+import 'package:bdoneapp/components/logger_config.dart';
 
 class PdfService {
   final Dio _dio = Dio();
@@ -21,9 +21,7 @@ class PdfService {
       // Check if file already exists
       final file = File(filePath);
       if (await file.exists()) {
-        if (kDebugMode) {
-          print('PDF already exists at: $filePath');
-        }
+        logger.d('PDF already exists at: $filePath');
         return filePath;
       }
 
@@ -34,15 +32,11 @@ class PdfService {
         onReceiveProgress: onProgress,
       );
 
-      if (kDebugMode) {
-        print('PDF downloaded to: $filePath');
-      }
+      logger.d('PDF downloaded to: $filePath');
 
       return filePath;
     } catch (e) {
-      if (kDebugMode) {
-        print('Error downloading PDF: $e');
-      }
+      logger.e('Error downloading PDF: $e');
       rethrow;
     }
   }
@@ -87,9 +81,7 @@ class PdfService {
       }
       return false;
     } catch (e) {
-      if (kDebugMode) {
-        print('Error deleting PDF: $e');
-      }
+      logger.e('Error deleting PDF: $e');
       return false;
     }
   }
@@ -106,9 +98,7 @@ class PdfService {
         }
       }
     } catch (e) {
-      if (kDebugMode) {
-        print('Error clearing PDFs: $e');
-      }
+      logger.e('Error clearing PDFs: $e');
     }
   }
 }
