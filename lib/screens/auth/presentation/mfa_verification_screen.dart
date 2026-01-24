@@ -116,6 +116,7 @@ class _MfaVerificationScreenState extends ConsumerState<MfaVerificationScreen> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
+        systemOverlayStyle: SystemUiOverlayStyle.dark,
         leading: IconButton(
           icon: const HugeIcon(
             icon: HugeIcons.strokeRoundedArrowLeft01,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:bdcomputing/components/currency/currency_selection_icon.dart';
 import 'package:bdcomputing/core/routes.dart';
@@ -30,6 +31,9 @@ class Header extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: AppColors.primary,
       foregroundColor: AppColors.sage100,
       elevation: 0,
+      systemOverlayStyle: SystemUiOverlayStyle.light.copyWith(
+        statusBarColor: AppColors.primary,
+      ),
       leading:
           leading ??
           (showBackButton

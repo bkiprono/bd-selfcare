@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:bdcomputing/core/styles.dart';
 
@@ -39,12 +40,15 @@ class AppTheme {
       textTheme: _buildTextTheme(Brightness.light),
 
       // App Bar
-      appBarTheme: const AppBarTheme(
+      appBarTheme: AppBarTheme(
         backgroundColor: AppColors.primary,
         foregroundColor: AppColors.textOnPrimary,
         elevation: 0,
         centerTitle: false,
-        iconTheme: IconThemeData(
+        systemOverlayStyle: SystemUiOverlayStyle.light.copyWith(
+        statusBarColor: AppColors.primary,
+      ),
+        iconTheme: const IconThemeData(
           color: AppColors.textOnPrimary,
           size: 24,
         ),
@@ -223,6 +227,7 @@ class AppTheme {
         foregroundColor: Color(0xFFE0E0E0),
         elevation: 0,
         centerTitle: false,
+        systemOverlayStyle: SystemUiOverlayStyle.light,
         iconTheme: IconThemeData(
           color: Color(0xFFE0E0E0),
           size: 24,

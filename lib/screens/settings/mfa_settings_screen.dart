@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:bdcomputing/core/styles.dart';
 import 'package:hugeicons/hugeicons.dart';
@@ -124,8 +125,9 @@ class _MfaSettingsScreenState extends ConsumerState<MfaSettingsScreen> {
     final authState = ref.watch(authProvider);
     final user = authState is Authenticated ? authState.user : null;
 
-    if (user == null)
+    if (user == null) {
       return const Scaffold(body: Center(child: Text('Not logged in')));
+    }
 
     return Scaffold(
       backgroundColor: const Color(0xFFF8F9FA),
@@ -136,6 +138,7 @@ class _MfaSettingsScreenState extends ConsumerState<MfaSettingsScreen> {
         ),
         backgroundColor: Colors.white,
         foregroundColor: AppColors.textPrimary,
+        systemOverlayStyle: SystemUiOverlayStyle.dark,
         elevation: 0,
       ),
       body: _isLoading
