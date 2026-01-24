@@ -11,7 +11,7 @@ class AuthSwitchScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.transparent,
       body: AuthBackground(
         child: SafeArea(
           child: Center(
