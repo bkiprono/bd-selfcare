@@ -34,12 +34,12 @@ class _MfaSettingsScreenState extends ConsumerState<MfaSettingsScreen> {
     } catch (e) {
       Fluttertoast.showToast(msg: 'Update failed: $e');
     } finally {
-      setState(() => _isLoading = false);
+      if (mounted) setState(() => _isLoading = false);
     }
   }
 
   void _showTotpSetup() async {
-    setState(() => _isLoading = true);
+    if (mounted) setState(() => _isLoading = true);
     try {
       final setupData = await ref.read(authProvider.notifier).startTotpSetup();
       final String qrUrl = setupData['qrCodeUrl'] ?? '';
@@ -65,7 +65,7 @@ class _MfaSettingsScreenState extends ConsumerState<MfaSettingsScreen> {
     } catch (e) {
       Fluttertoast.showToast(msg: 'Failed to start setup: $e');
     } finally {
-      setState(() => _isLoading = false);
+      if (mounted) setState(() => _isLoading = false);
     }
   }
 
@@ -101,14 +101,14 @@ class _MfaSettingsScreenState extends ConsumerState<MfaSettingsScreen> {
               if (password.isEmpty) return;
               
               Navigator.pop(context);
-              setState(() => _isLoading = true);
+              if (mounted) setState(() => _isLoading = true);
               try {
                 await ref.read(authProvider.notifier).disableTotp(password);
                 Fluttertoast.showToast(msg: 'Authenticator disabled');
               } catch (e) {
                 Fluttertoast.showToast(msg: 'Failed to disable: $e');
               } finally {
-                setState(() => _isLoading = false);
+                if (mounted) setState(() => _isLoading = false);
               }
             },
             style: ElevatedButton.styleFrom(backgroundColor: Colors.red, foregroundColor: Colors.white),

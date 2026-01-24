@@ -35,13 +35,13 @@ class Header extends StatelessWidget implements PreferredSizeWidget {
           (showBackButton
               ? (Navigator.of(context).canPop()
                   ? IconButton(
-                      icon: const Icon(Icons.arrow_back),
+                      icon: const HugeIcon(icon : HugeIcons.strokeRoundedArrowLeft01, size: 30, color: Colors.white,),
                       onPressed: () {
                         Navigator.of(context).maybePop();
                       },
                     )
                   : IconButton(
-                      icon: const Icon(Icons.arrow_back),
+                      icon: const HugeIcon(icon : HugeIcons.strokeRoundedArrowLeft01, size: 30, color: Colors.white,),
                       onPressed: () {
                         Navigator.of(
                           context,

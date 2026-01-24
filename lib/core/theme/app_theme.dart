@@ -262,21 +262,21 @@ class AppTheme {
       barBackgroundColor: AppColors.primary,
       
       textTheme: CupertinoTextThemeData(
-        textStyle: GoogleFonts.quicksand(
+        textStyle: GoogleFonts.outfit(
           fontSize: 16,
           color: CupertinoColors.label,
         ),
-        actionTextStyle: GoogleFonts.quicksand(
+        actionTextStyle: GoogleFonts.outfit(
           fontSize: 16,
           color: AppColors.primary,
           fontWeight: FontWeight.w600,
         ),
-        navTitleTextStyle: GoogleFonts.quicksand(
+        navTitleTextStyle: GoogleFonts.outfit(
           fontSize: 17,
           fontWeight: FontWeight.w600,
           color: AppColors.textOnPrimary,
         ),
-        navLargeTitleTextStyle: GoogleFonts.quicksand(
+        navLargeTitleTextStyle: GoogleFonts.outfit(
           fontSize: 34,
           fontWeight: FontWeight.bold,
           color: CupertinoColors.label,
@@ -293,7 +293,7 @@ class AppTheme {
         ? AppColors.textPrimary
         : const Color(0xFFE0E0E0);
 
-    return GoogleFonts.quicksandTextTheme(
+    return GoogleFonts.outfitTextTheme(
       TextTheme(
         displayLarge: TextStyle(
           fontSize: 32,
