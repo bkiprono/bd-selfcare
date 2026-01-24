@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'package:bdcomputing/components/shared/auth_background.dart';
-import 'package:bdcomputing/components/shared/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:bdcomputing/core/routes.dart';
@@ -12,11 +10,13 @@ import 'package:hugeicons/hugeicons.dart';
 class MfaVerificationScreen extends ConsumerStatefulWidget {
   final String mfaToken;
   final List<MfaMethod> methods;
+  final String? target;
 
   const MfaVerificationScreen({
     super.key,
     required this.mfaToken,
     required this.methods,
+    this.target,
   });
 
   @override
@@ -113,7 +113,7 @@ class _MfaVerificationScreenState extends ConsumerState<MfaVerificationScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
           icon: const HugeIcon(
@@ -123,133 +123,124 @@ class _MfaVerificationScreenState extends ConsumerState<MfaVerificationScreen> {
           onPressed: () => Navigator.of(context).pop(),
         ),
       ),
-      extendBodyBehindAppBar: true,
-      body: AuthBackground(
-        child: SafeArea(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                const SizedBox(height: 20),
-                // Logo/Icon
-                Center(
-                  child: Container(
-                    width: 150,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: const Center(
-                      child: Image(
-                        image: AssetImage('assets/images/brand/dark.png'),
-                      ),
-                    ),
-                  ),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 24),
+              // Header
+              Text(
+                'Enter the 6-digit code sent to you at ${widget.target ?? widget.methods.map((m) => m.displayName).join(' or ')}',
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.textPrimary,
+                  height: 1.3,
                 ),
-                const SizedBox(height: 32),
-                const Text(
-                  'MFA Verification',
-                  style: TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.textPrimary,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 12),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                  child: Text(
-                    'Enter the 6-digit code sent via ${widget.methods.map((m) => m.displayName).join(' or ')}',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: AppColors.textSecondary,
-                      height: 1.5,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                const SizedBox(height: 40),
-  
-                // Content Section
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                  child: Column(
-                    children: [
-                      // Code Inputs
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: List.generate(6, (index) {
-                          return SizedBox(
-                            width: 45,
-                            child: TextField(
-                              controller: _controllers[index],
-                              focusNode: _focusNodes[index],
-                              textAlign: TextAlign.center,
-                              keyboardType: TextInputType.number,
-                              maxLength: 1,
-                              enabled: !_isLoading,
-                              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                              decoration: InputDecoration(
-                                counterText: '',
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                  borderSide: BorderSide(color: Colors.grey.shade300),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                  borderSide: const BorderSide(color: AppColors.primary, width: 2),
-                                ),
-                                filled: true,
-                                fillColor: const Color(0xFFF5F5F5),
-                              ),
-                              onChanged: (value) {
-                                if (value.isNotEmpty) {
-                                  if (index < 5) {
-                                    _focusNodes[index + 1].requestFocus();
-                                  } else {
-                                    _focusNodes[index].unfocus();
-                                    _handleVerify();
-                                  }
-                                } else if (value.isEmpty && index > 0) {
-                                  _focusNodes[index - 1].requestFocus();
-                                }
-                              },
-                            ),
-                          );
-                        }),
+              ),
+              const SizedBox(height: 48),
+
+              // Code Inputs
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: List.generate(6, (index) {
+                  return SizedBox(
+                    width: 45,
+                    child: TextField(
+                      controller: _controllers[index],
+                      focusNode: _focusNodes[index],
+                      textAlign: TextAlign.center,
+                      keyboardType: TextInputType.number,
+                      maxLength: 1,
+                      enabled: !_isLoading,
+                      style: const TextStyle(
+                        fontSize: 32,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black,
                       ),
-                      const SizedBox(height: 48),
-                      
-                      // Verify Button
-                      CustomButton(
-                        text: 'Verify Account',
-                        onPressed: _handleVerify,
-                        isLoading: _isLoading,
-                      ),
-                      const SizedBox(height: 24),
-                      
-                      // Resend Link
-                      TextButton(
-                        onPressed: (_resendCooldown > 0 || _isResending || _isLoading) ? null : _handleResend,
-                        child: Text(
-                          _resendCooldown > 0 
-                            ? 'Resend code in ${_resendCooldown}s' 
-                            : _isResending ? 'Resending...' : 'Resend Verification Code',
-                          style: TextStyle(
-                            color: (_resendCooldown > 0 || _isResending || _isLoading) 
-                              ? Colors.grey 
-                              : AppColors.primary,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14,
-                          ),
+                      decoration: const InputDecoration(
+                        counterText: '',
+                        contentPadding: EdgeInsets.symmetric(vertical: 8),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Color(0xFFEEEEEE), width: 2),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.black, width: 2),
                         ),
                       ),
-                      const SizedBox(height: 40),
-                    ],
+                      onChanged: (value) {
+                        if (value.isNotEmpty) {
+                          if (index < 5) {
+                            _focusNodes[index + 1].requestFocus();
+                          } else {
+                            _focusNodes[index].unfocus();
+                            _handleVerify();
+                          }
+                        } else if (value.isEmpty && index > 0) {
+                          _focusNodes[index - 1].requestFocus();
+                        }
+                      },
+                    ),
+                  );
+                }),
+              ),
+              const SizedBox(height: 32),
+
+              // Resend code link (Left aligned)
+              GestureDetector(
+                onTap: (_resendCooldown > 0 || _isResending || _isLoading) ? null : _handleResend,
+                child: Text(
+                  _resendCooldown > 0
+                      ? 'Resend code in ${_resendCooldown}s'
+                      : _isResending ? 'Resending...' : 'Resend code',
+                  style: TextStyle(
+                    color: (_resendCooldown > 0 || _isResending || _isLoading)
+                        ? Colors.grey.shade400
+                        : Colors.grey.shade500,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 14,
                   ),
                 ),
-              ],
-            ),
+              ),
+              
+              const Spacer(),
+
+              // Continue Button
+              SizedBox(
+                width: double.infinity,
+                height: 56,
+                child: ElevatedButton(
+                  onPressed: _isLoading ? null : _handleVerify,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.black,
+                    foregroundColor: Colors.white,
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  child: _isLoading
+                      ? const SizedBox(
+                          height: 24,
+                          width: 24,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: Colors.white,
+                          ),
+                        )
+                      : const Text(
+                          'Continue',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                ),
+              ),
+              const SizedBox(height: 24),
+            ],
           ),
         ),
       ),

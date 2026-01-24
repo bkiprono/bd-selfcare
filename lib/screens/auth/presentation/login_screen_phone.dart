@@ -53,6 +53,7 @@ class _LoginWithPhoneScreenState extends ConsumerState<LoginWithPhoneScreen> {
             arguments: {
               'mfaToken': result.mfaToken,
               'methods': result.mfaMethods,
+              'target': _phoneCtrl.text.trim(),
             },
           );
         } else {

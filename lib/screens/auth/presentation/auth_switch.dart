@@ -50,6 +50,7 @@ class AuthSwitchScreen extends ConsumerWidget {
           arguments: {
             'mfaToken': result.mfaToken,
             'methods': result.mfaMethods,
+            'target': account.email,
           },
         );
       }

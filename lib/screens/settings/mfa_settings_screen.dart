@@ -5,6 +5,7 @@ import 'package:hugeicons/hugeicons.dart';
 import 'package:bdcomputing/screens/auth/auth_provider.dart';
 import 'package:bdcomputing/screens/auth/domain/mfa_models.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 class MfaSettingsScreen extends ConsumerStatefulWidget {
   const MfaSettingsScreen({super.key});
@@ -17,15 +18,17 @@ class _MfaSettingsScreenState extends ConsumerState<MfaSettingsScreen> {
   bool _isLoading = false;
 
   Future<void> _toggleMethod(MfaMethod method, bool enabled) async {
+    if (method == MfaMethod.totp) {
+      if (enabled) {
+        _showTotpSetup();
+      } else {
+        _showDisableTotpConfirm();
+      }
+      return;
+    }
+
     setState(() => _isLoading = true);
     try {
-      if (method == MfaMethod.totp && enabled) {
-        // Handle TOTP setup flow separately if needed
-        // For now mirroring CRM: open setup dialog/screen
-        _showTotpSetup();
-        return;
-      }
-
       await ref.read(authProvider.notifier).toggleMfaMethod(method, enabled);
       Fluttertoast.showToast(msg: 'MFA settings updated');
     } catch (e) {
@@ -35,9 +38,85 @@ class _MfaSettingsScreenState extends ConsumerState<MfaSettingsScreen> {
     }
   }
 
-  void _showTotpSetup() {
-    // Placeholder for TOTP setup flow
-    Fluttertoast.showToast(msg: 'TOTP Setup flow starting...');
+  void _showTotpSetup() async {
+    setState(() => _isLoading = true);
+    try {
+      final setupData = await ref.read(authProvider.notifier).startTotpSetup();
+      final String qrUrl = setupData['qrCodeUrl'] ?? '';
+      final String setupToken = setupData['setupToken'] ?? '';
+      final String secret = setupData['secret'] ?? '';
+
+      if (!mounted) return;
+
+      showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        builder: (context) => _TotpSetupModal(
+          qrUrl: qrUrl,
+          setupToken: setupToken,
+          secret: secret,
+          onComplete: () {
+            ref.read(authProvider.notifier).refreshProfile();
+            Navigator.pop(context);
+          },
+        ),
+      );
+    } catch (e) {
+      Fluttertoast.showToast(msg: 'Failed to start setup: $e');
+    } finally {
+      setState(() => _isLoading = false);
+    }
+  }
+
+  void _showDisableTotpConfirm() {
+    final passwordCtrl = TextEditingController();
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Disable Authenticator'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text('Enter your account password to disable the Authenticator App MFA.'),
+            const SizedBox(height: 16),
+            TextField(
+              controller: passwordCtrl,
+              obscureText: true,
+              decoration: const InputDecoration(
+                labelText: 'Password',
+                border: OutlineInputBorder(),
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              final password = passwordCtrl.text;
+              if (password.isEmpty) return;
+              
+              Navigator.pop(context);
+              setState(() => _isLoading = true);
+              try {
+                await ref.read(authProvider.notifier).disableTotp(password);
+                Fluttertoast.showToast(msg: 'Authenticator disabled');
+              } catch (e) {
+                Fluttertoast.showToast(msg: 'Failed to disable: $e');
+              } finally {
+                setState(() => _isLoading = false);
+              }
+            },
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.red, foregroundColor: Colors.white),
+            child: const Text('Disable'),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -274,5 +353,117 @@ class _MfaSettingsScreenState extends ConsumerState<MfaSettingsScreen> {
         ),
       ),
     );
+  }
+}
+
+class _TotpSetupModal extends ConsumerStatefulWidget {
+  final String qrUrl;
+  final String setupToken;
+  final String secret;
+  final VoidCallback onComplete;
+
+  const _TotpSetupModal({
+    required this.qrUrl,
+    required this.setupToken,
+    required this.secret,
+    required this.onComplete,
+  });
+
+  @override
+  ConsumerState<_TotpSetupModal> createState() => _TotpSetupModalState();
+}
+
+class _TotpSetupModalState extends ConsumerState<_TotpSetupModal> {
+  final _codeCtrl = TextEditingController();
+  bool _isVerifying = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.only(
+        bottom: MediaQuery.of(context).viewInsets.bottom,
+        top: 20,
+        left: 20,
+        right: 20,
+      ),
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(width: 40, height: 4, decoration: BoxDecoration(color: Colors.grey.shade300, borderRadius: BorderRadius.circular(2))),
+            const SizedBox(height: 24),
+            const Text('Setup Authenticator App', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 12),
+            const Text(
+              '1. Scan the QR code with your authenticator app (Google Authenticator, Authy, etc.)\n'
+              '2. Enter the 6-digit code generated by the app.',
+              textAlign: TextAlign.center,
+              style: TextStyle(color: AppColors.textSecondary, fontSize: 13),
+            ),
+            const SizedBox(height: 32),
+            if (widget.qrUrl.isNotEmpty) 
+              Center(
+                child: QrImageView(
+                  data: widget.qrUrl,
+                  version: QrVersions.auto,
+                  size: 200.0,
+                ),
+              ),
+            const SizedBox(height: 16),
+            const Text('Or enter this code manually:', style: TextStyle(fontSize: 12, color: AppColors.textSecondary)),
+            const SizedBox(height: 8),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              decoration: BoxDecoration(color: const Color(0xFFF5F5F5), borderRadius: BorderRadius.circular(12)),
+              child: SelectableText(widget.secret, style: const TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1.5)),
+            ),
+            const SizedBox(height: 32),
+            TextField(
+              controller: _codeCtrl,
+              keyboardType: TextInputType.number,
+              textAlign: TextAlign.center,
+              maxLength: 6,
+              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, letterSpacing: 8),
+              decoration: const InputDecoration(
+                hintText: '000000',
+                border: OutlineInputBorder(),
+                counterText: '',
+              ),
+            ),
+            const SizedBox(height: 32),
+            SizedBox(
+              width: double.infinity,
+              height: 52,
+              child: ElevatedButton(
+                onPressed: _isVerifying ? null : _handleComplete,
+                style: ElevatedButton.styleFrom(backgroundColor: AppColors.primary, foregroundColor: Colors.white, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
+                child: _isVerifying ? const CircularProgressIndicator(color: Colors.white) : const Text('Complete Setup'),
+              ),
+            ),
+            const SizedBox(height: 32),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<void> _handleComplete() async {
+    final code = _codeCtrl.text;
+    if (code.length < 6) return;
+
+    setState(() => _isVerifying = true);
+    try {
+      await ref.read(authProvider.notifier).completeTotpSetup(widget.setupToken, code);
+      Fluttertoast.showToast(msg: 'Setup successful!');
+      widget.onComplete();
+    } catch (e) {
+      Fluttertoast.showToast(msg: 'Verification failed: $e');
+    } finally {
+      if (mounted) setState(() => _isVerifying = false);
+    }
   }
 }

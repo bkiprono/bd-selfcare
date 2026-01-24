@@ -27,7 +27,8 @@ class Header extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: AppColors.background,
+      backgroundColor: AppColors.primary,
+      foregroundColor: AppColors.sage100,
       elevation: 0,
       leading:
           leading ??

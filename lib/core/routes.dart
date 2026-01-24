@@ -100,6 +100,7 @@ class AppRoutes {
           builder: (_) => MfaVerificationScreen(
             mfaToken: args?['mfaToken'] as String? ?? '',
             methods: args?['methods'] as List<MfaMethod>? ?? [],
+            target: args?['target'] as String?,
           ),
         );
 

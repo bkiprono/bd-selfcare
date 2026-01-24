@@ -53,6 +53,7 @@ class _LoginWithEmailScreenState extends ConsumerState<LoginWithEmailScreen> {
             arguments: {
               'mfaToken': result.mfaToken,
               'methods': result.mfaMethods,
+              'target': _emailCtrl.text.trim(),
             },
           );
         } else {

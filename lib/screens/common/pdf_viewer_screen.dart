@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:hugeicons/hugeicons.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import 'package:bdcomputing/services/pdf_service.dart';
 
@@ -80,12 +81,13 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(widget.documentTitle),
         actions: [
           if (!_isLoading && !_hasError)
             IconButton(
-              icon: const Icon(Icons.refresh),
+              icon:  const HugeIcon(icon: HugeIcons.strokeRoundedRefresh),
               onPressed: _loadPdf,
               tooltip: 'Reload PDF',
             ),
