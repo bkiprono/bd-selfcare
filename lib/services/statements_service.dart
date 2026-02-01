@@ -41,14 +41,26 @@ class StatementsService {
     final response = await _apiClient.get(url, queryParameters: params);
 
     if (response.statusCode == 200 || response.statusCode == 201) {
-      final res = CustomHttpResponse.fromJson(
-        response.data,
-        (data) => PaginatedData<Statement>.fromJson(
-          data,
+      // Backend returns IResponse<IPaginatedResponse<Statement[]>>
+      // So we need to extract from response.data['data'] which contains the paginated data
+      final responseData = response.data['data'];
+      
+      if (responseData != null && responseData['data'] != null) {
+        // Extract the actual paginated response
+        return PaginatedData<Statement>.fromJson(
+          responseData,
           (item) => Statement.fromJson(item as Map<String, dynamic>),
-        ),
+        );
+      }
+      
+      // Fallback to empty paginated data
+      return PaginatedData<Statement>(
+        data: [],
+        page: page,
+        limit: limit,
+        total: 0,
+        pages: 0,
       );
-      return res.data;
     }
     throw Exception('Failed to fetch statements: ${response.statusCode}');
   }
