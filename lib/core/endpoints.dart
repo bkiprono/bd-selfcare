@@ -50,7 +50,10 @@ class ApiEndpoints {
   static const String invoices = '$baseUrl/invoices';
 
   // Statements
-  static const String statements = '$baseUrl/statements';
+  static const String statements  = '$baseUrl/statements';
+  static  String statementById (String statementId)  => '$baseUrl/statements/$statementId';
+  static  String statementDataById (String statementId)  => '$baseUrl/statements/$statementId/data';
+  static  String regenerateStatementPdf (String statementId)  => '$baseUrl/statements/$statementId/regenerate';
 
   // Settings
   static const String settings = '$baseUrl/settings';

@@ -1,10 +1,10 @@
 import 'package:bdoneapp/screens/billing/invoices_screen.dart';
 import 'package:bdoneapp/providers/invoices_provider.dart';
 import 'package:bdoneapp/screens/payments/payments_screen.dart';
-import 'package:bdoneapp/screens/profile/profile_screen.dart';
 import 'package:bdoneapp/screens/quotes/lead_projects_screen.dart';
 import 'package:bdoneapp/providers/lead_projects_provider.dart';
 import 'package:bdoneapp/screens/projects/projects_screen.dart';
+import 'package:bdoneapp/screens/statements/statements_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hugeicons/hugeicons.dart';
@@ -28,7 +28,7 @@ class _HomeWrapperState extends State<HomeWrapper> {
     ProjectsScreen(),
     BillingScreen(),
     PaymentsScreen(),
-    ProfileScreen(),
+    StatementsScreen(),
   ];
 
   @override

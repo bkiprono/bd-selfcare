@@ -1,3 +1,5 @@
+import 'package:bdoneapp/models/common/statement_summary.dart';
+
 class Statement {
   final String id;
   final String clientId;
@@ -7,6 +9,7 @@ class Statement {
   final String currencyId;
   final String status; // PENDING, GENERATED, FAILED
   final String? statementLink;
+  final StatementSummary? summary;
   final DateTime createdAt;
   final DateTime updatedAt;
 
@@ -19,6 +22,7 @@ class Statement {
     required this.currencyId,
     required this.status,
     this.statementLink,
+    this.summary,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -33,6 +37,9 @@ class Statement {
       currencyId: json['currencyId'] ?? '',
       status: json['status'] ?? 'PENDING',
       statementLink: json['statementLink'],
+      summary: json['summary'] != null
+          ? StatementSummary.fromJson(json['summary'])
+          : null,
       createdAt: DateTime.parse(json['createdAt']),
       updatedAt: DateTime.parse(json['updatedAt']),
     );
@@ -48,6 +55,7 @@ class Statement {
       'currencyId': currencyId,
       'status': status,
       'statementLink': statementLink,
+      'summary': summary?.toJson(),
       'createdAt': createdAt.toIso8601String(),
       'updatedAt': updatedAt.toIso8601String(),
     };
@@ -62,6 +70,7 @@ class Statement {
     String? currencyId,
     String? status,
     String? statementLink,
+    StatementSummary? summary,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) {
@@ -74,6 +83,7 @@ class Statement {
       currencyId: currencyId ?? this.currencyId,
       status: status ?? this.status,
       statementLink: statementLink ?? this.statementLink,
+      summary: summary ?? this.summary,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );

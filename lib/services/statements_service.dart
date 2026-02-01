@@ -54,7 +54,7 @@ class StatementsService {
 
   /// Fetch a single statement by ID
   Future<Statement> fetchStatementById(String statementId) async {
-    final url = '${ApiEndpoints.statements}/$statementId';
+    final url = ApiEndpoints.statementById(statementId);
     final response = await _apiClient.get(url);
 
     if (response.statusCode == 200 || response.statusCode == 201) {
@@ -65,12 +65,23 @@ class StatementsService {
 
   /// Regenerate statement PDF
   Future<Statement> regenerateStatementPdf(String statementId) async {
-    final url = '${ApiEndpoints.statements}/$statementId/regenerate';
+    final url = ApiEndpoints.regenerateStatementPdf(statementId);
     final response = await _apiClient.post(url);
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       return Statement.fromJson(response.data['data']);
     }
     throw Exception('Failed to regenerate statement PDF: ${response.statusCode}');
+  }
+
+  /// Get statement data with transactions
+  Future<Map<String, dynamic>> getStatementData(String statementId) async {
+    final url = ApiEndpoints.statementDataById(statementId);
+    final response = await _apiClient.get(url);
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return response.data['data'];
+    }
+    throw Exception('Failed to fetch statement data: ${response.statusCode}');
   }
 }
