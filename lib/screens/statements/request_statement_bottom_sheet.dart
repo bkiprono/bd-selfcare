@@ -5,6 +5,7 @@ import 'package:bdoneapp/providers/auth_providers.dart';
 import 'package:bdoneapp/providers/currencies/currency_list_provider.dart';
 import 'package:bdoneapp/providers/providers.dart';
 import 'package:bdoneapp/models/auth/auth_state.dart';
+import 'package:bdoneapp/screens/statements/statement_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hugeicons/hugeicons.dart';
@@ -181,16 +182,28 @@ class _RequestStatementBottomSheetState
         currencyId: _selectedCurrencyId,
       );
 
-      await service.requestStatement(dto);
+      final statement = await service.requestStatement(dto);
 
       if (mounted) {
+        // Close the bottom sheet
+        Navigator.pop(context, true);
+        
+        // Navigate to the statement detail screen
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => StatementDetailScreen(
+              statementId: statement.id,
+            ),
+          ),
+        );
+
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Statement request submitted successfully'),
             backgroundColor: Colors.green,
           ),
         );
-        Navigator.pop(context, true); // Return true to indicate success
       }
     } catch (e) {
       if (mounted) {

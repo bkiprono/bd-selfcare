@@ -33,6 +33,7 @@ class StatementsService {
       'limit': limit,
     };
 
+    // Use the client-specific endpoint if clientId is provided
     final url = clientId != null
         ? '${ApiEndpoints.statements}/client/$clientId'
         : ApiEndpoints.statements;
